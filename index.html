@@ -219,6 +219,47 @@ body {
 .level-badge.초보 { background: #06d6a0; }
 .level-badge.중수 { background: #4361ee; }
 .level-badge.고수 { background: #f72585; }
+
+/* ── 결과 분석 화면 ─────────────────────────── */
+.verdict-box {
+  text-align: center; padding: 20px 0 16px;
+}
+.verdict-level { margin-bottom: 10px; }
+.verdict-level .level-badge { font-size: 15px; padding: 5px 16px; border-radius: 10px; }
+.verdict-headline { font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+.verdict-sub { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 10px; }
+.verdict-stat { font-size: 14px; font-weight: 600; color: var(--primary); }
+
+.analysis-section { margin-bottom: 8px; }
+.analysis-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+  color: var(--muted); text-transform: uppercase; margin-bottom: 10px;
+}
+
+.timeline-row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 0; border-bottom: 1px solid var(--border);
+  font-size: 12px; overflow: hidden;
+}
+.timeline-row:last-child { border-bottom: none; }
+.tl-set { color: var(--muted); flex-shrink: 0; width: 40px; }
+.tl-badge { flex-shrink: 0; }
+.tl-bar { font-size: 13px; letter-spacing: 1px; flex-shrink: 0; }
+.tl-bar.초보 { color: #06d6a0; }
+.tl-bar.중수 { color: #4361ee; }
+.tl-bar.고수 { color: #f72585; }
+.tl-score { font-weight: 700; color: var(--text); flex-shrink: 0; width: 28px; text-align: right; }
+.tl-judge { color: var(--muted); flex: 1; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.diag-item {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 12px 0; border-bottom: 1px solid var(--border);
+}
+.diag-item:last-child { border-bottom: none; }
+.diag-icon { font-size: 18px; flex-shrink: 0; padding-top: 1px; }
+.diag-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.diag-body { font-size: 13px; color: var(--muted); line-height: 1.6; }
+.diag-data { font-weight: 600; color: var(--text); }
 </style>
 </head>
 <body>
@@ -279,16 +320,29 @@ body {
   <div class="logo">
     <div class="logo-mark">ESC</div>
     <div>
-      <div class="logo-text">시험 완료</div>
+      <div class="logo-text">분석 완료</div>
       <div class="logo-sub" id="resultName"></div>
     </div>
   </div>
-  <div class="score-circle">
-    <div class="score-num" id="scoreNum">0</div>
-    <div class="score-total" id="scoreTotal">/ 0문제</div>
-  </div>
-  <div id="resultList"></div>
+
+  <div id="finalVerdict"></div>
+
   <div class="divider"></div>
+
+  <div class="analysis-section">
+    <div class="analysis-label">알고리즘 판정 흐름</div>
+    <div id="timelineList"></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="analysis-section">
+    <div class="analysis-label">간파 보고서</div>
+    <div id="diagnosisList"></div>
+  </div>
+
+  <div class="divider"></div>
+
   <div style="display:flex;gap:10px;">
     <button class="btn btn-primary" id="downloadBtn">결과 다운로드 📥</button>
     <button class="btn btn-sm btn-primary" id="retryBtn"
@@ -782,6 +836,8 @@ function handleAnswer(clicked, chosenText) {
     단계: set._level,
     세트: index + 1,
     문항: currentQIdx + 1,
+    지문위치: currentSetOrder[currentQIdx],
+    셔플: shuffleQuestions,
     선택: chosenText,
     정답: window._correctText,
     결과: chosenText === window._correctText ? 'O' : 'X'
@@ -811,7 +867,7 @@ function handleAnswer(clicked, chosenText) {
       } else {
         판정 = currentLevel !== cl ? `미흡 → ${currentLevel} 하향` : '미흡 → 최저 레벨';
       }
-      setHistory.push({ 세트: sn, 난이도: cl, 정답: `${sc}/${st}`, 정답률: Math.round(sa * 100) + '%', 판정 });
+      setHistory.push({ 세트: sn, 난이도: cl, 정답: `${sc}/${st}`, 정답률: Math.round(sa * 100), 판정 });
 
       if (shouldStop()) { showResult(); }
       else {
@@ -831,20 +887,134 @@ function showResult() {
 
   const total   = resultData.length;
   const correct = resultData.filter(r => r.결과 === 'O').length;
-  document.getElementById('scoreNum').textContent   = correct;
-  document.getElementById('scoreTotal').textContent = `/ ${total}문제`;
+  const nSets   = setHistory.length;
+  const finalLevel = setHistory[nSets - 1]?.난이도 || '-';
+  const finalJudge = setHistory[nSets - 1]?.판정 || '';
 
-  document.getElementById('resultList').innerHTML = resultData.map(r => `
-    <div class="result-row">
-      <span style="color:var(--muted);font-size:12px;flex-shrink:0;">세트${r.세트}·${r.문항}번</span>
-      <span style="font-size:14px;flex:1;margin:0 10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
-        ${r.결과 === 'X'
-          ? `<span style="text-decoration:line-through;color:var(--accent);">${r.선택}</span> → <span style="color:#059669;">${r.정답}</span>`
-          : r.선택}
-      </span>
-      <div class="result-badge ${r.결과 === 'O' ? 'o' : 'x'}">${r.결과}</div>
-    </div>
-  `).join('');
+  // ── 최종 판정 ──────────────────────────────
+  let headline, sub;
+  if (finalJudge.includes('시험 종료')) {
+    headline = '고수 만점 · 시험 종료';
+    sub = '고수 문제를 모두 맞히며 알고리즘이 시험을 즉시 종료했습니다.';
+  } else if (finalLevel === '고수' && nSets <= 5) {
+    headline = '상위권 · 빠른 판정';
+    sub = `${nSets}세트 만에 고수 레벨까지 도달했습니다.`;
+  } else if (finalLevel === '고수') {
+    headline = '상위권 도달';
+    sub = `${nSets}세트 끝에 고수 레벨에 안착했습니다.`;
+  } else if (finalLevel === '중수' && nSets >= 8) {
+    headline = '경계선 실력';
+    sub = `${nSets}세트 동안 알고리즘이 판정을 고민했습니다. 중수·고수 경계에 위치한 실력입니다.`;
+  } else if (finalLevel === '중수') {
+    headline = '중수 레벨 확인';
+    sub = '중수 문제에서 실력이 확인됐습니다.';
+  } else if (nSets >= 8) {
+    headline = '경계선 실력';
+    sub = `${nSets}세트 끝에 초보로 마무리됐습니다. 중수 진입을 위한 기초를 다질 단계입니다.`;
+  } else {
+    headline = '초보 레벨 확인';
+    sub = '초보 단계에서 실력이 확인됐습니다.';
+  }
+
+  document.getElementById('finalVerdict').innerHTML = `
+    <div class="verdict-box">
+      <div class="verdict-level"><span class="level-badge ${finalLevel}">${finalLevel}</span></div>
+      <div class="verdict-headline">${headline}</div>
+      <div class="verdict-sub">${sub}</div>
+      <div class="verdict-stat">${correct}/${total} 정답 · ${nSets}세트 완료</div>
+    </div>`;
+
+  // ── 알고리즘 흐름 타임라인 ─────────────────
+  document.getElementById('timelineList').innerHTML = setHistory.map(h => {
+    const [sc, st] = h.정답.split('/').map(Number);
+    const bar = Array.from({length: st}, (_, i) => i < sc ? '●' : '○').join('');
+    return `
+      <div class="timeline-row">
+        <span class="tl-set">세트 ${h.세트}</span>
+        <span class="tl-badge"><span class="level-badge ${h.난이도}" style="font-size:10px;padding:1px 6px;">${h.난이도}</span></span>
+        <span class="tl-bar ${h.난이도}">${bar}</span>
+        <span class="tl-score">${h.정답률}%</span>
+        <span class="tl-judge">${h.판정}</span>
+      </div>`;
+  }).join('');
+
+  // ── 간파 보고서 ────────────────────────────
+  document.getElementById('diagnosisList').innerHTML =
+    computeDiagnoses().map(d => `
+      <div class="diag-item">
+        <div class="diag-icon">${d.icon}</div>
+        <div>
+          <div class="diag-title">${d.title}</div>
+          <div class="diag-body">${d.body}</div>
+        </div>
+      </div>`).join('');
+}
+
+function computeDiagnoses() {
+  const out = [];
+  const nSets = setHistory.length;
+
+  // 1. 세트 수 → 실력 명확도
+  if (nSets <= 4) {
+    out.push({ icon: '⚡', title: `${nSets}세트 · 빠른 수렴`,
+      body: `알고리즘이 ${nSets}세트 만에 실력을 확정했습니다. 실력 윤곽이 뚜렷하게 드러났어요.` });
+  } else if (nSets <= 7) {
+    out.push({ icon: '📊', title: `${nSets}세트 · 표준 판정`,
+      body: `${nSets}세트에 걸쳐 실력이 파악됐습니다.` });
+  } else {
+    const transitions = setHistory.filter((h, i) => i > 0 && h.난이도 !== setHistory[i-1].난이도).length;
+    out.push({ icon: '🔄', title: `${nSets}세트 · 경계 진동`,
+      body: `난이도 전환이 <span class="diag-data">${transitions}회</span> 발생했습니다. 레벨 경계에서 알고리즘이 오래 고민했어요.` });
+  }
+
+  // 2. 지문 위치별 정답률 (Q1 vs Q4)
+  const byPos = {};
+  for (let p = 1; p <= 4; p++) {
+    const items = resultData.filter(r => r.지문위치 === p);
+    if (items.length > 0)
+      byPos[p] = Math.round(items.filter(r => r.결과 === 'O').length / items.length * 100);
+  }
+  if (byPos[1] !== undefined && byPos[4] !== undefined) {
+    const gap = byPos[4] - byPos[1];
+    if (gap <= -15) {
+      out.push({ icon: '📉', title: '후반 집중력 저하',
+        body: `지문 앞부분 정답률 <span class="diag-data">${byPos[1]}%</span> → 뒷부분 <span class="diag-data">${byPos[4]}%</span> (${Math.abs(gap)}% 하락). 지문이 길어질수록 후반 정보를 놓치는 경향이 있어요.` });
+    } else if (gap >= 15) {
+      out.push({ icon: '📈', title: '후반부 강세',
+        body: `지문 앞부분 정답률 <span class="diag-data">${byPos[1]}%</span> → 뒷부분 <span class="diag-data">${byPos[4]}%</span> (+${gap}%). 지문 뒤쪽 정보를 더 잘 잡아내는 유형이에요.` });
+    } else {
+      out.push({ icon: '⚖️', title: '균일한 집중력',
+        body: `지문 앞부분 <span class="diag-data">${byPos[1]}%</span> · 뒷부분 <span class="diag-data">${byPos[4]}%</span>. 지문 전반에 걸쳐 고른 집중력을 유지했어요.` });
+    }
+  }
+
+  // 3. 셔플 민감도
+  const shuffled   = resultData.filter(r => r.셔플);
+  const unshuffled = resultData.filter(r => !r.셔플);
+  if (shuffled.length >= 4 && unshuffled.length >= 4) {
+    const sAcc  = Math.round(shuffled.filter(r => r.결과 === 'O').length   / shuffled.length   * 100);
+    const nsAcc = Math.round(unshuffled.filter(r => r.결과 === 'O').length / unshuffled.length * 100);
+    const drop  = nsAcc - sAcc;
+    if (drop >= 15) {
+      out.push({ icon: '🔀', title: '순서 의존도 높음',
+        body: `순서 고정 <span class="diag-data">${nsAcc}%</span> → 순서 셔플 <span class="diag-data">${sAcc}%</span> (${drop}% 하락). 문제 순서가 바뀌면 흔들리는 경향이 있어요.` });
+    } else if (drop <= 0) {
+      out.push({ icon: '🔀', title: '순서에 독립적',
+        body: `순서 고정 <span class="diag-data">${nsAcc}%</span> · 순서 셔플 <span class="diag-data">${sAcc}%</span>. 문제 순서와 관계없이 내용으로 풀고 있어요.` });
+    } else {
+      out.push({ icon: '🔀', title: '순서 영향 미미',
+        body: `순서 고정 <span class="diag-data">${nsAcc}%</span> → 순서 셔플 <span class="diag-data">${sAcc}%</span> (${drop}% 차이). 순서 변화에 비교적 안정적이에요.` });
+    }
+  } else if (shuffled.length === 0) {
+    const total   = resultData.length;
+    const correct = resultData.filter(r => r.결과 === 'O').length;
+    if (total > 0 && correct / total < 0.75) {
+      out.push({ icon: '🔀', title: '셔플 미도달',
+        body: `정답률이 75% 미만에 머물러 문제 순서 셔플이 활성화되지 않았습니다.` });
+    }
+  }
+
+  return out;
 }
 
 document.getElementById('downloadBtn').onclick = () => {
@@ -875,7 +1045,7 @@ document.getElementById('downloadBtn').onclick = () => {
     ['종료 사유', lastJudge],
     [],
     ['세트', '난이도', '정답', '정답률', '판정'],
-    ...setHistory.map(h => [h.세트, h.난이도, h.정답, h.정답률, h.판정]),
+    ...setHistory.map(h => [h.세트, h.난이도, h.정답, h.정답률 + '%', h.판정]),
     [],
     ['[ 적응형 출제 알고리즘 안내 ]'],
     ['본 시험은 학생의 세트별 정답률에 따라 난이도가 자동 조정됩니다.'],
