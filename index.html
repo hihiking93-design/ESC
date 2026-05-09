@@ -8,7 +8,7 @@
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 <style>
 :root {
-  --bg: #f0f4ff;
+  --bg: #edf0fa;
   --card: #ffffff;
   --primary: #4361ee;
   --primary-light: #eef0ff;
@@ -17,13 +17,15 @@
   --text: #1a1a2e;
   --muted: #8892a4;
   --border: #e2e8f0;
-  --shadow: 0 4px 24px rgba(67,97,238,0.10);
-  --radius: 16px;
+  --shadow: 0 16px 64px rgba(13,27,42,0.16), 0 2px 12px rgba(13,27,42,0.06);
+  --radius: 20px;
+  --dark1: #0d1b2a;
+  --dark2: #1b3a6b;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
   font-family: 'Noto Sans KR', sans-serif;
-  background: var(--bg);
+  background: linear-gradient(145deg, #e8ecff 0%, #edf0fa 45%, #e4f0ff 100%);
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -38,6 +40,7 @@ body {
   max-width: 560px;
   padding: 40px 36px;
   animation: fadeUp 0.4s ease;
+  overflow: hidden;
 }
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(16px); }
@@ -79,8 +82,8 @@ body {
   transition: transform 0.1s, opacity 0.2s;
 }
 .btn:active { transform: scale(0.98); }
-.btn-primary { background: var(--primary); color: white; }
-.btn-primary:hover { opacity: 0.92; }
+.btn-primary { background: linear-gradient(135deg, #4361ee 0%, #6a3fc8 100%); color: white; }
+.btn-primary:hover { opacity: 0.90; }
 .btn-sm {
   width: auto; padding: 8px 18px;
   font-size: 14px; font-weight: 500; border-radius: 8px;
@@ -260,45 +263,197 @@ body {
 .diag-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
 .diag-body { font-size: 13px; color: var(--muted); line-height: 1.6; }
 .diag-data { font-weight: 600; color: var(--text); }
+
+/* ── 다크 섹션 공통 ─────────────────────────── */
+.dark-section {
+  background: linear-gradient(160deg, var(--dark1) 0%, var(--dark2) 100%);
+  margin: -40px -36px 0;
+  position: relative; overflow: hidden;
+}
+.dark-section::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 110%, rgba(67,97,238,0.28) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+/* ── 시작 화면 히어로 ─────────────────────────── */
+.start-hero {
+  padding: 44px 36px 36px;
+  text-align: center;
+}
+.start-emblem {
+  width: 64px; height: 64px;
+  background: linear-gradient(135deg, #4361ee, #7c3aed);
+  border-radius: 18px;
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-weight: 800; font-size: 18px;
+  margin: 0 auto 20px;
+  box-shadow: 0 6px 24px rgba(67,97,238,0.45);
+  position: relative;
+}
+.start-title {
+  font-size: 28px; font-weight: 800; color: #fff;
+  letter-spacing: -0.5px; margin-bottom: 8px;
+  position: relative;
+}
+.start-subtitle {
+  font-size: 12px; color: #8ba8c4;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  position: relative;
+}
+.start-body { padding: 32px 0 0; }
+.start-desc {
+  font-size: 13px; color: var(--muted);
+  line-height: 1.8; text-align: center; margin-bottom: 24px;
+}
+
+/* ── 시험 화면 상단바 ─────────────────────────── */
+.test-header {
+  margin: -40px -36px 0;
+  padding: 14px 24px;
+  display: flex; align-items: center;
+  position: relative;
+}
+.th-col {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; gap: 4px; position: relative;
+}
+.th-col:first-child { align-items: flex-start; }
+.th-col:last-child  { align-items: flex-end; }
+.th-label {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.12em;
+  color: #5d7da8; text-transform: uppercase;
+}
+.th-val {
+  font-size: 16px; font-weight: 800; color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+.th-sep {
+  width: 1px; height: 28px;
+  background: rgba(255,255,255,0.12);
+  margin: 0 12px; flex-shrink: 0;
+}
+.th-speed {
+  display: flex; align-items: center; gap: 6px;
+}
+.th-speed-val {
+  font-size: 14px; font-weight: 700; color: #fff;
+  min-width: 34px; text-align: right;
+}
+.speed-range {
+  width: 64px; height: 3px;
+  -webkit-appearance: none; appearance: none;
+  background: rgba(255,255,255,0.25);
+  border-radius: 2px; outline: none; cursor: pointer;
+}
+.speed-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px; height: 14px;
+  background: #fff; border-radius: 50%;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  cursor: pointer;
+}
+.test-prog-bar {
+  margin: 0 -36px;
+  height: 3px; background: rgba(255,255,255,0.1);
+}
+.test-prog-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4361ee, #7c3aed);
+  transition: width 0.4s ease;
+}
+.test-body-pad { height: 20px; }
+
+/* ── 레벨 변경 플래시 ─────────────────────────── */
+.level-flash {
+  position: fixed; top: 20px; left: 50%;
+  transform: translateX(-50%) translateY(-10px);
+  background: linear-gradient(135deg, var(--dark1), var(--dark2));
+  color: #fff; padding: 10px 22px;
+  border-radius: 100px; font-size: 14px; font-weight: 700;
+  box-shadow: 0 6px 24px rgba(13,27,42,0.4);
+  z-index: 999; pointer-events: none;
+  opacity: 0; transition: opacity 0.25s, transform 0.25s;
+  white-space: nowrap;
+}
+.level-flash.show {
+  opacity: 1; transform: translateX(-50%) translateY(0);
+}
+
+/* ── 결과 화면 다크 판정 블록 ───────────────────── */
+#finalVerdict { margin: -40px -36px 0; }
+.verdict-box {
+  padding: 36px 36px 28px;
+  text-align: center; position: relative;
+}
+.verdict-eyebrow {
+  font-size: 11px; color: #5d7da8;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  margin-bottom: 14px; position: relative;
+}
+.verdict-level { margin-bottom: 12px; position: relative; }
+.verdict-level .level-badge { font-size: 15px; padding: 5px 18px; }
+.verdict-headline {
+  font-size: 22px; font-weight: 800; color: #fff;
+  letter-spacing: -0.3px; margin-bottom: 8px; position: relative;
+}
+.verdict-sub {
+  font-size: 13px; color: #8ba8c4;
+  line-height: 1.7; margin-bottom: 16px; position: relative;
+}
+.verdict-stat {
+  font-size: 15px; font-weight: 700; color: #60a5fa;
+  position: relative; font-variant-numeric: tabular-nums;
+}
+.verdict-after { height: 24px; }
 </style>
 </head>
 <body>
 
+<!-- 레벨 변경 플래시 -->
+<div class="level-flash" id="levelFlash"></div>
+
 <!-- ① 시작 화면 -->
 <div class="card" id="startScreen">
-  <div class="logo">
-    <div class="logo-mark">ESC</div>
-    <div>
-      <div class="logo-text">Listening Test</div>
-      <div class="logo-sub">Edu Space Care</div>
+  <div class="dark-section start-hero">
+    <div class="start-emblem">ESC</div>
+    <div class="start-title">Listening Test</div>
+    <div class="start-subtitle">Adaptive English Assessment</div>
+  </div>
+  <div class="start-body">
+    <p class="start-desc">답변 정확도를 실시간으로 분석해<br>난이도와 재생 속도를 자동 조정합니다.</p>
+    <div class="input-group">
+      <label>이름</label>
+      <input type="text" id="studentName" placeholder="홍길동" autofocus>
     </div>
+    <button class="btn btn-primary" id="startBtn">진단 시작 →</button>
   </div>
-  <div class="section-title">안녕하세요 👋</div>
-  <div class="section-sub">이름을 입력한 후 시작하세요.</div>
-  <div class="input-group">
-    <label>이름</label>
-    <input type="text" id="studentName" placeholder="홍길동" autofocus>
-  </div>
-  <button class="btn btn-primary" id="startBtn">시작하기 →</button>
 </div>
 
 <!-- ② 시험 화면 -->
 <div class="card hidden" id="testScreen">
-  <div class="progress-wrap">
-    <div class="progress-meta">
-      <span id="progressText">세트 1 / 10</span>
-      <span id="progressCount"></span>
+  <div class="dark-section test-header">
+    <div class="th-col">
+      <div class="th-label">현재 레벨</div>
+      <div id="thLevel"><span class="level-badge 초보">초보</span></div>
     </div>
-    <div class="progress-bar">
-      <div class="progress-fill" id="progressFill" style="width:0%"></div>
+    <div class="th-sep"></div>
+    <div class="th-col">
+      <div class="th-label">세트</div>
+      <div class="th-val" id="progressText">1</div>
+    </div>
+    <div class="th-sep"></div>
+    <div class="th-col" style="align-items:flex-end;">
+      <div class="th-label">재생 속도</div>
+      <div class="th-speed">
+        <input type="range" id="speedSlider" min="0.6" max="1.5" step="0.1" value="1.0" class="speed-range">
+        <span class="th-speed-val" id="speedValue">1.0x</span>
+      </div>
     </div>
   </div>
-
-  <div class="speed-wrap">
-    <label for="speedSlider">재생 속도</label>
-    <input type="range" id="speedSlider" min="0.1" max="2.0" step="0.1" value="1.0">
-    <span id="speedValue">1.0x</span>
-  </div>
+  <div class="test-prog-bar"><div class="test-prog-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="test-body-pad"></div>
 
   <div class="status-area">
     <div class="tts-status idle" id="ttsStatus">
@@ -317,15 +472,8 @@ body {
 
 <!-- ③ 결과 화면 -->
 <div class="card hidden" id="resultScreen">
-  <div class="logo">
-    <div class="logo-mark">ESC</div>
-    <div>
-      <div class="logo-text">분석 완료</div>
-      <div class="logo-sub" id="resultName"></div>
-    </div>
-  </div>
-
   <div id="finalVerdict"></div>
+  <div class="verdict-after"></div>
 
   <div class="divider"></div>
 
@@ -641,6 +789,7 @@ function getSetAccuracy() {
 function adaptLevel() {
   const acc = getSetAccuracy();
   const completedLevel = questions[index]._level;
+  const prevLevel = currentLevel;
   perfectClear = false;
   shuffleQuestions = acc >= 0.75;
 
@@ -668,6 +817,14 @@ function adaptLevel() {
   } else {
     // 50~74%: 현재 레벨·속도 유지
     consecutiveHighPass = 0;
+  }
+
+  // 레벨 변경 플래시
+  if (currentLevel !== prevLevel) {
+    const levels = ['초보','중수','고수'];
+    const arrow = levels.indexOf(currentLevel) > levels.indexOf(prevLevel) ? '▲' : '▼';
+    showLevelFlash(`${arrow} ${currentLevel} 레벨 진입`);
+    updateTestHeader();
   }
 }
 
@@ -699,6 +856,20 @@ function showScreen(id) {
   ['startScreen','testScreen','resultScreen'].forEach(s =>
     document.getElementById(s).classList.add('hidden'));
   document.getElementById(id).classList.remove('hidden');
+}
+
+let _flashTimer = null;
+function showLevelFlash(text) {
+  const el = document.getElementById('levelFlash');
+  el.textContent = text;
+  el.classList.add('show');
+  clearTimeout(_flashTimer);
+  _flashTimer = setTimeout(() => el.classList.remove('show'), 1800);
+}
+
+function updateTestHeader() {
+  const el = document.getElementById('thLevel');
+  if (el) el.innerHTML = `<span class="level-badge ${currentLevel}">${currentLevel}</span>`;
 }
 
 function applySpeed(speed) {
@@ -751,11 +922,11 @@ function startSet() {
   const base = Array.from({length: totalQ}, (_, i) => i + 1);
   currentSetOrder = shuffleQuestions ? shuffle(base) : base;
 
-  // 진행 바
+  // 진행 바 + 헤더 업데이트
   const pct = Math.round((index / MAX_SETS) * 100);
-  document.getElementById('progressText').textContent = `세트 ${index + 1}`;
-  document.getElementById('progressCount').textContent = '';
+  document.getElementById('progressText').textContent = index + 1;
   document.getElementById('progressFill').style.width = pct + '%';
+  updateTestHeader();
 
   applySpeed(currentSpeed);
   setListening('지문을 듣고 있습니다...');
@@ -883,7 +1054,6 @@ function handleAnswer(clicked, chosenText) {
 
 function showResult() {
   showScreen('resultScreen');
-  document.getElementById('resultName').textContent = studentName + ' 님';
 
   const total   = resultData.length;
   const correct = resultData.filter(r => r.결과 === 'O').length;
@@ -917,11 +1087,12 @@ function showResult() {
   }
 
   document.getElementById('finalVerdict').innerHTML = `
-    <div class="verdict-box">
+    <div class="dark-section verdict-box">
+      <div class="verdict-eyebrow">${studentName} 님의 진단 결과</div>
       <div class="verdict-level"><span class="level-badge ${finalLevel}">${finalLevel}</span></div>
       <div class="verdict-headline">${headline}</div>
       <div class="verdict-sub">${sub}</div>
-      <div class="verdict-stat">${correct}/${total} 정답 · ${nSets}세트 완료</div>
+      <div class="verdict-stat">${correct} / ${total} 정답 · ${nSets}세트</div>
     </div>`;
 
   // ── 알고리즘 흐름 타임라인 ─────────────────
