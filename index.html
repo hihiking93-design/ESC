@@ -406,7 +406,39 @@ body {
   font-size: 15px; font-weight: 700; color: #60a5fa;
   position: relative; font-variant-numeric: tabular-nums;
 }
-.verdict-after { height: 24px; }
+.verdict-after { height: 28px; }
+
+/* ── 세트별 추이 차트 ─────────────────────────── */
+.charts-row {
+  display: grid; grid-template-columns: 1fr 108px; gap: 20px;
+  align-items: start; margin-bottom: 4px;
+}
+.chart-sub-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+  color: var(--muted); text-transform: uppercase; margin-bottom: 8px;
+}
+
+/* ── 지문 위치 바 ─────────────────────────────── */
+.qmap-row { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
+.qmap-row:last-child { margin-bottom: 0; }
+.qmap-label { font-size: 10px; color: var(--muted); width: 16px; text-align: right; flex-shrink: 0; }
+.qmap-track { flex: 1; height: 8px; background: var(--border); border-radius: 99px; overflow: hidden; }
+.qmap-fill { height: 100%; border-radius: 99px; }
+.qmap-val { font-size: 10px; font-weight: 700; color: var(--text); width: 28px; text-align: right; flex-shrink: 0; }
+
+/* ── 인사이트 카드 ─────────────────────────────── */
+.insight-card { padding: 16px 0; border-bottom: 1px solid var(--border); }
+.insight-card:last-child { border-bottom: none; }
+.insight-kpi {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 5px;
+}
+.insight-num { font-size: 26px; font-weight: 800; color: var(--accent); line-height: 1; }
+.insight-tag {
+  font-size: 11px; font-weight: 700; color: var(--primary);
+  background: var(--primary-light); padding: 2px 9px; border-radius: 20px;
+}
+.insight-body { font-size: 13px; color: var(--text); line-height: 1.75; }
+.insight-em { font-weight: 700; color: var(--text); }
 </style>
 </head>
 <body>
@@ -472,18 +504,30 @@ body {
   <div id="finalVerdict"></div>
   <div class="verdict-after"></div>
 
-  <div class="divider"></div>
-
-  <div class="analysis-section">
-    <div class="analysis-label">알고리즘 판정 흐름</div>
-    <div id="timelineList"></div>
+  <!-- 차트: 추이 + 지문 위치 -->
+  <div class="charts-row">
+    <div>
+      <div class="chart-sub-label">세트별 정답률</div>
+      <div id="journeyChart"></div>
+    </div>
+    <div>
+      <div class="chart-sub-label">지문 위치별</div>
+      <div id="qMap"></div>
+    </div>
   </div>
 
   <div class="divider"></div>
 
   <div class="analysis-section">
-    <div class="analysis-label">간파 보고서</div>
-    <div id="diagnosisList"></div>
+    <div class="analysis-label">알고리즘의 진단</div>
+    <div id="insightSection"></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="analysis-section">
+    <div class="analysis-label">판정 흐름</div>
+    <div id="timelineList"></div>
   </div>
 
   <div class="divider"></div>
@@ -1092,7 +1136,14 @@ function showResult() {
       <div class="verdict-stat">${correct} / ${total} 정답 · ${nSets}세트</div>
     </div>`;
 
-  // ── 알고리즘 흐름 타임라인 ─────────────────
+  // ── 차트 ──────────────────────────────────
+  document.getElementById('journeyChart').innerHTML = buildJourneyChart();
+  document.getElementById('qMap').innerHTML = buildQMap();
+
+  // ── 인사이트 ───────────────────────────────
+  document.getElementById('insightSection').innerHTML = buildInsights();
+
+  // ── 타임라인 ───────────────────────────────
   document.getElementById('timelineList').innerHTML = setHistory.map(h => {
     const [sc, st] = h.정답.split('/').map(Number);
     const bar = Array.from({length: st}, (_, i) => i < sc ? '●' : '○').join('');
@@ -1105,84 +1156,153 @@ function showResult() {
         <span class="tl-judge">${h.판정}</span>
       </div>`;
   }).join('');
-
-  // ── 간파 보고서 ────────────────────────────
-  document.getElementById('diagnosisList').innerHTML =
-    computeDiagnoses().map(d => `
-      <div class="diag-item">
-        <div class="diag-icon">${d.icon}</div>
-        <div>
-          <div class="diag-title">${d.title}</div>
-          <div class="diag-body">${d.body}</div>
-        </div>
-      </div>`).join('');
 }
 
-function computeDiagnoses() {
-  const out = [];
-  const nSets = setHistory.length;
+// ── 세트별 추이 SVG 차트 ───────────────────────
+function buildJourneyChart() {
+  const data = setHistory.map(h => ({ acc: h.정답률, lv: h.난이도, s: h.세트 }));
+  const n = data.length;
+  if (!n) return '';
 
-  // 1. 세트 수 → 실력 명확도
-  if (nSets <= 4) {
-    out.push({ icon: '⚡', title: `${nSets}세트 · 빠른 수렴`,
-      body: `알고리즘이 ${nSets}세트 만에 실력을 확정했습니다. 실력 윤곽이 뚜렷하게 드러났어요.` });
-  } else if (nSets <= 7) {
-    out.push({ icon: '📊', title: `${nSets}세트 · 표준 판정`,
-      body: `${nSets}세트에 걸쳐 실력이 파악됐습니다.` });
+  const W = 440, H = 112;
+  const pL = 26, pR = 8, pT = 10, pB = 22;
+  const pw = W - pL - pR, ph = H - pT - pB;
+  const lc = { '초보': '#06d6a0', '중수': '#4361ee', '고수': '#f72585' };
+  const xf = i => pL + (n === 1 ? pw / 2 : (i / (n - 1)) * pw);
+  const yf = a => pT + ph - (a / 100) * ph;
+
+  // 75% / 50% 기준선
+  const lines = [
+    { v: 75, label: '75%', dash: '5,3', color: '#4361ee' },
+    { v: 50, label: '50%', dash: '3,3', color: '#cbd5e1' },
+  ].map(t => `
+    <line x1="${pL}" y1="${yf(t.v)}" x2="${W - pR}" y2="${yf(t.v)}"
+      stroke="${t.color}" stroke-width="1" stroke-dasharray="${t.dash}" opacity="0.5"/>
+    <text x="${pL - 3}" y="${yf(t.v) + 3.5}" text-anchor="end"
+      font-size="7.5" fill="${t.color}" opacity="0.8">${t.label}</text>`).join('');
+
+  // 면적 채우기
+  const areaPts = [
+    `${xf(0)},${H - pB}`,
+    ...data.map((d, i) => `${xf(i)},${yf(d.acc)}`),
+    `${xf(n - 1)},${H - pB}`,
+  ].join(' ');
+
+  // 선 + 점 + 세트번호
+  const pts = data.map((d, i) => `${xf(i)},${yf(d.acc)}`).join(' ');
+  const dots = data.map((d, i) => `
+    <circle cx="${xf(i)}" cy="${yf(d.acc)}" r="5"
+      fill="${lc[d.lv]}" stroke="white" stroke-width="1.5"/>
+    <text x="${xf(i)}" y="${H - 5}" text-anchor="middle" font-size="8" fill="#94a3b8">${d.s}</text>`).join('');
+
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" style="display:block;overflow:visible;">
+    <defs>
+      <linearGradient id="ag" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#4361ee" stop-opacity="0.12"/>
+        <stop offset="100%" stop-color="#4361ee" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    ${lines}
+    <polygon points="${areaPts}" fill="url(#ag)"/>
+    <polyline points="${pts}" fill="none" stroke="#4361ee" stroke-width="2" stroke-linejoin="round"/>
+    ${dots}
+  </svg>`;
+}
+
+// ── 지문 위치별 바 차트 ─────────────────────────
+function buildQMap() {
+  const rows = [1, 2, 3, 4].map(p => {
+    const items = resultData.filter(r => r.지문위치 === p);
+    if (!items.length) return null;
+    const acc = Math.round(items.filter(r => r.결과 === 'O').length / items.length * 100);
+    const color = acc >= 75 ? '#06d6a0' : acc >= 50 ? '#4361ee' : '#f72585';
+    const lbl = p === 1 ? '앞' : p === 4 ? '뒤' : `Q${p}`;
+    return { lbl, acc, color };
+  }).filter(Boolean);
+
+  return rows.map(r => `
+    <div class="qmap-row">
+      <span class="qmap-label">${r.lbl}</span>
+      <div class="qmap-track"><div class="qmap-fill" style="width:${r.acc}%;background:${r.color};"></div></div>
+      <span class="qmap-val">${r.acc}%</span>
+    </div>`).join('');
+}
+
+// ── 인사이트 (날카로운 진단) ──────────────────────
+function buildInsights() {
+  const cards = [];
+  const nSets = setHistory.length;
+  const finalJudge = setHistory[nSets - 1]?.판정 || '';
+  const transitions = setHistory.filter((h, i) => i > 0 && h.난이도 !== setHistory[i - 1].난이도).length;
+
+  // 1. 수렴 속도
+  if (finalJudge.includes('시험 종료')) {
+    cards.push({ num: '만점', tag: '즉시 종료',
+      body: '고수 레벨 문제를 전부 맞혔습니다. 알고리즘이 더 이상 테스트할 필요가 없다고 판단해 시험을 즉시 종료했어요.' });
+  } else if (nSets <= 4) {
+    cards.push({ num: `${nSets}세트`, tag: '조기 수렴',
+      body: `알고리즘이 <span class="insight-em">${nSets}세트</span> 만에 판정을 확정했습니다. 실력이 특정 레벨에 선명하게 맞아떨어졌어요.` });
+  } else if (nSets >= 8) {
+    cards.push({ num: `${transitions}회`, tag: '경계 진동',
+      body: `레벨이 <span class="insight-em">${transitions}번</span> 오르내리며 ${nSets}세트 동안 판정이 유보됐습니다. 레벨 기준에 실력이 걸쳐 있어요.` });
   } else {
-    const transitions = setHistory.filter((h, i) => i > 0 && h.난이도 !== setHistory[i-1].난이도).length;
-    out.push({ icon: '🔄', title: `${nSets}세트 · 경계 진동`,
-      body: `난이도 전환이 <span class="diag-data">${transitions}회</span> 발생했습니다. 레벨 경계에서 알고리즘이 오래 고민했어요.` });
+    cards.push({ num: `${nSets}세트`, tag: '표준 수렴',
+      body: `${nSets}세트에 걸쳐 실력이 파악됐습니다.` });
   }
 
-  // 2. 지문 위치별 정답률 (Q1 vs Q4)
+  // 2. 지문 앞뒤 집중력
   const byPos = {};
   for (let p = 1; p <= 4; p++) {
     const items = resultData.filter(r => r.지문위치 === p);
-    if (items.length > 0)
-      byPos[p] = Math.round(items.filter(r => r.결과 === 'O').length / items.length * 100);
+    if (items.length) byPos[p] = Math.round(items.filter(r => r.결과 === 'O').length / items.length * 100);
   }
   if (byPos[1] !== undefined && byPos[4] !== undefined) {
     const gap = byPos[4] - byPos[1];
     if (gap <= -15) {
-      out.push({ icon: '📉', title: '후반 집중력 저하',
-        body: `지문 앞부분 정답률 <span class="diag-data">${byPos[1]}%</span> → 뒷부분 <span class="diag-data">${byPos[4]}%</span> (${Math.abs(gap)}% 하락). 지문이 길어질수록 후반 정보를 놓치는 경향이 있어요.` });
+      cards.push({ num: `−${Math.abs(gap)}%`, tag: '집중력 저하',
+        body: `지문 앞부분 <span class="insight-em">${byPos[1]}%</span> → 뒷부분 <span class="insight-em">${byPos[4]}%</span>. 지문 후반 정보를 흘려듣고 있었어요. 길어질수록 집중력이 무너지는 패턴이 확인됐습니다.` });
     } else if (gap >= 15) {
-      out.push({ icon: '📈', title: '후반부 강세',
-        body: `지문 앞부분 정답률 <span class="diag-data">${byPos[1]}%</span> → 뒷부분 <span class="diag-data">${byPos[4]}%</span> (+${gap}%). 지문 뒤쪽 정보를 더 잘 잡아내는 유형이에요.` });
+      cards.push({ num: `+${gap}%`, tag: '후반 강세',
+        body: `지문 앞부분 <span class="insight-em">${byPos[1]}%</span> → 뒷부분 <span class="insight-em">${byPos[4]}%</span>. 처음엔 긴장하다 적응하며 집중력이 올라가는 유형이에요.` });
     } else {
-      out.push({ icon: '⚖️', title: '균일한 집중력',
-        body: `지문 앞부분 <span class="diag-data">${byPos[1]}%</span> · 뒷부분 <span class="diag-data">${byPos[4]}%</span>. 지문 전반에 걸쳐 고른 집중력을 유지했어요.` });
+      cards.push({ num: `${gap >= 0 ? '+' : ''}${gap}%`, tag: '균일한 집중력',
+        body: `앞부분 <span class="insight-em">${byPos[1]}%</span> · 뒷부분 <span class="insight-em">${byPos[4]}%</span>. 지문 어느 위치도 놓치지 않고 고르게 집중했어요.` });
     }
   }
 
-  // 3. 셔플 민감도
-  const shuffled   = resultData.filter(r => r.셔플);
-  const unshuffled = resultData.filter(r => !r.셔플);
-  if (shuffled.length >= 4 && unshuffled.length >= 4) {
-    const sAcc  = Math.round(shuffled.filter(r => r.결과 === 'O').length   / shuffled.length   * 100);
-    const nsAcc = Math.round(unshuffled.filter(r => r.결과 === 'O').length / unshuffled.length * 100);
+  // 3. 셔플 충격
+  const sh  = resultData.filter(r => r.셔플);
+  const nsh = resultData.filter(r => !r.셔플);
+  if (sh.length >= 4 && nsh.length >= 4) {
+    const sAcc  = Math.round(sh.filter(r => r.결과 === 'O').length  / sh.length  * 100);
+    const nsAcc = Math.round(nsh.filter(r => r.결과 === 'O').length / nsh.length * 100);
     const drop  = nsAcc - sAcc;
     if (drop >= 15) {
-      out.push({ icon: '🔀', title: '순서 의존도 높음',
-        body: `순서 고정 <span class="diag-data">${nsAcc}%</span> → 순서 셔플 <span class="diag-data">${sAcc}%</span> (${drop}% 하락). 문제 순서가 바뀌면 흔들리는 경향이 있어요.` });
+      cards.push({ num: `−${drop}%`, tag: '순서 의존',
+        body: `순서 고정 <span class="insight-em">${nsAcc}%</span> → 순서 셔플 <span class="insight-em">${sAcc}%</span>. 문제 순서가 바뀌자 즉시 흔들렸습니다. 지문 내용보다 '몇 번째 문제인지'를 기억해서 풀고 있었을 가능성이 높아요.` });
     } else if (drop <= 0) {
-      out.push({ icon: '🔀', title: '순서에 독립적',
-        body: `순서 고정 <span class="diag-data">${nsAcc}%</span> · 순서 셔플 <span class="diag-data">${sAcc}%</span>. 문제 순서와 관계없이 내용으로 풀고 있어요.` });
+      cards.push({ num: `+${Math.abs(drop)}%`, tag: '순서 독립',
+        body: `순서 고정 <span class="insight-em">${nsAcc}%</span> → 순서 셔플 <span class="insight-em">${sAcc}%</span>. 순서가 달라져도 흔들리지 않았어요. 지문 내용으로 풀고 있었다는 신호입니다.` });
     } else {
-      out.push({ icon: '🔀', title: '순서 영향 미미',
-        body: `순서 고정 <span class="diag-data">${nsAcc}%</span> → 순서 셔플 <span class="diag-data">${sAcc}%</span> (${drop}% 차이). 순서 변화에 비교적 안정적이에요.` });
+      cards.push({ num: `−${drop}%`, tag: '순서 영향 미미',
+        body: `순서 고정 <span class="insight-em">${nsAcc}%</span> → 순서 셔플 <span class="insight-em">${sAcc}%</span>. 순서 변화에 비교적 안정적으로 대응했습니다.` });
     }
-  } else if (shuffled.length === 0) {
-    const total   = resultData.length;
-    const correct = resultData.filter(r => r.결과 === 'O').length;
-    if (total > 0 && correct / total < 0.75) {
-      out.push({ icon: '🔀', title: '셔플 미도달',
-        body: `정답률이 75% 미만에 머물러 문제 순서 셔플이 활성화되지 않았습니다.` });
+  } else if (!sh.length && nsh.length) {
+    const acc = Math.round(nsh.filter(r => r.결과 === 'O').length / nsh.length * 100);
+    if (acc < 75) {
+      cards.push({ num: '미활성', tag: '셔플 없음',
+        body: `정답률이 75% 아래에 머물러 순서 셔플이 한 번도 작동하지 않았습니다.` });
     }
   }
 
-  return out;
+  return cards.map(c => `
+    <div class="insight-card">
+      <div class="insight-kpi">
+        <span class="insight-num">${c.num}</span>
+        <span class="insight-tag">${c.tag}</span>
+      </div>
+      <div class="insight-body">${c.body}</div>
+    </div>`).join('');
 }
 
 document.getElementById('downloadBtn').onclick = () => {
