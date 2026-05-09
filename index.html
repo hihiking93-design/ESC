@@ -419,7 +419,6 @@ body {
   <div class="dark-section start-hero">
     <div class="start-emblem">ESC</div>
     <div class="start-title">Listening Test</div>
-    <div class="start-subtitle">Adaptive English Assessment</div>
   </div>
   <div class="start-body">
     <p class="start-desc">답변 정확도를 실시간으로 분석해<br>난이도와 재생 속도를 자동 조정합니다.</p>
@@ -446,11 +445,9 @@ body {
     <div class="th-sep"></div>
     <div class="th-col" style="align-items:flex-end;">
       <div class="th-label">재생 속도</div>
-      <div class="th-speed">
-        <input type="range" id="speedSlider" min="0.6" max="1.5" step="0.1" value="1.0" class="speed-range">
-        <span class="th-speed-val" id="speedValue">1.0x</span>
-      </div>
+      <div class="th-val" id="speedValue">1.0x</div>
     </div>
+    <input type="range" id="speedSlider" min="0.6" max="1.5" step="0.1" value="1.0" class="hidden">
   </div>
   <div class="test-prog-bar"><div class="test-prog-fill" id="progressFill" style="width:0%"></div></div>
   <div class="test-body-pad"></div>
