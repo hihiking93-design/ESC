@@ -1,3 +1,4 @@
 .DS_Store
 scripts/output/
+scripts/simulation_results.json
 .vercel

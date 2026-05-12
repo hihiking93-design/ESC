@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESC Listening Test — 소개</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #edf0fa;
+  --card: #ffffff;
+  --primary: #4361ee;
+  --primary-light: #eef0ff;
+  --accent: #f72585;
+  --success: #06d6a0;
+  --text: #1a1a2e;
+  --muted: #8892a4;
+  --border: #e2e8f0;
+  --dark1: #0d1b2a;
+  --dark2: #1b3a6b;
+  --shadow: 0 20px 60px rgba(13,27,42,0.18), 0 2px 12px rgba(13,27,42,0.08);
+  --radius: 20px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: linear-gradient(145deg, #e8ecff 0%, #edf0fa 45%, #e4f0ff 100%);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ── NAV ────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(13,27,42,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 32px; height: 56px;
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 10px;
+}
+.nav-emblem {
+  width: 32px; height: 32px; background: var(--primary);
+  border-radius: 9px; display: flex; align-items: center; justify-content: center;
+  color: white; font-weight: 800; font-size: 12px; letter-spacing: -0.5px;
+}
+.nav-title { font-size: 15px; font-weight: 700; color: #fff; }
+.nav-links { display: flex; gap: 28px; align-items: center; }
+.nav-links a {
+  font-size: 13px; color: #8ba8c4; text-decoration: none; font-weight: 500;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: #fff; }
+.nav-cta {
+  background: var(--primary); color: white !important;
+  padding: 7px 18px; border-radius: 100px; font-size: 13px !important;
+  font-weight: 700 !important;
+}
+.nav-cta:hover { opacity: 0.85; }
+
+/* ── SECTIONS ────────────────────── */
+section { padding: 80px 24px; }
+.container { max-width: 960px; margin: 0 auto; }
+.section-eyebrow {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--primary);
+  margin-bottom: 12px;
+}
+.section-title {
+  font-size: 32px; font-weight: 800; color: var(--text);
+  letter-spacing: -0.5px; margin-bottom: 14px; line-height: 1.25;
+}
+.section-sub {
+  font-size: 16px; color: var(--muted); line-height: 1.8;
+  margin-bottom: 48px; max-width: 560px;
+}
+
+/* ── HERO ────────────────────────── */
+.hero {
+  background: linear-gradient(160deg, var(--dark1) 0%, var(--dark2) 100%);
+  padding: 120px 24px 80px;
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 130%, rgba(67,97,238,0.35) 0%, transparent 65%);
+  pointer-events: none;
+}
+.hero-emblem {
+  width: 80px; height: 80px;
+  background: linear-gradient(135deg, #4361ee, #7c3aed);
+  border-radius: 22px; margin: 0 auto 28px;
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-weight: 800; font-size: 24px; letter-spacing: -1px;
+  box-shadow: 0 12px 40px rgba(67,97,238,0.5);
+  position: relative;
+}
+.hero-title {
+  font-size: 48px; font-weight: 800; color: #fff;
+  letter-spacing: -1.5px; margin-bottom: 12px; line-height: 1.1;
+  position: relative;
+}
+.hero-sub {
+  font-size: 18px; color: #8ba8c4; line-height: 1.7;
+  margin-bottom: 36px; position: relative;
+}
+.hero-cta {
+  display: inline-block;
+  background: linear-gradient(135deg, #4361ee 0%, #6a3fc8 100%);
+  color: white; text-decoration: none; font-weight: 700; font-size: 17px;
+  padding: 16px 40px; border-radius: 14px;
+  box-shadow: 0 8px 32px rgba(67,97,238,0.45);
+  position: relative; transition: transform 0.15s, opacity 0.2s;
+}
+.hero-cta:hover { transform: translateY(-2px); opacity: 0.92; }
+.hero-badges {
+  display: flex; gap: 10px; justify-content: center; margin-top: 28px;
+  position: relative;
+}
+.hero-badge {
+  font-size: 12px; font-weight: 600; padding: 5px 14px;
+  border-radius: 100px; background: rgba(255,255,255,0.08);
+  color: #8ba8c4; border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* ── LEVEL BADGES ────────────────── */
+.lbadge {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 3px 10px; border-radius: 7px;
+  font-size: 12px; font-weight: 700; color: white;
+}
+.lbadge.초보 { background: #06d6a0; }
+.lbadge.중수 { background: #4361ee; }
+.lbadge.고수 { background: #f72585; }
+
+/* ── APP MOCKUP ──────────────────── */
+.mockup-wrap {
+  display: flex; justify-content: center; margin-top: 48px;
+}
+.mockup {
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  width: 100%; max-width: 400px;
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+.mock-dark {
+  background: linear-gradient(160deg, var(--dark1) 0%, var(--dark2) 100%);
+  padding: 28px 28px 24px; position: relative; overflow: hidden;
+}
+.mock-dark::after {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 120%, rgba(67,97,238,0.3) 0%, transparent 65%);
+  pointer-events: none;
+}
+.mock-emblem {
+  width: 48px; height: 48px;
+  background: linear-gradient(135deg, #4361ee, #7c3aed);
+  border-radius: 14px; margin: 0 auto 16px;
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-weight: 800; font-size: 14px;
+  box-shadow: 0 6px 20px rgba(67,97,238,0.45);
+  position: relative;
+}
+.mock-title {
+  text-align: center; font-size: 22px; font-weight: 800; color: #fff;
+  letter-spacing: -0.3px; position: relative;
+}
+.mock-body { padding: 24px 28px; }
+.mock-desc {
+  font-size: 13px; color: var(--muted); line-height: 1.75;
+  text-align: center; margin-bottom: 20px;
+}
+.mock-input {
+  border: 1.5px solid var(--border); border-radius: 10px;
+  padding: 11px 14px; font-size: 14px; color: var(--muted);
+  margin-bottom: 14px; font-family: inherit;
+}
+.mock-btn {
+  background: linear-gradient(135deg, #4361ee 0%, #6a3fc8 100%);
+  color: white; border: none; border-radius: 11px;
+  padding: 13px; font-size: 15px; font-weight: 700;
+  font-family: inherit; text-align: center;
+}
+
+/* ── TEST MOCKUP ─────────────────── */
+.mock-header {
+  background: linear-gradient(160deg, var(--dark1) 0%, var(--dark2) 100%);
+  padding: 14px 20px;
+  display: flex; align-items: center; gap: 0;
+}
+.mock-hcol {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+}
+.mock-hcol:first-child { align-items: flex-start; }
+.mock-hcol:last-child  { align-items: flex-end; }
+.mock-hlabel {
+  font-size: 8px; font-weight: 700; letter-spacing: 0.12em;
+  color: #5d7da8; text-transform: uppercase;
+}
+.mock-hval {
+  font-size: 15px; font-weight: 800; color: #fff;
+}
+.mock-hsep {
+  width: 1px; height: 24px;
+  background: rgba(255,255,255,0.12);
+  margin: 0 10px; flex-shrink: 0;
+}
+.mock-prog { height: 3px; background: rgba(255,255,255,0.1); }
+.mock-prog-fill {
+  height: 100%; width: 40%;
+  background: linear-gradient(90deg, #4361ee, #7c3aed);
+}
+.mock-body2 { padding: 18px 22px; }
+.mock-tts {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--primary-light); border-radius: 9px;
+  padding: 10px 14px; margin-bottom: 16px;
+  font-size: 13px; color: var(--primary);
+}
+.mock-wave { display: flex; gap: 2px; align-items: flex-end; height: 16px; }
+.mock-wave span {
+  width: 3px; background: var(--primary); border-radius: 2px;
+}
+.mock-wave span:nth-child(1) { height: 5px; }
+.mock-wave span:nth-child(2) { height: 14px; }
+.mock-wave span:nth-child(3) { height: 9px; }
+.mock-wave span:nth-child(4) { height: 12px; }
+.mock-option {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 14px; border: 2px solid var(--border); border-radius: 10px;
+  margin-bottom: 8px; font-size: 13px; color: var(--text);
+}
+.mock-option.selected {
+  border-color: var(--primary); background: var(--primary-light);
+}
+.mock-option:last-child { margin-bottom: 0; }
+.mock-key {
+  width: 26px; height: 26px; border-radius: 7px;
+  border: 1.5px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 11px; flex-shrink: 0;
+}
+.mock-option.selected .mock-key {
+  background: var(--primary); border-color: var(--primary); color: white;
+}
+.mock-option-text { font-size: 12px; color: rgba(0,0,0,0.3); }
+.mock-option.selected .mock-option-text { color: var(--primary); }
+
+/* ── RESULT MOCKUP ───────────────── */
+.mock-verdict {
+  background: linear-gradient(160deg, var(--dark1) 0%, var(--dark2) 100%);
+  padding: 28px 28px 20px; text-align: center; position: relative; overflow: hidden;
+}
+.mock-verdict::after {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 120%, rgba(67,97,238,0.3) 0%, transparent 65%);
+  pointer-events: none;
+}
+.mock-verdict-eye {
+  font-size: 10px; color: #5d7da8; letter-spacing: 0.1em;
+  text-transform: uppercase; margin-bottom: 12px; position: relative;
+}
+.mock-verdict-hl {
+  font-size: 18px; font-weight: 800; color: #fff;
+  margin: 10px 0 6px; position: relative;
+}
+.mock-verdict-sub {
+  font-size: 11px; color: #8ba8c4; line-height: 1.6; position: relative;
+}
+.mock-verdict-stat {
+  font-size: 13px; font-weight: 700; color: #60a5fa;
+  margin-top: 10px; position: relative;
+}
+.mock-result-body { padding: 18px 22px; }
+.mock-chart-label {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.1em;
+  color: var(--muted); text-transform: uppercase; margin-bottom: 8px;
+}
+/* SVG chart in mockup */
+.mock-charts { display: grid; grid-template-columns: 1fr 90px; gap: 16px; margin-bottom: 16px; }
+.mock-qmap-row { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+.mock-qmap-label { font-size: 9px; color: var(--muted); width: 12px; text-align: right; }
+.mock-qmap-track { flex: 1; height: 7px; background: var(--border); border-radius: 99px; overflow: hidden; }
+.mock-qmap-fill { height: 100%; border-radius: 99px; }
+.mock-qmap-val { font-size: 9px; font-weight: 700; color: var(--text); width: 24px; text-align: right; }
+.mock-divider { height: 1px; background: var(--border); margin: 12px 0; }
+.mock-insight { padding: 10px 0; border-bottom: 1px solid var(--border); }
+.mock-insight:last-child { border-bottom: none; }
+.mock-insight-kpi { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.mock-insight-num { font-size: 22px; font-weight: 800; color: var(--accent); line-height: 1; }
+.mock-insight-tag {
+  font-size: 10px; font-weight: 700; color: var(--primary);
+  background: var(--primary-light); padding: 2px 8px; border-radius: 20px;
+}
+.mock-insight-body { font-size: 11px; color: var(--muted); line-height: 1.6; }
+
+/* ── STEPS GRID ─────────────────── */
+.steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; }
+.step-card {
+  background: white; border-radius: 16px; padding: 28px 24px;
+  box-shadow: 0 4px 24px rgba(13,27,42,0.07);
+  border: 1px solid rgba(0,0,0,0.04);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.step-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(13,27,42,0.12); }
+.step-num {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: var(--primary-light); color: var(--primary);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 16px; margin-bottom: 16px;
+}
+.step-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+.step-desc { font-size: 13px; color: var(--muted); line-height: 1.7; }
+
+/* ── ALGORITHM SECTION ───────────── */
+#algorithm { background: linear-gradient(160deg, var(--dark1) 0%, var(--dark2) 100%); }
+#algorithm .section-eyebrow { color: #60a5fa; }
+#algorithm .section-title { color: #fff; }
+#algorithm .section-sub { color: #8ba8c4; }
+
+.algo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+@media (max-width: 700px) { .algo-grid { grid-template-columns: 1fr; } }
+
+.level-flow { display: flex; flex-direction: column; gap: 0; }
+.lf-item {
+  display: flex; gap: 16px; align-items: stretch; position: relative;
+}
+.lf-left {
+  display: flex; flex-direction: column; align-items: center; gap: 0; flex-shrink: 0;
+}
+.lf-dot {
+  width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; margin-top: 3px;
+}
+.lf-line {
+  width: 2px; flex: 1; margin: 3px 0;
+}
+.lf-body { padding-bottom: 28px; flex: 1; }
+.lf-level { font-size: 14px; font-weight: 800; color: #fff; margin-bottom: 6px; }
+.lf-desc { font-size: 13px; color: #8ba8c4; line-height: 1.65; }
+.lf-tag {
+  display: inline-block; margin-top: 6px;
+  font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 100px;
+  opacity: 0.9;
+}
+
+.threshold-cards { display: flex; flex-direction: column; gap: 12px; }
+.tc {
+  border-radius: 12px; padding: 16px 18px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.tc-header { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+.tc-pct { font-size: 20px; font-weight: 800; color: #fff; }
+.tc-label { font-size: 13px; font-weight: 700; }
+.tc-desc { font-size: 12px; color: #8ba8c4; line-height: 1.6; }
+
+.algo-rules { display: flex; flex-direction: column; gap: 10px; margin-top: 40px; }
+.ar {
+  display: flex; gap: 12px; align-items: flex-start;
+  background: rgba(255,255,255,0.05); border-radius: 12px;
+  padding: 14px 18px; border: 1px solid rgba(255,255,255,0.07);
+}
+.ar-icon { font-size: 20px; flex-shrink: 0; padding-top: 1px; }
+.ar-title { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 3px; }
+.ar-desc { font-size: 12px; color: #8ba8c4; line-height: 1.6; }
+
+/* ── RESULT SECTION ──────────────── */
+.result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+@media (max-width: 720px) { .result-grid { grid-template-columns: 1fr; } }
+
+.result-features { display: flex; flex-direction: column; gap: 24px; }
+.rf {
+  display: flex; gap: 16px; align-items: flex-start;
+  padding: 20px; background: white; border-radius: 14px;
+  box-shadow: 0 2px 16px rgba(13,27,42,0.06);
+  border: 1px solid rgba(0,0,0,0.04);
+}
+.rf-icon {
+  width: 40px; height: 40px; border-radius: 11px;
+  background: var(--primary-light); display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+}
+.rf-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 5px; }
+.rf-desc { font-size: 13px; color: var(--muted); line-height: 1.65; }
+
+/* ── CTA SECTION ─────────────────── */
+.cta-section {
+  background: linear-gradient(160deg, var(--dark1) 0%, var(--dark2) 100%);
+  padding: 80px 24px; text-align: center; position: relative; overflow: hidden;
+}
+.cta-section::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 100%, rgba(67,97,238,0.35) 0%, transparent 60%);
+  pointer-events: none;
+}
+.cta-title { font-size: 32px; font-weight: 800; color: #fff; letter-spacing: -0.5px; margin-bottom: 14px; position: relative; }
+.cta-sub { font-size: 16px; color: #8ba8c4; line-height: 1.7; margin-bottom: 36px; position: relative; }
+.cta-btn {
+  display: inline-block; position: relative;
+  background: linear-gradient(135deg, #4361ee 0%, #6a3fc8 100%);
+  color: white; text-decoration: none; font-weight: 700; font-size: 17px;
+  padding: 16px 44px; border-radius: 14px;
+  box-shadow: 0 8px 32px rgba(67,97,238,0.5);
+  transition: transform 0.15s, opacity 0.2s;
+}
+.cta-btn:hover { transform: translateY(-2px); opacity: 0.92; }
+
+/* ── FOOTER ──────────────────────── */
+footer {
+  background: var(--dark1);
+  padding: 28px 32px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.footer-logo { display: flex; align-items: center; gap: 10px; }
+.footer-emblem {
+  width: 28px; height: 28px; background: var(--primary);
+  border-radius: 7px; display: flex; align-items: center; justify-content: center;
+  color: white; font-weight: 800; font-size: 10px;
+}
+.footer-name { font-size: 13px; font-weight: 600; color: #8ba8c4; }
+.footer-copy { font-size: 12px; color: #4a6080; }
+
+/* ── UTILITIES ───────────────────── */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+@media (max-width: 720px) { .two-col { grid-template-columns: 1fr; } }
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 600; padding: 4px 12px;
+  border-radius: 100px; margin-right: 6px; margin-bottom: 6px;
+}
+
+/* ── MOBILE ──────────────────────── */
+@media (max-width: 640px) {
+  body { overflow-x: hidden; }
+
+  /* Nav: 중간 링크 숨기고 로고 + CTA만 */
+  nav { padding: 0 16px; }
+  .nav-links a:not(.nav-cta) { display: none; }
+  .nav-title { font-size: 14px; }
+
+  /* Hero */
+  .hero { padding: 88px 20px 60px; }
+  .hero-emblem { width: 64px; height: 64px; font-size: 18px; border-radius: 18px; }
+  .hero-title { font-size: 34px; }
+  .hero-sub { font-size: 15px; }
+  .hero-cta { font-size: 15px; padding: 14px 32px; }
+  .hero-badges { flex-wrap: wrap; gap: 8px; justify-content: center; }
+  .hero-badge { font-size: 11px; padding: 4px 12px; }
+
+  /* Sections */
+  section { padding: 56px 18px; }
+  .section-title { font-size: 24px; }
+  .section-sub { font-size: 14px; margin-bottom: 32px; }
+
+  /* Steps: 2열 → 1열 */
+  .steps { grid-template-columns: 1fr; gap: 14px; }
+  .step-card { padding: 22px 20px; }
+
+  /* Start mockup */
+  .mockup-wrap { margin-top: 32px; }
+  .mockup { max-width: 100%; }
+
+  /* 시험화면 two-col: 텍스트 먼저, 목업 아래 */
+  .two-col .mockup { max-width: 100% !important; margin: 0 auto; }
+
+  /* Algorithm */
+  #algorithm { padding: 56px 18px; }
+  .algo-grid { gap: 24px; }
+  .algo-rules { margin-top: 28px; }
+  .ar { padding: 12px 14px; }
+
+  /* Result */
+  .result-grid { gap: 24px; }
+  .result-features { gap: 16px; }
+  .rf { padding: 16px; }
+
+  /* CTA */
+  .cta-section { padding: 60px 20px; }
+  .cta-title { font-size: 24px; }
+  .cta-sub { font-size: 14px; }
+  .cta-btn { font-size: 15px; padding: 14px 32px; }
+
+  /* Footer */
+  footer { flex-direction: column; gap: 8px; text-align: center; padding: 20px 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <div class="nav-emblem">ESC</div>
+    <div class="nav-title">Listening Test</div>
+  </div>
+  <div class="nav-links">
+    <a href="#how-to">사용법</a>
+    <a href="#algorithm">알고리즘</a>
+    <a href="#result">결과 화면</a>
+    <a href="https://esc-listening-test.vercel.app" class="nav-cta" target="_blank">시작하기 →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-emblem">ESC</div>
+  <h1 class="hero-title">Listening Test</h1>
+  <p class="hero-sub">정답률을 실시간으로 분석해<br>난이도와 재생 속도를 자동으로 조정합니다</p>
+  <a href="https://esc-listening-test.vercel.app" class="hero-cta" target="_blank">지금 진단 시작하기 →</a>
+  <div class="hero-badges">
+    <div class="hero-badge">최소 3세트 · 최대 10세트</div>
+    <div class="hero-badge">적응형 알고리즘</div>
+    <div class="hero-badge">3단계 난이도</div>
+  </div>
+</section>
+
+<!-- HOW TO USE -->
+<section id="how-to">
+  <div class="container">
+    <div class="section-eyebrow">사용법</div>
+    <h2 class="section-title">4단계로 끝나는<br>맞춤형 진단</h2>
+    <p class="section-sub">이름 입력 후 시작하면 알고리즘이 자동으로 세트를 선택합니다.<br>지문을 듣고, 5개의 선택지 중 정답을 고르세요.</p>
+
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <div class="step-title">이름 입력 후 시작</div>
+        <div class="step-desc">이름을 입력하고 진단 시작 버튼을 누르면 바로 첫 번째 세트가 시작됩니다. 알고리즘은 <b>초보</b> 레벨부터 진단을 시작합니다.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <div class="step-title">지문 자동 재생</div>
+        <div class="step-desc">오디오가 자동 재생되면 선택지 텍스트가 숨겨집니다. 집중해서 지문을 들으세요. 재생이 끝나면 자동으로 선택지가 활성화됩니다.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <div class="step-title">5지선다 답변</div>
+        <div class="step-desc">지문이 끝나면 선택지가 활성화됩니다. 각 문제마다 5개의 선택지 중 하나를 선택하세요. 4문항 모두 답하면 다음 세트로 진행됩니다.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">4</div>
+        <div class="step-title">자동 난이도 조정</div>
+        <div class="step-desc">세트 결과에 따라 난이도와 재생 속도가 자동으로 바뀝니다. 정확도가 높으면 승급, 낮으면 하향됩니다.</div>
+      </div>
+    </div>
+
+    <!-- Start Screen Mockup -->
+    <div class="mockup-wrap">
+      <div class="mockup">
+        <div class="mock-dark">
+          <div class="mock-emblem">ESC</div>
+          <div class="mock-title">Listening Test</div>
+        </div>
+        <div class="mock-body">
+          <div class="mock-desc">답변 정확도를 실시간으로 분석해<br>난이도와 재생 속도를 자동 조정합니다.</div>
+          <div class="mock-input">이름을 입력하세요</div>
+          <div class="mock-btn">진단 시작 →</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEST SCREEN MOCKUP -->
+<section style="padding: 0 24px 80px; background: transparent;">
+  <div class="container">
+    <div class="two-col">
+      <div>
+        <div class="section-eyebrow">시험 화면</div>
+        <h2 class="section-title" style="font-size:26px;">듣는 동안<br>선택지가 숨겨집니다</h2>
+        <p style="font-size:15px;color:var(--muted);line-height:1.8;margin-bottom:20px;">
+          오디오 재생 중에는 선택지 텍스트가 보이지 않아 오직 듣기에만 집중하게 됩니다. 재생이 끝나면 자동으로 선택지가 활성화됩니다.
+        </p>
+        <div style="margin-bottom:10px;">
+          <span class="chip" style="background:#eef0ff;color:var(--primary);">🔊 자동 재생</span>
+          <span class="chip" style="background:#f0fdf9;color:#06d6a0;">⚡ 알고리즘 속도 자동 조정</span>
+          <span class="chip" style="background:#fff0f6;color:#f72585;">👁 텍스트 숨김</span>
+        </div>
+      </div>
+      <div class="mockup" style="max-width:360px;">
+        <div class="mock-header">
+          <div class="mock-hcol">
+            <div class="mock-hlabel">현재 레벨</div>
+            <div><span class="lbadge 중수">중수</span></div>
+          </div>
+          <div class="mock-hsep"></div>
+          <div class="mock-hcol">
+            <div class="mock-hlabel">세트</div>
+            <div class="mock-hval">4</div>
+          </div>
+          <div class="mock-hsep"></div>
+          <div class="mock-hcol">
+            <div class="mock-hlabel">재생 속도</div>
+            <div class="mock-hval">1.1x</div>
+          </div>
+        </div>
+        <div class="mock-prog"><div class="mock-prog-fill"></div></div>
+        <div class="mock-body2">
+          <div class="mock-tts">
+            <div class="mock-wave">
+              <span></span><span></span><span></span><span></span>
+            </div>
+            지문을 듣고 있습니다...
+          </div>
+          <div class="mock-option">
+            <div class="mock-key">A</div>
+            <div class="mock-option-text">━━━━━━━━</div>
+          </div>
+          <div class="mock-option selected">
+            <div class="mock-key">B</div>
+            <div class="mock-option-text">━━━━━━━━━━</div>
+          </div>
+          <div class="mock-option">
+            <div class="mock-key">C</div>
+            <div class="mock-option-text">━━━━━━━</div>
+          </div>
+          <div class="mock-option">
+            <div class="mock-key">D</div>
+            <div class="mock-option-text">━━━━━━━━━</div>
+          </div>
+          <div class="mock-option">
+            <div class="mock-key">E</div>
+            <div class="mock-option-text">모르겠음</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ALGORITHM -->
+<section id="algorithm">
+  <div class="container">
+    <div class="section-eyebrow">알고리즘</div>
+    <h2 class="section-title">실시간 적응형<br>난이도 조정</h2>
+    <p class="section-sub">매 세트가 끝날 때마다 정답률을 계산해 다음 세트의 난이도와 재생 속도를 자동으로 결정합니다.</p>
+
+    <div class="algo-grid">
+      <!-- Level Flow -->
+      <div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#5d7da8;margin-bottom:20px;">난이도 단계</div>
+        <div class="level-flow">
+          <div class="lf-item">
+            <div class="lf-left">
+              <div class="lf-dot" style="background:#06d6a0;"></div>
+              <div class="lf-line" style="background:linear-gradient(180deg,#06d6a0,#4361ee);"></div>
+            </div>
+            <div class="lf-body">
+              <div class="lf-level"><span class="lbadge 초보">초보</span></div>
+              <div class="lf-desc">기초 청취력 측정. 색상, 숫자, 인물 특징 등 구체적인 정보를 파악하는 능력을 봅니다.</div>
+              <span class="lf-tag" style="background:rgba(6,214,160,0.15);color:#06d6a0;">10세트</span>
+            </div>
+          </div>
+          <div class="lf-item">
+            <div class="lf-left">
+              <div class="lf-dot" style="background:#4361ee;"></div>
+              <div class="lf-line" style="background:linear-gradient(180deg,#4361ee,#f72585);"></div>
+            </div>
+            <div class="lf-body">
+              <div class="lf-level"><span class="lbadge 중수">중수</span></div>
+              <div class="lf-desc">실용적 듣기 측정. 공지, 안내, 일상 대화 등 의미 파악과 세부 정보 이해 능력을 봅니다.</div>
+              <span class="lf-tag" style="background:rgba(67,97,238,0.15);color:#4361ee;">10세트</span>
+            </div>
+          </div>
+          <div class="lf-item">
+            <div class="lf-left">
+              <div class="lf-dot" style="background:#f72585;"></div>
+            </div>
+            <div class="lf-body" style="padding-bottom:0;">
+              <div class="lf-level"><span class="lbadge 고수">고수</span></div>
+              <div class="lf-desc">고급 청취력 측정. 추론, 함축된 의미, 복잡한 문장 구조 파악 능력을 봅니다.</div>
+              <span class="lf-tag" style="background:rgba(247,37,133,0.15);color:#f72585;">10세트</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Thresholds -->
+      <div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#5d7da8;margin-bottom:20px;">세트별 판정 기준</div>
+        <div class="threshold-cards">
+          <div class="tc" style="background:rgba(6,214,160,0.1);border-color:rgba(6,214,160,0.2);">
+            <div class="tc-header">
+              <div class="tc-pct">100%</div>
+              <div class="tc-label" style="color:#06d6a0;">만점</div>
+            </div>
+            <div class="tc-desc">속도 +0.1x 상승. 고수 만점 시 즉시 시험 종료.</div>
+          </div>
+          <div class="tc" style="background:rgba(67,97,238,0.1);border-color:rgba(67,97,238,0.2);">
+            <div class="tc-header">
+              <div class="tc-pct">75%+</div>
+              <div class="tc-label" style="color:#60a5fa;">우수</div>
+            </div>
+            <div class="tc-desc">다음 난이도로 승급. 속도 +0.1x 상승. 고수에서 2회 연속 달성 시 종료.</div>
+          </div>
+          <div class="tc" style="background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.08);">
+            <div class="tc-header">
+              <div class="tc-pct">50–74%</div>
+              <div class="tc-label" style="color:#8ba8c4;">보통</div>
+            </div>
+            <div class="tc-desc">현재 레벨 유지. 속도 변화 없음.</div>
+          </div>
+          <div class="tc" style="background:rgba(247,37,133,0.1);border-color:rgba(247,37,133,0.2);">
+            <div class="tc-header">
+              <div class="tc-pct">&lt;50%</div>
+              <div class="tc-label" style="color:#f72585;">미흡</div>
+            </div>
+            <div class="tc-desc">한 단계 하향. 속도 -0.1x 감소.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rule Cards -->
+    <div class="algo-rules">
+      <div class="ar">
+        <div class="ar-icon">🎯</div>
+        <div>
+          <div class="ar-title">세트 수: 최소 3 · 최대 10</div>
+          <div class="ar-desc">최소 3세트를 완료해야 종료 조건을 검사합니다. 고수에서 2회 연속 75% 이상이거나 만점을 받으면 조기 종료됩니다. 아니면 최대 10세트까지 진행합니다.</div>
+        </div>
+      </div>
+      <div class="ar">
+        <div class="ar-icon">⚡</div>
+        <div>
+          <div class="ar-title">재생 속도 자동 조정 (0.6x ~ 1.5x)</div>
+          <div class="ar-desc">기본 속도 1.0x에서 시작해 우수·만점 시 +0.1x, 미흡 시 -0.1x로 자동 조정됩니다. 알고리즘이 전적으로 결정하며 사용자는 개입하지 않습니다.</div>
+        </div>
+      </div>
+      <div class="ar">
+        <div class="ar-icon">🔀</div>
+        <div>
+          <div class="ar-title">정확도 75%+ 도달 시 문항 순서 셔플</div>
+          <div class="ar-desc">정확도가 높은 학생에게는 문제 제시 순서를 무작위로 섞어 추가적인 난이도를 부여합니다. 같은 세트라도 매번 다른 순서로 출제됩니다.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULT SCREEN -->
+<section id="result" style="background:white;">
+  <div class="container">
+    <div class="section-eyebrow">결과 화면</div>
+    <h2 class="section-title">시험이 끝나면<br>정밀 분석 리포트</h2>
+    <p class="section-sub">최종 레벨 판정부터 세트별 추이, 지문 위치별 정확도, 알고리즘 인사이트까지 한눈에 확인합니다.</p>
+
+    <div class="result-grid">
+      <!-- Result Mockup -->
+      <div class="mockup">
+        <!-- Verdict -->
+        <div class="mock-verdict">
+          <div class="mock-verdict-eye">FINAL RESULT</div>
+          <div><span class="lbadge 고수">고수</span></div>
+          <div class="mock-verdict-hl">상위권 · 빠른 판정</div>
+          <div class="mock-verdict-sub">고수 레벨에서 2회 연속 우수 판정을 받아<br>조기 종료되었습니다.</div>
+          <div class="mock-verdict-stat">5세트 · 정답률 85% · 평균 속도 1.2x</div>
+        </div>
+
+        <div class="mock-result-body">
+          <!-- Charts -->
+          <div class="mock-charts">
+            <div>
+              <div class="mock-chart-label">세트별 정답률</div>
+              <!-- SVG Journey Chart -->
+              <svg viewBox="0 0 180 80" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
+                <!-- grid lines -->
+                <line x1="0" y1="20" x2="180" y2="20" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4,3"/>
+                <line x1="0" y1="40" x2="180" y2="40" stroke="#4361ee" stroke-width="1" stroke-dasharray="5,3" opacity="0.5"/>
+                <line x1="0" y1="56" x2="180" y2="56" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4,3"/>
+                <!-- labels -->
+                <text x="182" y="23" font-size="7" fill="#8892a4">100%</text>
+                <text x="182" y="43" font-size="7" fill="#4361ee">75%</text>
+                <text x="182" y="59" font-size="7" fill="#8892a4">50%</text>
+                <!-- path -->
+                <polyline points="18,56 54,32 90,20 126,28 162,16"
+                  fill="none" stroke="#4361ee" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+                <!-- fill -->
+                <polygon points="18,56 54,32 90,20 126,28 162,16 162,80 18,80"
+                  fill="url(#chartGrad)" opacity="0.2"/>
+                <defs>
+                  <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#4361ee"/>
+                    <stop offset="100%" stop-color="#4361ee" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <!-- dots colored by accuracy -->
+                <circle cx="18" cy="56" r="4" fill="#4361ee"/>
+                <circle cx="54" cy="32" r="4" fill="#4361ee"/>
+                <circle cx="90" cy="20" r="4" fill="#06d6a0"/>
+                <circle cx="126" cy="28" r="4" fill="#06d6a0"/>
+                <circle cx="162" cy="16" r="4" fill="#06d6a0"/>
+                <!-- x labels -->
+                <text x="18" y="76" text-anchor="middle" font-size="7" fill="#8892a4">S1</text>
+                <text x="54" y="76" text-anchor="middle" font-size="7" fill="#8892a4">S2</text>
+                <text x="90" y="76" text-anchor="middle" font-size="7" fill="#8892a4">S3</text>
+                <text x="126" y="76" text-anchor="middle" font-size="7" fill="#8892a4">S4</text>
+                <text x="162" y="76" text-anchor="middle" font-size="7" fill="#8892a4">S5</text>
+              </svg>
+            </div>
+            <div>
+              <div class="mock-chart-label">지문 위치별</div>
+              <div class="mock-qmap-row">
+                <div class="mock-qmap-label">Q1</div>
+                <div class="mock-qmap-track">
+                  <div class="mock-qmap-fill" style="width:100%;background:#06d6a0;"></div>
+                </div>
+                <div class="mock-qmap-val">100%</div>
+              </div>
+              <div class="mock-qmap-row">
+                <div class="mock-qmap-label">Q2</div>
+                <div class="mock-qmap-track">
+                  <div class="mock-qmap-fill" style="width:80%;background:#4361ee;"></div>
+                </div>
+                <div class="mock-qmap-val">80%</div>
+              </div>
+              <div class="mock-qmap-row">
+                <div class="mock-qmap-label">Q3</div>
+                <div class="mock-qmap-track">
+                  <div class="mock-qmap-fill" style="width:80%;background:#4361ee;"></div>
+                </div>
+                <div class="mock-qmap-val">80%</div>
+              </div>
+              <div class="mock-qmap-row">
+                <div class="mock-qmap-label">Q4</div>
+                <div class="mock-qmap-track">
+                  <div class="mock-qmap-fill" style="width:60%;background:#f72585;"></div>
+                </div>
+                <div class="mock-qmap-val">60%</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mock-divider"></div>
+
+          <!-- Insights -->
+          <div class="mock-chart-label">알고리즘의 진단</div>
+          <div class="mock-insight">
+            <div class="mock-insight-kpi">
+              <div class="mock-insight-num">85%</div>
+              <div class="mock-insight-tag">전체 정답률</div>
+            </div>
+            <div class="mock-insight-body">전체 20문항 중 17문항 정답. Q4 유형에서 집중적으로 오답이 발생했습니다.</div>
+          </div>
+          <div class="mock-insight">
+            <div class="mock-insight-kpi">
+              <div class="mock-insight-num">1.2x</div>
+              <div class="mock-insight-tag">최종 속도</div>
+            </div>
+            <div class="mock-insight-body">기본 속도 대비 20% 빠르게 재생되었음에도 높은 정확도를 유지했습니다.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature List -->
+      <div class="result-features">
+        <div class="rf">
+          <div class="rf-icon">📊</div>
+          <div>
+            <div class="rf-title">세트별 정답률 추이 차트</div>
+            <div class="rf-desc">SVG 라인 차트로 세트마다의 성취도 변화를 시각화합니다. 75% / 50% 기준선과 함께 어떤 세트에서 강하고 약한지 한눈에 파악합니다.</div>
+          </div>
+        </div>
+        <div class="rf">
+          <div class="rf-icon">🗺️</div>
+          <div>
+            <div class="rf-title">지문 위치별 정확도 (Q-Map)</div>
+            <div class="rf-desc">Q1~Q4 각 위치에서의 평균 정답률을 수평 바 차트로 보여줍니다. 지문 초반 정보에 강한지, 후반 세부 정보에 강한지 파악할 수 있습니다.</div>
+          </div>
+        </div>
+        <div class="rf">
+          <div class="rf-icon">🔍</div>
+          <div>
+            <div class="rf-title">알고리즘 인사이트 카드</div>
+            <div class="rf-desc">전체 정답률, 속도 변화, 셔플 작동 여부, 레벨 이동 횟수 등을 진단 카드로 제공합니다. 단순 점수를 넘어 학습 패턴을 분석합니다.</div>
+          </div>
+        </div>
+        <div class="rf">
+          <div class="rf-icon">📋</div>
+          <div>
+            <div class="rf-title">판정 흐름 타임라인</div>
+            <div class="rf-desc">세트별 레벨, 정답, 판정(승급/유지/하향)을 한 줄 요약으로 보여주는 타임라인. 전체 시험의 흐름을 복기할 수 있습니다.</div>
+          </div>
+        </div>
+        <div class="rf">
+          <div class="rf-icon">📥</div>
+          <div>
+            <div class="rf-title">결과 엑셀 다운로드</div>
+            <div class="rf-desc">이름, 날짜, 세트별 상세 데이터를 엑셀 파일로 다운로드할 수 있습니다. 학원 수업 결과 관리나 개인 기록 보관에 활용하세요.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <h2 class="cta-title">지금 바로 진단해보세요</h2>
+<a href="https://esc-listening-test.vercel.app" class="cta-btn" target="_blank">진단 시작하기 →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <div class="footer-emblem">ESC</div>
+    <div class="footer-name">ESC Listening Test</div>
+  </div>
+  <div class="footer-copy">© 2025 ESC · Adaptive Korean Listening Assessment</div>
+</footer>
+
+</body>
+</html>
