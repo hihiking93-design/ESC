@@ -1,0 +1,1775 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - definition:
+      - link "본문 바로가기" [ref=e2] [cursor=pointer]:
+        - /url: "#wrapperContent"
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e6]:
+        - generic [ref=e9]:
+          - link "5월혜택" [ref=e11] [cursor=pointer]:
+            - /url: https://event.yes24.com/yesBenefit
+            - img "5월혜택" [ref=e12]
+          - link "우양산" [ref=e14] [cursor=pointer]:
+            - /url: https://event.yes24.com/present?eventNo=269155
+            - img "우양산" [ref=e15]
+        - link "TOP BANNER 닫기" [ref=e17] [cursor=pointer]:
+          - /url: javascript:void(0);
+          - emphasis [ref=e18]: TOP BANNER 닫기
+      - generic [ref=e19]:
+        - heading "YES24" [level=1]:
+          - link "YES24" [ref=e20] [cursor=pointer]:
+            - /url: https://www.yes24.com/main/default.aspx
+            - img "YES24" [ref=e21]
+        - generic [ref=e23]:
+          - generic [ref=e24]:
+            - heading "YES24 카테고리 리스트" [level=2] [ref=e25]
+            - list:
+              - listitem [ref=e26]:
+                - link "국내도서" [ref=e27] [cursor=pointer]:
+                  - /url: https://www.yes24.com/Mall/Main/Book/001?CategoryNumber=001
+                  - emphasis [ref=e28]: 국내도서
+              - listitem [ref=e29]:
+                - link "외국도서" [ref=e30] [cursor=pointer]:
+                  - /url: https://www.yes24.com/Mall/Main/Foreign/002?CategoryNumber=002
+                  - emphasis [ref=e31]: 외국도서
+              - listitem [ref=e32]:
+                - link "중고샵" [ref=e33] [cursor=pointer]:
+                  - /url: https://www.yes24.com/Mall/Main/used/018?CategoryNumber=018
+                  - emphasis [ref=e34]: 중고샵
+              - listitem [ref=e35]:
+                - link "eBook" [ref=e36] [cursor=pointer]:
+                  - /url: https://www.yes24.com/Mall/Main/eBook/017?CategoryNumber=017
+                  - emphasis [ref=e37]: eBook
+              - listitem [ref=e38]:
+                - link "크레마클럽" [ref=e39] [cursor=pointer]:
+                  - /url: https://cremaclub.yes24.com/BookClub/Main
+                  - emphasis [ref=e40]: 크레마클럽
+              - listitem [ref=e41]:
+                - link "CD/LP" [ref=e42] [cursor=pointer]:
+                  - /url: https://www.yes24.com/Mall/Main/Music/003?CategoryNumber=003
+                  - emphasis [ref=e43]: CD/LP
+              - listitem [ref=e44]:
+                - link "DVD/BD" [ref=e45] [cursor=pointer]:
+                  - /url: https://www.yes24.com/Mall/Main/Dvd/004?CategoryNumber=004
+                  - emphasis [ref=e46]: DVD/BD
+              - listitem [ref=e47]:
+                - link "문구/GIFT" [ref=e48] [cursor=pointer]:
+                  - /url: https://www.yes24.com/Mall/Main/Gift/006?CategoryNumber=006
+                  - emphasis [ref=e49]: 문구/GIFT
+              - listitem [ref=e50]:
+                - link "티켓 새창이동" [ref=e51] [cursor=pointer]:
+                  - /url: http://ticket.yes24.com
+                  - emphasis [ref=e52]: 티켓
+                  - emphasis [ref=e53]: 새창이동
+            - heading "YES24 유틸메뉴" [level=2] [ref=e54]
+            - list [ref=e55]:
+              - listitem [ref=e56]:
+                - link "로그인" [ref=e57] [cursor=pointer]:
+                  - /url: https://www.yes24.com/Templates/FTLogin.aspx
+                  - emphasis [ref=e58]: 로그인
+              - listitem [ref=e59]:
+                - link "회원가입" [ref=e60] [cursor=pointer]:
+                  - /url: https://www.yes24.com/Member/Join/Accept.aspx
+              - listitem [ref=e61]:
+                - link "마이페이지 하위메뉴보기" [ref=e62] [cursor=pointer]:
+                  - /url: javascript:void(0);
+                  - emphasis [ref=e63]: 마이페이지
+                  - emphasis [ref=e64]: 하위메뉴보기
+              - listitem [ref=e65]:
+                - link "카트" [ref=e66] [cursor=pointer]:
+                  - /url: https://ssl.yes24.com/Cart/Cart
+                  - emphasis [ref=e67]: 카트
+              - listitem [ref=e68]:
+                - link "주문/배송" [ref=e69] [cursor=pointer]:
+                  - /url: https://ssl.yes24.com/MyPageOrderList/MyPageOrderList
+                  - emphasis [ref=e70]: 주문/배송
+              - listitem [ref=e71]:
+                - link "고객센터" [ref=e72] [cursor=pointer]:
+                  - /url: https://www.yes24.com/Templates/FTCusMain.aspx?Wcode=001_003_012
+                  - emphasis [ref=e73]: 고객센터
+            - generic [ref=e74]:
+              - term [ref=e75]:
+                - link "Global YES24 안내보기" [ref=e76] [cursor=pointer]:
+                  - /url: javascript:void(0);
+                  - emphasis [ref=e77]: Global YES24
+                  - emphasis [ref=e78]: 안내보기
+              - definition
+          - generic [ref=e79]:
+            - group "검색" [ref=e82]:
+              - generic [ref=e83]: 검색
+              - textbox [ref=e86]: 세계사 일타 이다지의 최소한의 세계사 출간!
+              - button "검색" [ref=e89] [cursor=pointer]:
+                - generic [ref=e90]: 검색
+            - generic [ref=e92]:
+              - heading "어깨배너" [level=2] [ref=e93]
+              - link "이달의 혜택 모음" [ref=e96] [cursor=pointer]:
+                - /url: https://event.yes24.com/yesbenefit
+                - img "이달의 혜택 모음" [ref=e97]
+              - generic [ref=e98]:
+                - button "이전 광고 보기" [ref=e99] [cursor=pointer]
+                - button "다음 광고 보기" [ref=e100] [cursor=pointer]
+          - generic:
+            - heading "빠른분야찾기" [level=2] [ref=e102]:
+              - link "빠른분야찾기" [ref=e103] [cursor=pointer]:
+                - /url: javascript:void(0);
+            - generic [ref=e104]:
+              - generic:
+                - term [ref=e105]: YES24 코너/서비스
+                - definition:
+                  - list [ref=e106]:
+                    - listitem [ref=e107]:
+                      - link "베스트" [ref=e108] [cursor=pointer]:
+                        - /url: https://www.yes24.com/product/category/daybestseller?CategoryNumber=001
+                    - listitem [ref=e109]:
+                      - link "신상품" [ref=e110] [cursor=pointer]:
+                        - /url: https://www.yes24.com/product/category/attentionnewproduct?categoryNumber=001
+                    - listitem [ref=e111]:
+                      - link "이벤트" [ref=e112] [cursor=pointer]:
+                        - /url: https://event.yes24.com/main?mainCateId=001
+                    - listitem [ref=e113]:
+                      - link "바이백" [ref=e114] [cursor=pointer]:
+                        - /url: https://www.yes24.com/Mall/Buyback/Search?CategoryNumber=018
+                    - listitem [ref=e115]:
+                      - link "매장안내" [ref=e116] [cursor=pointer]:
+                        - /url: https://www.yes24.com/Mall/UsedStore/Main
+                  - emphasis [ref=e117]
+                  - list [ref=e118]:
+                    - listitem [ref=e119]:
+                      - link "채널예스" [ref=e120] [cursor=pointer]:
+                        - /url: https://ch.yes24.com/
+                        - emphasis [ref=e121]: 채널예스
+                    - listitem [ref=e122]:
+                      - link "사락" [ref=e123] [cursor=pointer]:
+                        - /url: https://sarak.yes24.com
+                    - listitem [ref=e124]:
+                      - link "예스펀딩" [ref=e125] [cursor=pointer]:
+                        - /url: https://www.yes24.com/Mall/YesFunding/Main
+                    - listitem [ref=e126]:
+                      - link "클래스24" [ref=e127] [cursor=pointer]:
+                        - /url: https://www.yes24.com/Product/Class
+                    - listitem [ref=e128]:
+                      - link "독서유형검사 RBTI Lab 독서유형검사" [ref=e129] [cursor=pointer]:
+                        - /url: https://event.yes24.com/detail?eventNo=268544
+                        - generic [ref=e130]:
+                          - generic [ref=e131]: 독서유형검사
+                          - generic [ref=e132]:
+                            - emphasis [ref=e133]: RBTI Lab
+                            - emphasis
+                          - generic [ref=e134]: 독서유형검사
+            - generic [ref=e135]:
+              - generic:
+                - term [ref=e136]: YES24 분야별코너
+                - definition:
+                  - list:
+                    - listitem [ref=e137]:
+                      - link "젊은 작가" [ref=e138] [cursor=pointer]:
+                        - /url: https://event.yes24.com/detail?eventno=268781
+                    - listitem [ref=e139]:
+                      - link "예사단독판매" [ref=e140] [cursor=pointer]:
+                        - /url: https://event.yes24.com/yesonly?eventno=236081
+                    - listitem [ref=e141]:
+                      - link "이달의사은품" [ref=e142] [cursor=pointer]:
+                        - /url: https://event.yes24.com/monthlygift
+                    - listitem [ref=e143]:
+                      - link "특가할인" [ref=e144] [cursor=pointer]:
+                        - /url: https://www.yes24.com/product/search?domain=book&query=%ea%b8%b0%ea%b0%84%ed%95%9c%ec%a0%95%ed%8a%b9%ea%b0%80&page=1&size=24&hashnm=%ea%b8%b0%ea%b0%84%ed%95%9c%ec%a0%95%ed%8a%b9%ea%b0%80
+                    - listitem [ref=e145]:
+                      - link "추천도서" [ref=e146] [cursor=pointer]:
+                        - /url: https://www.yes24.com/product/category/display/001005
+                    - listitem [ref=e147]:
+                      - link "대량/법인" [ref=e148] [cursor=pointer]:
+                        - /url: https://www.yes24.com/mall/corplargeorder/corpmain
+      - generic [ref=e149]:
+        - link "���ޱ������" [ref=e151] [cursor=pointer]:
+          - /url: http://adgirl.yes24.com/RealMedia/ads/click_lx.ads/www.yes24.com/affiliated_pop_up/1378395673/Frame1/OasDefault/Scm_WelPopup260508142637739/Scm_WelPopup260508142637739C001/33623030653030613661303339323430
+          - img "���ޱ������" [ref=e152]
+        - generic [ref=e153]:
+          - generic [ref=e155] [cursor=pointer]:
+            - text: 오늘은 그만 보기
+            - checkbox "오늘은 그만 보기" [ref=e156]
+          - link "닫기" [ref=e158] [cursor=pointer]:
+            - /url: javascript:void(0);
+            - emphasis [ref=e159]: 닫기
+    - link "리딩런! 읽는 만큼 달린다!" [ref=e161] [cursor=pointer]:
+      - /url: https://event.yes24.com/template?eventno=268440
+      - text: 리딩런!
+      - strong [ref=e162]: 읽는 만큼 달린다!
+    - generic [ref=e164]:
+      - generic [ref=e165]: 현재위치
+      - link "웰컴" [ref=e166] [cursor=pointer]:
+        - /url: https://www.yes24.com/Main/default.aspx
+      - generic [ref=e167]:
+        - generic [ref=e168]: ">"
+        - link "국내도서" [ref=e169] [cursor=pointer]:
+          - /url: javascript:void(0)
+          - text: 국내도서
+      - generic [ref=e171]:
+        - generic [ref=e172]: ">"
+        - link "고등참고서" [ref=e173] [cursor=pointer]:
+          - /url: javascript:void(0);
+          - text: 고등참고서
+      - generic [ref=e175]:
+        - generic [ref=e176]: ">"
+        - link "문제집" [ref=e177] [cursor=pointer]:
+          - /url: javascript:void(0);
+          - text: 문제집
+      - generic [ref=e179]:
+        - generic [ref=e180]: ">"
+        - link "고1ㆍ2 문제집" [ref=e181] [cursor=pointer]:
+          - /url: javascript:void(0);
+          - text: 고1ㆍ2 문제집
+      - generic [ref=e183]:
+        - generic [ref=e184]: ">"
+        - link "공통수학ㆍ대수 ..." [ref=e185] [cursor=pointer]:
+          - /url: javascript:void(0);
+          - text: 공통수학ㆍ대수 ...
+    - generic [ref=e187]:
+      - generic [ref=e188]:
+        - generic [ref=e191]:
+          - emphasis [ref=e193]:
+            - img "쎈 고등 공통수학2 (2026년)" [ref=e194]
+          - img [ref=e196]
+          - img [ref=e198]
+        - generic [ref=e199]:
+          - link "사이즈비교" [ref=e200] [cursor=pointer]:
+            - /url: javascript:void(0);
+            - emphasis [ref=e202]: 사이즈비교
+          - link "공유하기" [ref=e203] [cursor=pointer]:
+            - /url: javascript:void(0);
+            - emphasis [ref=e205]: 공유하기
+        - generic [ref=e206]:
+          - img "이미지 대체텍스트" [ref=e207]
+          - generic:
+            - link "현대백화점 앱카드":
+              - /url: https://event.yes24.com/detail?eventno=265913
+            - link "오늘만 그만보기":
+              - /url: javascript:close_flot_pop();
+      - generic [ref=e208]:
+        - generic [ref=e209]:
+          - generic [ref=e210]:
+            - emphasis [ref=e212]: 소득공제
+            - emphasis [ref=e214]: 분철
+          - generic [ref=e215]:
+            - heading "쎈 고등 공통수학2 (2026년)" [level=2] [ref=e216]
+            - text: "[ 2022 개정 교육과정 ]"
+          - generic [ref=e217]:
+            - generic [ref=e218]:
+              - link "홍범준" [ref=e219] [cursor=pointer]:
+                - /url: https://www.yes24.com/product/search?domain=ALL&query=%25ED%2599%258D%25EB%25B2%2594%25EC%25A4%2580&authorNo=257253&author=홍범준
+              - text: ","
+              - link "김의석" [ref=e220] [cursor=pointer]:
+                - /url: https://www.yes24.com/product/search?domain=ALL&query=%25EA%25B9%2580%25EC%259D%2598%25EC%2584%259D&authorNo=309577&author=김의석
+              - text: ","
+              - link "김형정" [ref=e221] [cursor=pointer]:
+                - /url: https://www.yes24.com/product/search?domain=ALL&query=%25EA%25B9%2580%25ED%2598%2595%25EC%25A0%2595&authorNo=309578&author=김형정
+              - text: ","
+              - link "김형균" [ref=e222] [cursor=pointer]:
+                - /url: https://www.yes24.com/product/search?domain=ALL&query=%25EA%25B9%2580%25ED%2598%2595%25EA%25B7%25A0&authorNo=250107&author=김형균
+              - text: ","
+              - link "신사고수학콘텐츠연구회" [ref=e223] [cursor=pointer]:
+                - /url: https://www.yes24.com/product/search?domain=ALL&query=%25EC%258B%25A0%25EC%2582%25AC%25EA%25B3%25A0%25EC%2588%2598%25ED%2595%2599%25EC%25BD%2598%25ED%2585%2590%25EC%25B8%25A0%25EC%2597%25B0%25EA%25B5%25AC%25ED%259A%258C&authorNo=257252&author=신사고수학콘텐츠연구회
+              - text: 저
+            - emphasis [ref=e224]: "|"
+            - link "좋은책신사고" [ref=e226] [cursor=pointer]:
+              - /url: javascript:void(0);
+            - emphasis [ref=e227]: "|"
+            - text: 2026년 02월 09일
+          - generic [ref=e228]:
+            - generic [ref=e229]:
+              - link "리뷰 총점 9.6" [ref=e230] [cursor=pointer]:
+                - /url: javascript:void(0);
+                - generic [ref=e231]: 리뷰 총점
+                - emphasis [ref=e232]: "9.6"
+              - link "정보 더 보기/감추기" [ref=e235] [cursor=pointer]:
+                - /url: javascript:void(0);
+            - link "회원리뷰(10건)" [ref=e237] [cursor=pointer]:
+              - /url: javascript:wiseLog('Pcode','003_006');goGD_bot(1);
+              - text: 회원리뷰(
+              - emphasis [ref=e238]: "10"
+              - text: 건)
+            - generic [ref=e239]:
+              - emphasis [ref=e240]: "|"
+              - text: 판매지수 39,225
+              - link "판매지수란?" [ref=e241] [cursor=pointer]:
+                - /url: javascript:void(0);
+            - generic [ref=e243]:
+              - term [ref=e244]: 베스트
+              - definition [ref=e245]:
+                - link "고등참고서 49위" [ref=e246] [cursor=pointer]:
+                  - /url: javascript:void(0)
+                - emphasis [ref=e247]: "|"
+                - text: 고등참고서 top100 6주
+        - generic [ref=e248]:
+          - generic [ref=e249]:
+            - table "상품 가격정보" [ref=e251]:
+              - rowgroup [ref=e255]:
+                - row "정가 19,500원" [ref=e256]:
+                  - rowheader "정가" [ref=e257]
+                  - cell "19,500원" [ref=e258]:
+                    - emphasis [ref=e260]: 19,500원
+                - row "판매가 17,550원 (10% 할인)" [ref=e261]:
+                  - rowheader "판매가" [ref=e262]
+                  - cell "17,550원 (10% 할인)" [ref=e263]:
+                    - generic [ref=e264]:
+                      - emphasis [ref=e265]: 17,550
+                      - text: 원
+                    - text: (10% 할인)
+                - row "YES포인트 970원 (5% 적립) 5만원이상 구매 시 2천원 추가적립 5만원이상 구매 시 2천원 추가적립 안내" [ref=e266]:
+                  - rowheader "YES포인트" [ref=e267]:
+                    - text: YES포인트
+                    - link "도움말" [ref=e268] [cursor=pointer]:
+                      - /url: javascript:void(0);
+                  - cell "970원 (5% 적립) 5만원이상 구매 시 2천원 추가적립 5만원이상 구매 시 2천원 추가적립 안내" [ref=e269]:
+                    - list [ref=e270]:
+                      - listitem [ref=e271]:
+                        - emphasis
+                        - text: 970원 (5% 적립)
+                      - listitem [ref=e272]:
+                        - text: 5만원이상 구매 시 2천원 추가적립
+                        - link "5만원이상 구매 시 2천원 추가적립 안내" [ref=e273] [cursor=pointer]:
+                          - /url: javascript:void(0);
+            - table "결제혜택" [ref=e275]:
+              - rowgroup [ref=e279]:
+                - row "결제혜택 카드/간편결제 혜택을 확인하세요 카드/간편결제 혜택 보기/감추기" [ref=e280]:
+                  - rowheader "결제혜택" [ref=e281]
+                  - cell "카드/간편결제 혜택을 확인하세요 카드/간편결제 혜택 보기/감추기" [ref=e282]:
+                    - text: 카드/간편결제 혜택을 확인하세요
+                    - link "카드/간편결제 혜택 보기/감추기" [ref=e285] [cursor=pointer]:
+                      - /url: javascript:void(0);
+            - generic [ref=e286]:
+              - table "배송안내" [ref=e287]:
+                - rowgroup [ref=e291]:
+                  - row "배송안내 바로가기 서울특별시 영등포구 은행로 11(여의도동,일신빌딩) 지역변경" [ref=e292]:
+                    - rowheader "배송안내 바로가기" [ref=e293]:
+                      - text: 배송안내
+                      - link "바로가기" [ref=e294] [cursor=pointer]:
+                        - /url: https://www.yes24.com/notice/FirstClass/InfoQuickDlv.aspx
+                    - cell "서울특별시 영등포구 은행로 11(여의도동,일신빌딩) 지역변경" [ref=e295]:
+                      - paragraph [ref=e296]:
+                        - generic [ref=e297]:
+                          - text: 서울특별시 영등포구 은행로 11(여의도동,일신빌딩)
+                          - link "지역변경" [ref=e298] [cursor=pointer]:
+                            - /url: javascript:void(0);
+                            - text: 지역변경
+                            - emphasis [ref=e299]
+              - generic [ref=e300]:
+                - generic [ref=e302]:
+                  - emphasis [ref=e304]: 당일배송
+                  - text: 13시까지 주문하면
+                  - strong [ref=e305]: 오늘 (5/13, 수)
+                  - text: 도착예정
+                - list [ref=e306]:
+                  - listitem [ref=e307]:
+                    - emphasis [ref=e308]
+                    - text: "배송비 : 무료"
+                    - link "배송비 안내" [ref=e309] [cursor=pointer]:
+                      - /url: javascript:void(0)
+            - table "제본/분철" [ref=e311]:
+              - rowgroup [ref=e315]:
+                - row "제본/분철 바로가기 제본/분철 여부를 선택해주세요. (필수)" [ref=e316]:
+                  - rowheader "제본/분철 바로가기" [ref=e317]:
+                    - text: 제본/분철
+                    - link "바로가기" [ref=e318] [cursor=pointer]:
+                      - /url: https://event.yes24.com/bookBindService
+                  - cell "제본/분철 여부를 선택해주세요. (필수)" [ref=e319]:
+                    - term [ref=e323]:
+                      - link "제본/분철 여부를 선택해주세요. (필수)" [ref=e324] [cursor=pointer]:
+                        - /url: javascript:void(0);
+                        - generic [ref=e325]: 제본/분철 여부를 선택해주세요. (필수)
+                      - emphasis [ref=e326]
+            - list [ref=e329]:
+              - listitem [ref=e330]:
+                - link "중고상품 판매요청하기 이동" [ref=e331] [cursor=pointer]:
+                  - /url: /24/usedshop/usedgoodsdemand/requestform?goodsNo=177284738
+                  - text: 중고상품
+                  - text: 판매요청하기
+                  - emphasis [ref=e332]: 이동
+              - listitem [ref=e333]:
+                - link "이 상품을 팔기 더보기/감추기" [ref=e334] [cursor=pointer]:
+                  - /url: javascript:void(0)
+                  - emphasis [ref=e335]: 이 상품을 팔기
+                  - emphasis [ref=e336]: 더보기/감추기
+            - generic [ref=e340]:
+              - generic [ref=e342]:
+                - paragraph [ref=e343]:
+                  - img "테드 창 문학의 정수" [ref=e345]
+                - generic [ref=e346]:
+                  - paragraph [ref=e347]:
+                    - generic [ref=e348]: 테드 창 문학의 정수
+                    - generic [ref=e349]: 워크룸 디자인
+                  - paragraph [ref=e350]:
+                    - text: "[예스리커버]"
+                    - text: 당신 인생의 이야기
+                    - text: "& 숨"
+                - link "테드 창 문학의 정수" [ref=e351] [cursor=pointer]:
+                  - /url: https://www.yes24.com/product/goods/126120788
+              - link "창 닫기" [ref=e353] [cursor=pointer]:
+                - /url: javascript:close_OnlyYesBook_pop();
+                - emphasis [ref=e354]: 창 닫기
+          - generic [ref=e356]:
+            - generic [ref=e357]:
+              - paragraph [ref=e358]:
+                - emphasis [ref=e359]: 판매중
+              - generic [ref=e360]:
+                - link "카트에 넣기" [ref=e361] [cursor=pointer]:
+                  - /url: javascript:void(0);
+                  - emphasis [ref=e363]: 카트에 넣기
+                - link "바로구매" [ref=e364] [cursor=pointer]:
+                  - /url: javascript:void(0);
+                  - emphasis [ref=e366]: 바로구매
+            - generic [ref=e367]:
+              - list [ref=e368]:
+                - listitem [ref=e369]:
+                  - emphasis [ref=e370]
+                  - text: 국내배송만 가능
+                - listitem [ref=e371]:
+                  - emphasis [ref=e372]
+                  - text: 문화비소득공제 가능
+              - generic [ref=e373]:
+                - link "리스트에 넣기" [ref=e374] [cursor=pointer]:
+                  - /url: javascript:void(0);
+                  - emphasis [ref=e376]: 리스트에 넣기
+                - link "시리즈 알림신청" [ref=e377] [cursor=pointer]:
+                  - /url: javascript:void(0);
+                  - emphasis [ref=e379]: 시리즈 알림신청
+                - paragraph [ref=e380]:
+                  - text: 시리즈 알림 서비스
+                  - link "시리즈 알림 서비스란?" [ref=e381] [cursor=pointer]:
+                    - /url: javascript:void(0);
+                - link "eBook 출간 알림신청" [ref=e382] [cursor=pointer]:
+                  - /url: javascript:void(0);
+                  - emphasis [ref=e384]: eBook 출간 알림신청
+    - generic [ref=e386]:
+      - generic [ref=e387]:
+        - generic [ref=e388]:
+          - link "6월 모평 완벽 대비! 이동" [ref=e390] [cursor=pointer]:
+            - /url: javascript:void(0);
+            - emphasis [ref=e391]: 6월 모평 완벽 대비!
+            - emphasis [ref=e392]: 이동
+          - link "6월 모평 완벽 대비!" [ref=e394] [cursor=pointer]:
+            - /url: javascript:void(0);
+            - img "6월 모평 완벽 대비!" [ref=e395]
+        - link "EBS FINAL 실전모의고사" [ref=e398] [cursor=pointer]:
+          - /url: javascript:void(0);
+          - emphasis [ref=e399]: EBS FINAL 실전모의고사
+        - link "이달의 책 5월" [ref=e402] [cursor=pointer]:
+          - /url: javascript:void(0);
+          - emphasis [ref=e403]: 이달의 책 5월
+        - 'link "5월의 굿즈 : 미니 우양산" [ref=e406] [cursor=pointer]':
+          - /url: javascript:void(0);
+          - emphasis [ref=e407]: "5월의 굿즈 : 미니 우양산"
+      - generic [ref=e408]:
+        - generic [ref=e409]: AD
+        - link "���ޱ������" [ref=e410] [cursor=pointer]:
+          - /url: http://adgirl.yes24.com/RealMedia/ads/click_lx.ads/www.yes24.com/Goods/FTGoodsView.aspx/152565164/Right1/OasDefault/Scm_DtlBookCt260508144329182/Scm_DtlBookCt260508144329182C001/33623030653030613661303339323430
+          - img "���ޱ������" [ref=e411]
+    - generic [ref=e412]:
+      - list [ref=e414]:
+        - listitem [ref=e415]:
+          - radio "이 책을 구입하신 분들이 함께 산 책" [checked] [ref=e416]
+          - generic [ref=e418] [cursor=pointer]:
+            - text: 이 책을 구입하신 분들이
+            - emphasis [ref=e419]: 함께 산 책
+        - listitem [ref=e420]:
+          - radio "이 책을 구입하신 분들이 많이 산 책" [ref=e421]
+          - generic [ref=e423] [cursor=pointer]:
+            - text: 이 책을 구입하신 분들이
+            - emphasis [ref=e424]: 많이 산 책
+      - generic [ref=e425]:
+        - list [ref=e427]:
+          - listitem [ref=e428]:
+            - paragraph [ref=e429]:
+              - emphasis [ref=e430]:
+                - link "실력 수학의 정석 공통수학1 (2026년용)" [ref=e431] [cursor=pointer]:
+                  - /url: /product/goods/124862907
+                  - img "실력 수학의 정석 공통수학1 (2026년용)" [ref=e432]
+            - generic [ref=e433]:
+              - paragraph [ref=e434]:
+                - link "실력 수학의 정석 공통수학1 (2026년용)" [ref=e435] [cursor=pointer]:
+                  - /url: /product/goods/124862907
+              - paragraph [ref=e436]:
+                - generic [ref=e437]: 평점 10점
+                - text: 88건
+              - paragraph [ref=e438]:
+                - emphasis [ref=e439]: 18,000
+                - text: 원 (10% 할인)
+          - listitem [ref=e440]:
+            - paragraph [ref=e441]:
+              - emphasis [ref=e442]:
+                - link "워드마스터 Word Master 수능 2000" [ref=e443] [cursor=pointer]:
+                  - /url: /product/goods/115027703
+                  - img "워드마스터 Word Master 수능 2000" [ref=e444]
+            - generic [ref=e445]:
+              - paragraph [ref=e446]:
+                - link "워드마스터 Word Master 수능 2000" [ref=e447] [cursor=pointer]:
+                  - /url: /product/goods/115027703
+              - paragraph [ref=e448]:
+                - generic [ref=e449]: 평점 10점
+                - text: 734건
+              - paragraph [ref=e450]:
+                - emphasis [ref=e451]: 14,400
+                - text: 원 (10% 할인)
+          - listitem [ref=e452]:
+            - paragraph [ref=e453]:
+              - emphasis [ref=e454]:
+                - link "라이트쎈 고등 수학 1 (2025년용)" [ref=e455] [cursor=pointer]:
+                  - /url: /product/goods/123040451
+                  - img "라이트쎈 고등 수학 1 (2025년용)" [ref=e456]
+            - generic [ref=e457]:
+              - paragraph [ref=e458]:
+                - link "라이트쎈 고등 수학 1 (2025년용)" [ref=e459] [cursor=pointer]:
+                  - /url: /product/goods/123040451
+              - paragraph [ref=e460]:
+                - generic [ref=e461]: 평점 10점
+                - text: 82건
+              - paragraph [ref=e462]:
+                - emphasis [ref=e463]: 14,400
+                - text: 원 (10% 할인)
+          - listitem [ref=e464]:
+            - paragraph [ref=e465]:
+              - emphasis [ref=e466]:
+                - link "Xistory 자이스토리 통합과학1 (2026년)" [ref=e467] [cursor=pointer]:
+                  - /url: /product/goods/162327018
+                  - img "Xistory 자이스토리 통합과학1 (2026년)" [ref=e468]
+            - generic [ref=e469]:
+              - paragraph [ref=e470]:
+                - link "Xistory 자이스토리 통합과학1 (2026년)" [ref=e471] [cursor=pointer]:
+                  - /url: /product/goods/162327018
+              - paragraph [ref=e472]:
+                - generic [ref=e473]: 평점 10점
+                - text: 41건
+              - paragraph [ref=e474]:
+                - emphasis [ref=e475]: 17,100
+                - text: 원 (10% 할인)
+          - listitem [ref=e476]:
+            - paragraph [ref=e477]:
+              - emphasis [ref=e478]:
+                - link "Xistory 자이스토리 공통수학2 (2026년)" [ref=e479] [cursor=pointer]:
+                  - /url: /product/goods/164737751
+                  - img "Xistory 자이스토리 공통수학2 (2026년)" [ref=e480]
+            - generic [ref=e481]:
+              - paragraph [ref=e482]:
+                - link "Xistory 자이스토리 공통수학2 (2026년)" [ref=e483] [cursor=pointer]:
+                  - /url: /product/goods/164737751
+              - paragraph [ref=e484]:
+                - generic [ref=e485]: 평점 10점
+                - text: 19건
+              - paragraph [ref=e486]:
+                - emphasis [ref=e487]: 19,800
+                - text: 원 (10% 할인)
+          - listitem [ref=e488]:
+            - paragraph [ref=e489]:
+              - emphasis [ref=e490]:
+                - link "Xistory 자이스토리 영어 독해 기본 (2026년)" [ref=e491] [cursor=pointer]:
+                  - /url: /product/goods/160656899
+                  - img "Xistory 자이스토리 영어 독해 기본 (2026년)" [ref=e492]
+            - generic [ref=e493]:
+              - paragraph [ref=e494]:
+                - link "Xistory 자이스토리 영어 독해 기본 (2026년)" [ref=e495] [cursor=pointer]:
+                  - /url: /product/goods/160656899
+              - paragraph [ref=e496]:
+                - generic [ref=e497]: 평점 10점
+                - text: 68건
+              - paragraph [ref=e498]:
+                - emphasis [ref=e499]: 18,900
+                - text: 원 (10% 할인)
+        - generic [ref=e500]:
+          - strong [ref=e501]: "4"
+          - text: /4
+    - generic [ref=e503]:
+      - heading "쎈 고등 공통수학2 (2026년)" [level=2] [ref=e504]
+      - generic [ref=e505]:
+        - list:
+          - listitem [ref=e506]:
+            - link "도서정보" [ref=e507] [cursor=pointer]:
+              - /url: javascript:void(0);
+              - emphasis [ref=e508]: 도서정보
+          - listitem [ref=e509]:
+            - link "리뷰/한줄평 (3/7)" [ref=e510] [cursor=pointer]:
+              - /url: javascript:void(0);
+              - emphasis [ref=e511]: 리뷰/한줄평
+              - emphasis [ref=e512]: (3/7)
+          - listitem [ref=e513]:
+            - link "배송/반품/교환" [ref=e514] [cursor=pointer]:
+              - /url: javascript:void(0);
+              - emphasis [ref=e515]: 배송/반품/교환
+        - generic [ref=e517]:
+          - generic [ref=e519]: 17,550원
+          - generic [ref=e520]:
+            - link "카트에 넣기" [ref=e521] [cursor=pointer]:
+              - /url: javascript:void(0);
+              - emphasis [ref=e523]: 카트에 넣기
+            - link "바로구매" [ref=e524] [cursor=pointer]:
+              - /url: javascript:void(0);
+              - emphasis [ref=e526]: 바로구매
+            - link "분철 선택하기" [ref=e527] [cursor=pointer]:
+              - /url: "#yDetailTopWrap"
+              - emphasis [ref=e529]: 분철 선택하기
+    - generic [ref=e531]:
+      - link [ref=e534] [cursor=pointer]:
+        - /url: https://ticket.yes24.com/perf/57384
+      - generic [ref=e535]:
+        - generic [ref=e536]:
+          - heading "이 상품의 시리즈 (53개)" [level=4] [ref=e538]:
+            - text: 이 상품의 시리즈
+            - emphasis [ref=e539]: (53개)
+          - generic [ref=e540]:
+            - generic [ref=e541]:
+              - generic [ref=e543]:
+                - generic [ref=e544] [cursor=pointer]:
+                  - checkbox "전체" [ref=e545]
+                  - text: 전체
+                - generic [ref=e547]:
+                  - generic [ref=e548] [cursor=pointer]:
+                    - emphasis [ref=e549]: 품절포함
+                    - emphasis [ref=e550]
+                  - combobox [ref=e551] [cursor=pointer]:
+                    - option "품절포함" [selected]
+                    - option "품절제외"
+                - generic [ref=e552]:
+                  - generic [ref=e553]:
+                    - text: 선택한 상품
+                    - strong [ref=e554]: 총 0개 / 0원
+                  - generic [ref=e555]:
+                    - link "카트에 넣기" [ref=e556] [cursor=pointer]:
+                      - /url: javascript:void(0);
+                      - emphasis [ref=e558]: 카트에 넣기
+                    - link "바로구매" [ref=e559] [cursor=pointer]:
+                      - /url: javascript:void(0);
+                      - emphasis [ref=e561]: 바로구매
+                    - link "리스트에 넣기" [ref=e562] [cursor=pointer]:
+                      - /url: javascript:void(0);
+                      - emphasis [ref=e564]: 리스트에 넣기
+                  - link "뷰타입 변경" [ref=e566] [cursor=pointer]:
+                    - /url: javascript:void(0);
+                    - emphasis [ref=e568]: 뷰타입 변경
+              - list [ref=e570]:
+                - listitem [ref=e571]:
+                  - generic [ref=e572]:
+                    - checkbox [ref=e574]
+                    - generic [ref=e575]:
+                      - paragraph [ref=e576]:
+                        - link "신사고 개념쎈 고등 미적분2 (2026년)" [ref=e577] [cursor=pointer]:
+                          - /url: /product/goods/188742682
+                      - paragraph [ref=e578]:
+                        - emphasis [ref=e579]: 18,000
+                        - text: 원 (10% 할인)
+                - listitem [ref=e580]:
+                  - generic [ref=e581]:
+                    - checkbox [ref=e583]
+                    - generic [ref=e584]:
+                      - paragraph [ref=e585]:
+                        - link "개념 쎈 고등 확률과 통계 (2026년)" [ref=e586] [cursor=pointer]:
+                          - /url: /product/goods/184346261
+                      - paragraph [ref=e587]:
+                        - emphasis [ref=e588]: 15,300
+                        - text: 원 (10% 할인)
+                - listitem [ref=e589]:
+                  - generic [ref=e590]:
+                    - checkbox [ref=e592]
+                    - generic [ref=e593]:
+                      - paragraph [ref=e594]:
+                        - link "쎈 고등 공통수학2 (2026년)" [ref=e595] [cursor=pointer]:
+                          - /url: /product/goods/177284738
+                      - paragraph [ref=e596]:
+                        - emphasis [ref=e597]: 17,550
+                        - text: 원 (10% 할인)
+                - listitem [ref=e598]:
+                  - generic [ref=e599]:
+                    - checkbox [ref=e601]
+                    - generic [ref=e602]:
+                      - paragraph [ref=e603]:
+                        - link "개념 쎈 고등 기하 (2026년)" [ref=e604] [cursor=pointer]:
+                          - /url: /product/goods/175204102
+                      - paragraph [ref=e605]:
+                        - emphasis [ref=e606]: 17,100
+                        - text: 원 (10% 할인)
+                - listitem [ref=e607]:
+                  - generic [ref=e608]:
+                    - checkbox [ref=e610]
+                    - generic [ref=e611]:
+                      - paragraph [ref=e612]:
+                        - link "신사고 쎈B 고등 확률과 통계 (2026년)" [ref=e613] [cursor=pointer]:
+                          - /url: /product/goods/175203175
+                      - paragraph [ref=e614]:
+                        - emphasis [ref=e615]: 12,600
+                        - text: 원 (10% 할인)
+                - listitem [ref=e616]:
+                  - generic [ref=e617]:
+                    - checkbox [ref=e619]
+                    - generic [ref=e620]:
+                      - paragraph [ref=e621]:
+                        - link "신사고 베이직쎈 고등 확률과 통계 (2026년)" [ref=e622] [cursor=pointer]:
+                          - /url: /product/goods/174789553
+                      - paragraph [ref=e623]:
+                        - emphasis [ref=e624]: 15,300
+                        - text: 원 (10% 할인)
+                - listitem [ref=e625]:
+                  - generic [ref=e626]:
+                    - checkbox [ref=e628]
+                    - generic [ref=e629]:
+                      - paragraph [ref=e630]:
+                        - link "신사고 쎈 고등 기하 (2026년)" [ref=e631] [cursor=pointer]:
+                          - /url: /product/goods/171535488
+                      - paragraph [ref=e632]:
+                        - emphasis [ref=e633]: 16,200
+                        - text: 원 (10% 할인)
+                - listitem [ref=e634]:
+                  - generic [ref=e635]:
+                    - checkbox [ref=e637]
+                    - generic [ref=e638]:
+                      - paragraph [ref=e639]:
+                        - link "신사고 쎈 고등 대수 (2026년)" [ref=e640] [cursor=pointer]:
+                          - /url: /product/goods/167487266
+                      - paragraph [ref=e641]:
+                        - emphasis [ref=e642]: 17,100
+                        - text: 원 (10% 할인)
+            - link "펼쳐보기" [ref=e643] [cursor=pointer]:
+              - /url: javascript:void(0);
+              - emphasis [ref=e644]: 펼쳐보기
+              - emphasis [ref=e645]
+        - generic [ref=e646]:
+          - heading "품목정보" [level=4] [ref=e648]
+          - table "품목정보" [ref=e651]:
+            - rowgroup [ref=e655]:
+              - row "발행일 2026년 02월 09일" [ref=e656]:
+                - rowheader "발행일" [ref=e657]
+                - cell "2026년 02월 09일" [ref=e658]
+              - row "쪽수, 무게, 크기 384쪽 | 220*297*30mm" [ref=e659]:
+                - rowheader "쪽수, 무게, 크기" [ref=e660]
+                - cell "384쪽 | 220*297*30mm" [ref=e661]
+              - row "ISBN13 9788928352234" [ref=e662]:
+                - rowheader "ISBN13" [ref=e663]
+                - cell "9788928352234" [ref=e664]
+              - row "ISBN10 8928352231" [ref=e665]:
+                - rowheader "ISBN10" [ref=e666]
+                - cell "8928352231" [ref=e667]
+              - row "참고서 사용학년 고등학교 1학년" [ref=e668]:
+                - rowheader "참고서 사용학년" [ref=e669]
+                - cell "고등학교 1학년" [ref=e670]
+              - row "참고서 사용학기 2학기" [ref=e671]:
+                - rowheader "참고서 사용학기" [ref=e672]
+                - cell "2학기" [ref=e673]
+              - row "참고서 난이도 보통 참고서 난이도 안내" [ref=e674]:
+                - rowheader "참고서 난이도" [ref=e675]
+                - cell "보통 참고서 난이도 안내" [ref=e676]:
+                  - text: 보통
+                  - link "참고서 난이도 안내" [ref=e677] [cursor=pointer]:
+                    - /url: javascript:void(0);
+        - generic [ref=e678]:
+          - heading "관련분류" [level=4] [ref=e680]
+          - generic [ref=e682]:
+            - term [ref=e683]: 카테고리 분류
+            - definition [ref=e684]:
+              - list [ref=e685]:
+                - listitem [ref=e686]:
+                  - emphasis [ref=e687]
+                  - link "국내도서" [ref=e688] [cursor=pointer]:
+                    - /url: https://www.yes24.com/Main/Book.aspx?CategoryNumber=001
+                  - emphasis [ref=e689]: ">"
+                  - link "고등참고서" [ref=e690] [cursor=pointer]:
+                    - /url: /product/category/display/001001050
+                  - emphasis [ref=e691]: ">"
+                  - link "문제집" [ref=e692] [cursor=pointer]:
+                    - /url: /product/category/display/001001050003
+                  - emphasis [ref=e693]: ">"
+                  - link "고1ㆍ2 문제집" [ref=e694] [cursor=pointer]:
+                    - /url: /product/category/display/001001050003007
+                  - emphasis [ref=e695]: ">"
+                  - link "공통수학ㆍ대수 (22개정)" [ref=e696] [cursor=pointer]:
+                    - /url: /product/category/display/001001050003007026
+        - generic [ref=e697]:
+          - heading "이 상품의 태그" [level=4] [ref=e699]
+          - generic [ref=e700]:
+            - link "#분철" [ref=e703] [cursor=pointer]:
+              - /url: javascript:void(0);
+            - list [ref=e705]:
+              - listitem [ref=e706]:
+                - paragraph [ref=e707]:
+                  - emphasis [ref=e708]:
+                    - link "2026 큰별쌤 최태성의 별별한국사 기출 500제 한국사능력검정시험 심화(1,2,3급)" [ref=e709] [cursor=pointer]:
+                      - /url: /product/goods/168393009
+                      - img "2026 큰별쌤 최태성의 별별한국사 기출 500제 한국사능력검정시험 심화(1,2,3급)" [ref=e710]
+                - generic [ref=e711]:
+                  - paragraph [ref=e712]:
+                    - link "2026 큰별쌤 최태성의 별별한국사 기출 500제 한국사능력검정시험 심화(1,2,3급)" [ref=e713] [cursor=pointer]:
+                      - /url: /product/goods/168393009
+                  - paragraph [ref=e714]:
+                    - text: 최태성 저
+                    - emphasis [ref=e715]: "|"
+                    - text: 이투스북
+                  - paragraph [ref=e716]:
+                    - emphasis [ref=e717]: 19,800
+                    - text: 원 (10% 할인)
+              - listitem [ref=e718]:
+                - paragraph [ref=e719]:
+                  - emphasis [ref=e720]:
+                    - link "2026 큰별쌤 최태성의 별별한국사 한국사능력검정시험 심화(1,2,3급) 상" [ref=e721] [cursor=pointer]:
+                      - /url: /product/goods/167466420
+                      - img "2026 큰별쌤 최태성의 별별한국사 한국사능력검정시험 심화(1,2,3급) 상" [ref=e722]
+                - generic [ref=e723]:
+                  - paragraph [ref=e724]:
+                    - link "2026 큰별쌤 최태성의 별별한국사 한국사능력검정시험 심화(1,2,3급) 상" [ref=e725] [cursor=pointer]:
+                      - /url: /product/goods/167466420
+                  - paragraph [ref=e726]:
+                    - text: 최태성 저
+                    - emphasis [ref=e727]: "|"
+                    - text: 이투스북
+                  - paragraph [ref=e728]:
+                    - emphasis [ref=e729]: 17,100
+                    - text: 원 (10% 할인)
+              - listitem [ref=e730]:
+                - paragraph [ref=e731]:
+                  - emphasis [ref=e732]:
+                    - link "2026 큰별쌤 최태성의 별별한국사 한국사능력검정시험 심화(1,2,3급) 하" [ref=e733] [cursor=pointer]:
+                      - /url: /product/goods/167466432
+                      - img "2026 큰별쌤 최태성의 별별한국사 한국사능력검정시험 심화(1,2,3급) 하" [ref=e734]
+                - generic [ref=e735]:
+                  - paragraph [ref=e736]:
+                    - link "2026 큰별쌤 최태성의 별별한국사 한국사능력검정시험 심화(1,2,3급) 하" [ref=e737] [cursor=pointer]:
+                      - /url: /product/goods/167466432
+                  - paragraph [ref=e738]:
+                    - text: 최태성 저
+                    - emphasis [ref=e739]: "|"
+                    - text: 이투스북
+                  - paragraph [ref=e740]:
+                    - emphasis [ref=e741]: 16,650
+                    - text: 원 (10% 할인)
+              - listitem [ref=e742]:
+                - paragraph [ref=e743]:
+                  - emphasis [ref=e744]:
+                    - link "EBS 수능특강 국어영역 문학 (2026년) (2027 수능대비)" [ref=e745] [cursor=pointer]:
+                      - /url: /product/goods/170737467
+                      - img "EBS 수능특강 국어영역 문학 (2026년) (2027 수능대비)" [ref=e746]
+                - generic [ref=e747]:
+                  - paragraph [ref=e748]:
+                    - link "EBS 수능특강 국어영역 문학 (2026년) (2027 수능대비)" [ref=e749] [cursor=pointer]:
+                      - /url: /product/goods/170737467
+                  - paragraph [ref=e750]:
+                    - text: EBS 저
+                    - emphasis [ref=e751]: "|"
+                    - text: 한국교육방송공사
+                  - paragraph [ref=e752]:
+                    - emphasis [ref=e753]: 12,150
+                    - text: 원 (10% 할인)
+              - listitem [ref=e754]:
+                - paragraph [ref=e755]:
+                  - emphasis [ref=e756]:
+                    - link "EBS 수능특강 국어영역 독서 (2026년) (2027 수능대비)" [ref=e757] [cursor=pointer]:
+                      - /url: /product/goods/170737471
+                      - img "EBS 수능특강 국어영역 독서 (2026년) (2027 수능대비)" [ref=e758]
+                - generic [ref=e759]:
+                  - paragraph [ref=e760]:
+                    - link "EBS 수능특강 국어영역 독서 (2026년) (2027 수능대비)" [ref=e761] [cursor=pointer]:
+                      - /url: /product/goods/170737471
+                  - paragraph [ref=e762]:
+                    - text: EBS 저
+                    - emphasis [ref=e763]: "|"
+                    - text: 한국교육방송공사
+                  - paragraph [ref=e764]:
+                    - emphasis [ref=e765]: 12,150
+                    - text: 원 (10% 할인)
+            - list [ref=e766]:
+              - listitem [ref=e767]:
+                - emphasis [ref=e768]
+                - text: 검색 페이지에서 선택된 태그에 등록된 더 많은 상품을 확인해 보세요.
+                - link "전체보기" [ref=e769] [cursor=pointer]:
+                  - /url: javascript:void(0)
+                  - generic [ref=e770]:
+                    - emphasis [ref=e771]: 전체보기
+                    - emphasis [ref=e772]
+        - generic [ref=e773]:
+          - heading "이 상품의 이벤트 (9개)" [level=4] [ref=e775]:
+            - text: 이 상품의 이벤트
+            - emphasis [ref=e776]: (9개)
+          - generic [ref=e777]:
+            - list [ref=e779]:
+              - listitem [ref=e780]:
+                - generic [ref=e781]:
+                  - link "[한국문화예술위원회 X 예스24] '문화예술의 내일을 만들다' - 예술나무 후원 캠페인":
+                    - /url: https://event.yes24.com/template?EventNo=268721
+                    - img "[한국문화예술위원회 X 예스24] '문화예술의 내일을 만들다' - 예술나무 후원 캠페인" [ref=e782] [cursor=pointer]
+                - generic [ref=e783]:
+                  - paragraph [ref=e784]:
+                    - link "[한국문화예술위원회 X 예스24] \"문화예술의 내일을 만들다\" - 예술나무 후원 캠페인" [ref=e785] [cursor=pointer]:
+                      - /url: https://event.yes24.com/template?EventNo=268721
+                  - paragraph [ref=e786]: 2026년 04월 19일 ~ 2026년 06월 30일
+              - listitem [ref=e787]:
+                - generic [ref=e788]:
+                  - link "2027학년도 수능 대비 EBS 수능특강 & 연계 보완 시리즈":
+                    - /url: https://event.yes24.com/template?EventNo=266114
+                    - img "2027학년도 수능 대비 EBS 수능특강 & 연계 보완 시리즈" [ref=e789] [cursor=pointer]
+                - generic [ref=e790]:
+                  - paragraph [ref=e791]:
+                    - link "2027학년도 수능 대비 EBS 수능특강 & 연계 보완 시리즈" [ref=e792] [cursor=pointer]:
+                      - /url: https://event.yes24.com/template?EventNo=266114
+                  - paragraph [ref=e793]: 2026년 01월 08일 ~ 2026년 11월 16일
+              - listitem [ref=e794]:
+                - generic [ref=e795]:
+                  - 'link "이달의 책 5월 : 산리오캐릭터즈 미니 리유저블백"':
+                    - /url: https://event.yes24.com/earlyReader?eventNo=269338
+                    - 'img "이달의 책 5월 : 산리오캐릭터즈 미니 리유저블백" [ref=e796] [cursor=pointer]'
+                - generic [ref=e797]:
+                  - paragraph [ref=e798]:
+                    - 'link "이달의 책 5월 : 산리오캐릭터즈 미니 리유저블백" [ref=e799] [cursor=pointer]':
+                      - /url: https://event.yes24.com/earlyReader?eventNo=269338
+                  - paragraph [ref=e800]: 2026년 05월 01일 ~ 2026년 05월 31일
+            - link "펼쳐보기" [ref=e801] [cursor=pointer]:
+              - /url: javascript:void(0);
+              - emphasis [ref=e802]: 펼쳐보기
+              - emphasis [ref=e803]
+        - generic [ref=e804]:
+          - heading "책소개" [level=4] [ref=e806]
+          - generic [ref=e809]:
+            - text: 1. 시험에 나오는 모든 문제를 이 한 권에
+            - text: 전국 고등학교 내신 기출 문제와 평가원?수능 기출 문제는 물론 수많은 기본서, 내신서, 수능서까지 분석하여 모든 수학 문제를 수집, 분류하여 강력한 유형 그물을 만들었기 때문에 쎈 한 권만으로도 충분한 문제 연습이 가능합니다.
+            - text: 2. 모든 문제를 A, B, C 3단계 난이도로 구성
+            - text: 쉬운 문제에서부터 어려운 문제까지 순서대로 도전하는 것이 합리적인 수학 학습법입니다. 쎈 수학은 모든 문제를 3단계로 나누어 수준별로 구성하고, 유형 뽀개기에서는 이를 다시 하, 중, 상의 난이도로 세분하여 체계적으로 수학 실력을 키울 수 있도록 만들었습니다.
+            - text: 3. 개념별로 입체적이고 세밀한 유형 제시
+            - text: 하나의 개념에서 파생되는 문제는 그 유형이 다양하게 나타납니다. 고교 과정에서 다뤄야 하는 모든 문제를 187개 유형으로 분류하고 1323문제로 정리하여 유형별로 충분한 연습이 가능하게 하였고 이를 통해 문제 해결력을 기를 수 있습니다.
+        - generic [ref=e810]:
+          - heading "목차" [level=4] [ref=e812]
+          - generic [ref=e813]:
+            - generic [ref=e814]:
+              - text: Ⅰ. 도형의 방정식
+              - text: 01 평면좌표 8
+              - text: 02 직선의 방정식 22
+              - text: 03 원의 방정식 42
+              - text: 04 도형의 이동 64
+              - text: Ⅱ. 집합과 명제
+              - text: 05 집합의 뜻과 표현 82
+              - text: 06 집합의 연산 98
+              - text: 07 명제 116
+              - text: Ⅲ. 함수
+              - text: 08 함수 142
+              - text: 09 유리식과 유리함수 166
+              - text: 10 무리식과 무리함수 184
+            - link "펼쳐보기" [ref=e815] [cursor=pointer]:
+              - /url: javascript:void(0);
+              - emphasis [ref=e816]: 펼쳐보기
+              - emphasis [ref=e817]
+        - generic [ref=e818]:
+          - heading "저자 소개 (5명)" [level=4] [ref=e820]:
+            - text: 저자 소개
+            - emphasis [ref=e821]: (5명)
+          - generic [ref=e822]:
+            - generic [ref=e823]:
+              - generic [ref=e824]:
+                - generic [ref=e825]:
+                  - text: "저 :"
+                  - link "홍범준" [ref=e826] [cursor=pointer]:
+                    - /url: /product/author/257253
+                - generic [ref=e827]:
+                  - link "관심작가 알림신청" [ref=e828] [cursor=pointer]:
+                    - /url: javascript:void(0);
+                    - emphasis [ref=e830]: 관심작가 알림신청
+                  - link "작가 파일" [ref=e831] [cursor=pointer]:
+                    - /url: /product/author/257253
+                    - generic [ref=e832]:
+                      - emphasis [ref=e833]: 작가 파일
+                      - emphasis [ref=e834]
+              - generic [ref=e835]:
+                - generic [ref=e837]: 중학교 2학년 수학 학습서 『일품 중등 수학 2 (하) (2019년)』 의 공동 저자이다.
+                - generic [ref=e838]:
+                  - link "작가의 다른 상품" [ref=e840] [cursor=pointer]:
+                    - /url: /product/author/goods/257253?groupGb=001
+                    - emphasis [ref=e841]: 작가의 다른 상품
+                    - emphasis [ref=e842]
+                  - list [ref=e844]:
+                    - listitem [ref=e845]:
+                      - paragraph [ref=e846]:
+                        - emphasis [ref=e847]:
+                          - link "개념쎈 중등 수학 3-1 (2027년)" [ref=e848] [cursor=pointer]:
+                            - /url: /product/goods/189380459
+                            - img "개념쎈 중등 수학 3-1 (2027년)" [ref=e849]
+                      - generic [ref=e850]:
+                        - paragraph [ref=e851]:
+                          - link "개념쎈 중등 수학 3-1 (2027년)" [ref=e852] [cursor=pointer]:
+                            - /url: /product/goods/189380459
+                        - paragraph [ref=e853]:
+                          - emphasis [ref=e854]: 17,100
+                          - text: 원 (10% 할인)
+                    - listitem [ref=e855]:
+                      - paragraph [ref=e856]:
+                        - emphasis [ref=e857]:
+                          - link "신사고 개념쎈 고등 미적분2 (2026년)" [ref=e858] [cursor=pointer]:
+                            - /url: /product/goods/188742682
+                            - img "신사고 개념쎈 고등 미적분2 (2026년)" [ref=e859]
+                      - generic [ref=e860]:
+                        - paragraph [ref=e861]:
+                          - link "신사고 개념쎈 고등 미적분2 (2026년)" [ref=e862] [cursor=pointer]:
+                            - /url: /product/goods/188742682
+                        - paragraph [ref=e863]:
+                          - emphasis [ref=e864]: 18,000
+                          - text: 원 (10% 할인)
+                    - listitem [ref=e865]:
+                      - paragraph [ref=e866]:
+                        - emphasis [ref=e867]:
+                          - link "신사고 쎈B 초등 수학 6-2 (2026년)" [ref=e868] [cursor=pointer]:
+                            - /url: /product/goods/188264625
+                            - img "신사고 쎈B 초등 수학 6-2 (2026년)" [ref=e869]
+                      - generic [ref=e870]:
+                        - paragraph [ref=e871]:
+                          - link "신사고 쎈B 초등 수학 6-2 (2026년)" [ref=e872] [cursor=pointer]:
+                            - /url: /product/goods/188264625
+                        - paragraph [ref=e873]:
+                          - emphasis [ref=e874]: 11,700
+                          - text: 원 (10% 할인)
+                    - listitem [ref=e875]:
+                      - paragraph [ref=e876]:
+                        - emphasis [ref=e877]:
+                          - link "쎈B 중등 수학 3-1 (2027년)" [ref=e878] [cursor=pointer]:
+                            - /url: /product/goods/188015840
+                            - img "쎈B 중등 수학 3-1 (2027년)" [ref=e879]
+                      - generic [ref=e880]:
+                        - paragraph [ref=e881]:
+                          - link "쎈B 중등 수학 3-1 (2027년)" [ref=e882] [cursor=pointer]:
+                            - /url: /product/goods/188015840
+                        - paragraph [ref=e883]:
+                          - emphasis [ref=e884]: 15,300
+                          - text: 원 (10% 할인)
+                    - listitem [ref=e885]:
+                      - paragraph [ref=e886]:
+                        - emphasis [ref=e887]:
+                          - link "신사고 쎈B 초등 수학 5-2 (2026년)" [ref=e888] [cursor=pointer]:
+                            - /url: /product/goods/188013377
+                            - img "신사고 쎈B 초등 수학 5-2 (2026년)" [ref=e889]
+                      - generic [ref=e890]:
+                        - paragraph [ref=e891]:
+                          - link "신사고 쎈B 초등 수학 5-2 (2026년)" [ref=e892] [cursor=pointer]:
+                            - /url: /product/goods/188013377
+                        - paragraph [ref=e893]:
+                          - emphasis [ref=e894]: 11,700
+                          - text: 원 (10% 할인)
+                    - listitem [ref=e895]:
+                      - paragraph [ref=e896]:
+                        - emphasis [ref=e897]:
+                          - link "신사고 라이트쎈 초등수학 5-2 (2026년)" [ref=e898] [cursor=pointer]:
+                            - /url: /product/goods/186934675
+                            - img "신사고 라이트쎈 초등수학 5-2 (2026년)" [ref=e899]
+                      - generic [ref=e900]:
+                        - paragraph [ref=e901]:
+                          - link "신사고 라이트쎈 초등수학 5-2 (2026년)" [ref=e902] [cursor=pointer]:
+                            - /url: /product/goods/186934675
+                        - paragraph [ref=e903]:
+                          - emphasis [ref=e904]: 15,300
+                          - text: 원 (10% 할인)
+            - generic [ref=e905]:
+              - generic [ref=e906]:
+                - generic [ref=e907]:
+                  - text: "저 :"
+                  - link "김의석" [ref=e908] [cursor=pointer]:
+                    - /url: /product/author/309577
+                - generic [ref=e909]:
+                  - link "관심작가 알림신청" [ref=e910] [cursor=pointer]:
+                    - /url: javascript:void(0);
+                    - emphasis [ref=e912]: 관심작가 알림신청
+                  - link "작가 파일" [ref=e913] [cursor=pointer]:
+                    - /url: /product/author/309577
+                    - generic [ref=e914]:
+                      - emphasis [ref=e915]: 작가 파일
+                      - emphasis [ref=e916]
+              - generic [ref=e917]:
+                - generic [ref=e919]: 신사고 SSEN 쎈 고등 수학 공저자이다.
+                - generic [ref=e920]:
+                  - link "작가의 다른 상품" [ref=e922] [cursor=pointer]:
+                    - /url: /product/author/goods/309577?groupGb=001
+                    - emphasis [ref=e923]: 작가의 다른 상품
+                    - emphasis [ref=e924]
+                  - list [ref=e926]:
+                    - listitem [ref=e927]:
+                      - paragraph [ref=e928]:
+                        - emphasis [ref=e929]:
+                          - link "신사고 쎈 고등 기하 (2026년)" [ref=e930] [cursor=pointer]:
+                            - /url: /product/goods/171535488
+                            - img "신사고 쎈 고등 기하 (2026년)" [ref=e931]
+                      - generic [ref=e932]:
+                        - paragraph [ref=e933]:
+                          - link "신사고 쎈 고등 기하 (2026년)" [ref=e934] [cursor=pointer]:
+                            - /url: /product/goods/171535488
+                        - paragraph [ref=e935]:
+                          - emphasis [ref=e936]: 16,200
+                          - text: 원 (10% 할인)
+                    - listitem [ref=e937]:
+                      - paragraph [ref=e938]:
+                        - emphasis [ref=e939]:
+                          - link "신사고 쎈 고등 대수 (2026년)" [ref=e940] [cursor=pointer]:
+                            - /url: /product/goods/167487266
+                            - img "신사고 쎈 고등 대수 (2026년)" [ref=e941]
+                      - generic [ref=e942]:
+                        - paragraph [ref=e943]:
+                          - link "신사고 쎈 고등 대수 (2026년)" [ref=e944] [cursor=pointer]:
+                            - /url: /product/goods/167487266
+                        - paragraph [ref=e945]:
+                          - emphasis [ref=e946]: 17,100
+                          - text: 원 (10% 할인)
+                    - listitem [ref=e947]:
+                      - paragraph [ref=e948]:
+                        - emphasis [ref=e949]:
+                          - link "일품 고등 대수 (2026년)" [ref=e950] [cursor=pointer]:
+                            - /url: /product/goods/146032483
+                            - img "일품 고등 대수 (2026년)" [ref=e951]
+                      - generic [ref=e952]:
+                        - paragraph [ref=e953]:
+                          - link "일품 고등 대수 (2026년)" [ref=e954] [cursor=pointer]:
+                            - /url: /product/goods/146032483
+                        - paragraph [ref=e955]:
+                          - emphasis [ref=e956]: 13,500
+                          - text: 원 (10% 할인)
+                    - listitem [ref=e957]:
+                      - paragraph [ref=e958]:
+                        - emphasis [ref=e959]:
+                          - link "신사고 쎈 고등 미적분2 (2026년)" [ref=e960] [cursor=pointer]:
+                            - /url: /product/goods/145057986
+                            - img "신사고 쎈 고등 미적분2 (2026년)" [ref=e961]
+                      - generic [ref=e962]:
+                        - paragraph [ref=e963]:
+                          - link "신사고 쎈 고등 미적분2 (2026년)" [ref=e964] [cursor=pointer]:
+                            - /url: /product/goods/145057986
+                        - paragraph [ref=e965]:
+                          - emphasis [ref=e966]: 17,100
+                          - text: 원 (10% 할인)
+                    - listitem [ref=e967]:
+                      - paragraph [ref=e968]:
+                        - emphasis [ref=e969]:
+                          - link "쎈 고등 기하 (2025년)" [ref=e970] [cursor=pointer]:
+                            - /url: /product/goods/139702813
+                            - img "쎈 고등 기하 (2025년)" [ref=e971]
+                      - generic [ref=e972]:
+                        - paragraph [ref=e973]:
+                          - link "쎈 고등 기하 (2025년)" [ref=e974] [cursor=pointer]:
+                            - /url: /product/goods/139702813
+                        - paragraph [ref=e975]:
+                          - emphasis [ref=e976]: 13,500
+                          - text: 원 (10% 할인)
+                    - listitem [ref=e977]:
+                      - paragraph [ref=e978]:
+                        - emphasis [ref=e979]:
+                          - link "신사고 쎈 고등 미적분1 (2026년)" [ref=e980] [cursor=pointer]:
+                            - /url: /product/goods/133892481
+                            - img "신사고 쎈 고등 미적분1 (2026년)" [ref=e981]
+                      - generic [ref=e982]:
+                        - paragraph [ref=e983]:
+                          - link "신사고 쎈 고등 미적분1 (2026년)" [ref=e984] [cursor=pointer]:
+                            - /url: /product/goods/133892481
+                        - paragraph [ref=e985]:
+                          - emphasis [ref=e986]: 17,100
+                          - text: 원 (10% 할인)
+            - generic [ref=e987]:
+              - generic [ref=e988]:
+                - generic [ref=e989]:
+                  - text: "저 :"
+                  - link "김형정" [ref=e990] [cursor=pointer]:
+                    - /url: /product/author/309578
+                - generic [ref=e991]:
+                  - link "관심작가 알림신청" [ref=e992] [cursor=pointer]:
+                    - /url: javascript:void(0);
+                    - emphasis [ref=e994]: 관심작가 알림신청
+                  - link "작가 파일" [ref=e995] [cursor=pointer]:
+                    - /url: /product/author/309578
+                    - generic [ref=e996]:
+                      - emphasis [ref=e997]: 작가 파일
+                      - emphasis [ref=e998]
+              - generic [ref=e999]:
+                - generic [ref=e1001]: 신사고 SSEN 쎈 고등 수학 공저자이다.
+                - generic [ref=e1002]:
+                  - link "작가의 다른 상품" [ref=e1004] [cursor=pointer]:
+                    - /url: /product/author/goods/309578?groupGb=001
+                    - emphasis [ref=e1005]: 작가의 다른 상품
+                    - emphasis [ref=e1006]
+                  - list [ref=e1008]:
+                    - listitem [ref=e1009]:
+                      - paragraph [ref=e1010]:
+                        - emphasis [ref=e1011]:
+                          - link "신사고 쎈 고등 기하 (2026년)" [ref=e1012] [cursor=pointer]:
+                            - /url: /product/goods/171535488
+                            - img "신사고 쎈 고등 기하 (2026년)" [ref=e1013]
+                      - generic [ref=e1014]:
+                        - paragraph [ref=e1015]:
+                          - link "신사고 쎈 고등 기하 (2026년)" [ref=e1016] [cursor=pointer]:
+                            - /url: /product/goods/171535488
+                        - paragraph [ref=e1017]:
+                          - emphasis [ref=e1018]: 16,200
+                          - text: 원 (10% 할인)
+                    - listitem [ref=e1019]:
+                      - paragraph [ref=e1020]:
+                        - emphasis [ref=e1021]:
+                          - link "신사고 쎈 고등 대수 (2026년)" [ref=e1022] [cursor=pointer]:
+                            - /url: /product/goods/167487266
+                            - img "신사고 쎈 고등 대수 (2026년)" [ref=e1023]
+                      - generic [ref=e1024]:
+                        - paragraph [ref=e1025]:
+                          - link "신사고 쎈 고등 대수 (2026년)" [ref=e1026] [cursor=pointer]:
+                            - /url: /product/goods/167487266
+                        - paragraph [ref=e1027]:
+                          - emphasis [ref=e1028]: 17,100
+                          - text: 원 (10% 할인)
+                    - listitem [ref=e1029]:
+                      - paragraph [ref=e1030]:
+                        - emphasis [ref=e1031]:
+                          - link "일품 고등 대수 (2026년)" [ref=e1032] [cursor=pointer]:
+                            - /url: /product/goods/146032483
+                            - img "일품 고등 대수 (2026년)" [ref=e1033]
+                      - generic [ref=e1034]:
+                        - paragraph [ref=e1035]:
+                          - link "일품 고등 대수 (2026년)" [ref=e1036] [cursor=pointer]:
+                            - /url: /product/goods/146032483
+                        - paragraph [ref=e1037]:
+                          - emphasis [ref=e1038]: 13,500
+                          - text: 원 (10% 할인)
+                    - listitem [ref=e1039]:
+                      - paragraph [ref=e1040]:
+                        - emphasis [ref=e1041]:
+                          - link "신사고 쎈 고등 미적분2 (2026년)" [ref=e1042] [cursor=pointer]:
+                            - /url: /product/goods/145057986
+                            - img "신사고 쎈 고등 미적분2 (2026년)" [ref=e1043]
+                      - generic [ref=e1044]:
+                        - paragraph [ref=e1045]:
+                          - link "신사고 쎈 고등 미적분2 (2026년)" [ref=e1046] [cursor=pointer]:
+                            - /url: /product/goods/145057986
+                        - paragraph [ref=e1047]:
+                          - emphasis [ref=e1048]: 17,100
+                          - text: 원 (10% 할인)
+                    - listitem [ref=e1049]:
+                      - paragraph [ref=e1050]:
+                        - emphasis [ref=e1051]:
+                          - link "쎈 고등 기하 (2025년)" [ref=e1052] [cursor=pointer]:
+                            - /url: /product/goods/139702813
+                            - img "쎈 고등 기하 (2025년)" [ref=e1053]
+                      - generic [ref=e1054]:
+                        - paragraph [ref=e1055]:
+                          - link "쎈 고등 기하 (2025년)" [ref=e1056] [cursor=pointer]:
+                            - /url: /product/goods/139702813
+                        - paragraph [ref=e1057]:
+                          - emphasis [ref=e1058]: 13,500
+                          - text: 원 (10% 할인)
+                    - listitem [ref=e1059]:
+                      - paragraph [ref=e1060]:
+                        - emphasis [ref=e1061]:
+                          - link "신사고 쎈 고등 미적분1 (2026년)" [ref=e1062] [cursor=pointer]:
+                            - /url: /product/goods/133892481
+                            - img "신사고 쎈 고등 미적분1 (2026년)" [ref=e1063]
+                      - generic [ref=e1064]:
+                        - paragraph [ref=e1065]:
+                          - link "신사고 쎈 고등 미적분1 (2026년)" [ref=e1066] [cursor=pointer]:
+                            - /url: /product/goods/133892481
+                        - paragraph [ref=e1067]:
+                          - emphasis [ref=e1068]: 17,100
+                          - text: 원 (10% 할인)
+          - link "더보기" [ref=e1070] [cursor=pointer]:
+            - /url: javascript:void(0);
+            - generic [ref=e1071]:
+              - emphasis [ref=e1072]: 더보기
+              - emphasis [ref=e1073]
+        - generic [ref=e1074]:
+          - generic [ref=e1075]:
+            - heading "만든 이 코멘트" [level=4] [ref=e1076]
+            - generic [ref=e1077]: 저자, 역자, 편집자를 위한 공간입니다. 독자들에게 전하고 싶은 말씀을 남겨주세요.
+            - link "코멘트 쓰기" [ref=e1079] [cursor=pointer]:
+              - /url: javascript:void(0);
+              - emphasis [ref=e1081]: 코멘트 쓰기
+          - generic [ref=e1083]:
+            - text: 접수된 글은 확인을 거쳐 이 곳에 게재됩니다.
+            - text: 독자 분들의 리뷰는 리뷰 쓰기를, 책에 대한 문의는 1:1 문의를 이용해 주세요.
+        - generic [ref=e1084]:
+          - heading "출판사 리뷰" [level=4] [ref=e1086]
+          - generic [ref=e1087]:
+            - generic [ref=e1088]:
+              - text: ① 2022 개정 교육과정을 충실히 반영한 개념 정리 및 유형 분류
+              - text: ② A, B, C 3단계 수준별 학습 체제로 학습 효과 극대화
+              - text: ③ 전국 최신 내신 기출 문제를 수록하여 빈출&신유형 대비 가능
+              - text: ④ 융합적 사고력 향상을 위한 우수 수능 기출 문제 수록
+              - text: 수학의 베스트셀러 문제기본서 쎈
+              - text: 내신과 수능에 나오는 모든 문제가 다 들어 있는 “문제 기본서 쎈”
+              - text: 쎈은 개념 학습 이후의 수학 학습 방법으로 유형별 문제 학습을 선도적으로 제안하며 등장하여 최고의 자리를 지키고 있는 수학 문제 기본서의 대표 주자입니다.
+              - text: 문항 분석 방법, 보유하고 있는 방대한 데이터 베이스와 인프라를 바탕으로 한 쎈의 유형 분석과 문제 해결 방법은 어떤 유사 교재도 따라올 수 없는 특별함이 있습니다. 이것이 유사한 교재들 속에서도 쎈이 최고의 자리에 있는 이유입니다.
+              - text: 또 2022 개정 교육과정을 철저하게 분석하여 새 교육과정에 꼭 맞는 문제를 제공하므로 바뀐 교육과정에서도 역시 쎈이 최고의 문제기본서의 자리를 지켜나갈 것입니다.
+              - text: 최적의 유형 학습을 통한 실제 문제해결 능력을 기르는 쎈, 수학의 답은 쎈입니다!
+            - link "펼쳐보기" [ref=e1089] [cursor=pointer]:
+              - /url: javascript:void(0);
+              - emphasis [ref=e1090]: 펼쳐보기
+              - emphasis [ref=e1091]
+        - generic [ref=e1092]:
+          - generic [ref=e1093]:
+            - heading "회원리뷰 (3건)" [level=4] [ref=e1094]:
+              - text: 회원리뷰
+              - emphasis [ref=e1095]: (3건)
+            - generic [ref=e1096]:
+              - text: 매주 10건의 우수리뷰를 선정하여 YES포인트 3만원을 드립니다.
+              - text: 3,000원 이상 구매 후 리뷰 작성 시
+              - strong [ref=e1097]: 일반회원 300원, 마니아회원 600원
+              - text: 의 YES포인트를 드립니다.
+              - text: eBook은 다운로드 후 작성한 리뷰만 YES포인트 지급됩니다.
+              - text: 클래스는 첫번째 회차 주문확정 시점부터 마지막 회차 주문확정 후 30일 이내 작성한 리뷰만 포인트가 지급됩니다.
+              - text: 사락 독서모임으로 진행된 클래스는 사락 독서모임 게시판 후기로도 노출됩니다.
+              - text: eBook 페이백, CD/LP, DVD/Blu-ray, 패션 및 판매금지 상품, 예스24 앱스토어 상품 제외됩니다.
+              - link "리뷰/한줄평 정책 자세히 보기" [ref=e1098] [cursor=pointer]:
+                - /url: https://www.yes24.com/notice/FirstClass/infoYESreward.aspx
+                - generic [ref=e1099]:
+                  - emphasis [ref=e1100]: 리뷰/한줄평 정책 자세히 보기
+                  - emphasis [ref=e1101]
+            - link "리뷰쓰기" [ref=e1103] [cursor=pointer]:
+              - /url: javascript:void(0);
+              - generic [ref=e1104]:
+                - emphasis [ref=e1105]: 리뷰쓰기
+                - emphasis [ref=e1106]
+          - generic [ref=e1107]:
+            - generic [ref=e1108]:
+              - paragraph [ref=e1109]:
+                - emphasis [ref=e1110]: "3"
+                - text: 명의 예스24 회원이 평가한 평균별점
+              - generic [ref=e1111]:
+                - generic [ref=e1112]: 리뷰 총점
+                - emphasis [ref=e1113]: "10.0"
+                - emphasis [ref=e1114]: / 10.0
+            - generic [ref=e1116]:
+              - strong [ref=e1117]: 별점별로 리뷰를 확인해 보세요.
+              - list [ref=e1119]:
+                - listitem [ref=e1120]:
+                  - link "평점 9.0 ~ 10점 100%" [ref=e1121] [cursor=pointer]:
+                    - /url: javascript:void(0);
+                    - emphasis [ref=e1122]: 평점 9.0 ~ 10점
+                    - emphasis [ref=e1125]: 100%
+                - listitem [ref=e1126]:
+                  - link "평점 7.0 ~ 8.0점 0%" [ref=e1127] [cursor=pointer]:
+                    - /url: javascript:void(0);
+                    - emphasis [ref=e1128]: 평점 7.0 ~ 8.0점
+                    - emphasis [ref=e1130]: 0%
+                - listitem [ref=e1131]:
+                  - link "평점 5.0 ~ 6.0점 0%" [ref=e1132] [cursor=pointer]:
+                    - /url: javascript:void(0);
+                    - emphasis [ref=e1133]: 평점 5.0 ~ 6.0점
+                    - emphasis [ref=e1135]: 0%
+                - listitem [ref=e1136]:
+                  - link "평점 3.0 ~ 4.0점 0%" [ref=e1137] [cursor=pointer]:
+                    - /url: javascript:void(0);
+                    - emphasis [ref=e1138]: 평점 3.0 ~ 4.0점
+                    - emphasis [ref=e1140]: 0%
+                - listitem [ref=e1141]:
+                  - link "평점 0.0 ~ 2.0점 0%" [ref=e1142] [cursor=pointer]:
+                    - /url: javascript:void(0);
+                    - emphasis [ref=e1143]: 평점 0.0 ~ 2.0점
+                    - emphasis [ref=e1145]: 0%
+          - list [ref=e1147]:
+            - listitem [ref=e1148]:
+              - link "전체 리뷰 (3)" [ref=e1149] [cursor=pointer]:
+                - /url: javascript:void(0);
+                - generic [ref=e1150]:
+                  - text: 전체 리뷰
+                  - emphasis [ref=e1151]: (3)
+            - listitem [ref=e1152]:
+              - link "구매 리뷰 (3)" [ref=e1153] [cursor=pointer]:
+                - /url: javascript:void(0);
+                - generic [ref=e1154]:
+                  - text: 구매 리뷰
+                  - emphasis [ref=e1155]: (3)
+            - listitem [ref=e1156]:
+              - link "포토/동영상 리뷰 (0)" [ref=e1157] [cursor=pointer]:
+                - /url: javascript:void(0);
+                - generic [ref=e1158]:
+                  - text: 포토/동영상 리뷰
+                  - emphasis [ref=e1159]: (0)
+            - listitem [ref=e1160]:
+              - link "이달의 사락 리뷰 (0)" [ref=e1161] [cursor=pointer]:
+                - /url: javascript:void(0);
+                - generic [ref=e1162]:
+                  - text: 이달의 사락 리뷰
+                  - emphasis [ref=e1163]: (0)
+        - generic [ref=e1165]:
+          - generic [ref=e1166]:
+            - heading "한줄평 (7건)" [level=4] [ref=e1167]:
+              - text: 한줄평
+              - emphasis [ref=e1168]: (7건)
+            - generic [ref=e1169]:
+              - text: 1,000원 이상 구매 후 한줄평 작성 시
+              - strong [ref=e1170]: 일반회원 50원, 마니아회원 100원
+              - text: 의 YES포인트를 드립니다.
+              - text: eBook은 다운로드 후 작성한 리뷰만 YES포인트 지급됩니다.
+              - text: 클래스는 첫번째 회차 주문확정 시점부터 마지막 회차 주문확정 후 30일 이내 작성한 한줄평만 포인트가 지급됩니다.
+              - text: eBook 페이백, CD/LP, DVD/Blu-ray, 패션 및 판매금지 상품, 예스24 앱스토어 상품 제외됩니다.
+              - link "리뷰/한줄평 정책 자세히 보기" [ref=e1171] [cursor=pointer]:
+                - /url: https://www.yes24.com/notice/FirstClass/infoYESreward.aspx
+                - generic [ref=e1172]:
+                  - emphasis [ref=e1173]: 리뷰/한줄평 정책 자세히 보기
+                  - emphasis [ref=e1174]
+          - generic [ref=e1175]:
+            - generic [ref=e1176]:
+              - generic [ref=e1177]:
+                - text: 평점
+                - generic [ref=e1178]:
+                  - link "별 2점" [ref=e1179] [cursor=pointer]:
+                    - /url: javascript:void(0)
+                    - emphasis [ref=e1180]: 별 2점
+                  - link "별 4점" [ref=e1181] [cursor=pointer]:
+                    - /url: javascript:void(0)
+                    - emphasis [ref=e1182]: 별 4점
+                  - link "별 6점" [ref=e1183] [cursor=pointer]:
+                    - /url: javascript:void(0)
+                    - emphasis [ref=e1184]: 별 6점
+                  - link "별 8점" [ref=e1185] [cursor=pointer]:
+                    - /url: javascript:void(0)
+                    - emphasis [ref=e1186]: 별 8점
+                  - link "별 10점" [ref=e1187] [cursor=pointer]:
+                    - /url: javascript:void(0)
+                    - emphasis [ref=e1188]: 별 10점
+              - generic [ref=e1189]:
+                - text: 작성 시 유의사항
+                - link "한줄평 작성 시 유의사항" [ref=e1190] [cursor=pointer]:
+                  - /url: javascript:void(0);
+            - generic [ref=e1191]:
+              - generic [ref=e1192]:
+                - generic [ref=e1193] [cursor=pointer]: 한글 기준 50자까지 작성가능
+                - generic [ref=e1194]:
+                  - strong [ref=e1195]: "0"
+                  - text: /50
+                - textbox "한글 기준 50자까지 작성가능" [ref=e1196]
+              - button "등록" [ref=e1197] [cursor=pointer]:
+                - emphasis [ref=e1199]: 등록
+        - generic [ref=e1202]:
+          - heading "이 책을 구입하신 분들이 산 분야 연관 책" [level=2] [ref=e1203]:
+            - text: 이 책을 구입하신 분들이 산
+            - emphasis [ref=e1204]: 분야 연관 책
+          - list [ref=e1206]:
+            - listitem [ref=e1207]:
+              - paragraph [ref=e1208]:
+                - emphasis [ref=e1209]:
+                  - link "BLACKLABEL 블랙라벨 공통수학1 (2026년용)" [ref=e1210] [cursor=pointer]:
+                    - /url: /product/goods/132968066
+                    - img "BLACKLABEL 블랙라벨 공통수학1 (2026년용)" [ref=e1211]
+              - generic [ref=e1212]:
+                - paragraph [ref=e1213]:
+                  - link "BLACKLABEL 블랙라벨 공통수학1 (2026년용)" [ref=e1214] [cursor=pointer]:
+                    - /url: /product/goods/132968066
+                - paragraph [ref=e1215]:
+                  - text: 이문호,황인중,김원중,조보관,김성은 공저
+                  - emphasis [ref=e1216]: "|"
+                  - text: 진학사
+                - paragraph [ref=e1217]:
+                  - generic [ref=e1218]: 평점 10점
+                  - text: 112건
+                - paragraph [ref=e1219]:
+                  - emphasis [ref=e1220]: 15,300
+                  - text: 원 (10% 할인)
+            - listitem [ref=e1221]:
+              - paragraph [ref=e1222]:
+                - emphasis [ref=e1223]:
+                  - link "실력 수학의 정석 공통수학1 (2026년용)" [ref=e1224] [cursor=pointer]:
+                    - /url: /product/goods/124862907
+                    - img "실력 수학의 정석 공통수학1 (2026년용)" [ref=e1225]
+              - generic [ref=e1226]:
+                - paragraph [ref=e1227]:
+                  - link "실력 수학의 정석 공통수학1 (2026년용)" [ref=e1228] [cursor=pointer]:
+                    - /url: /product/goods/124862907
+                - paragraph [ref=e1229]:
+                  - text: 홍성대 저
+                  - emphasis [ref=e1230]: "|"
+                  - text: 성지출판사(정석)
+                - paragraph [ref=e1231]:
+                  - generic [ref=e1232]: 평점 10점
+                  - text: 88건
+                - paragraph [ref=e1233]:
+                  - emphasis [ref=e1234]: 18,000
+                  - text: 원 (10% 할인)
+            - listitem [ref=e1235]:
+              - paragraph [ref=e1236]:
+                - emphasis [ref=e1237]:
+                  - link "기본 수학의 정석 대수 (2026년)" [ref=e1238] [cursor=pointer]:
+                    - /url: /product/goods/135159434
+                    - img "기본 수학의 정석 대수 (2026년)" [ref=e1239]
+              - generic [ref=e1240]:
+                - paragraph [ref=e1241]:
+                  - link "기본 수학의 정석 대수 (2026년)" [ref=e1242] [cursor=pointer]:
+                    - /url: /product/goods/135159434
+                - paragraph [ref=e1243]:
+                  - text: 홍성대 저
+                  - emphasis [ref=e1244]: "|"
+                  - text: 성지출판사(정석)
+                - paragraph [ref=e1245]:
+                  - generic [ref=e1246]: 평점 10점
+                  - text: 60건
+                - paragraph [ref=e1247]:
+                  - emphasis [ref=e1248]: 18,000
+                  - text: 원 (10% 할인)
+            - listitem [ref=e1249]:
+              - paragraph [ref=e1250]:
+                - emphasis [ref=e1251]:
+                  - link "수학의 바이블 개념ON 공통수학1 (2026년용)" [ref=e1252] [cursor=pointer]:
+                    - /url: /product/goods/122543603
+                    - img "수학의 바이블 개념ON 공통수학1 (2026년용)" [ref=e1253]
+              - generic [ref=e1254]:
+                - paragraph [ref=e1255]:
+                  - link "수학의 바이블 개념ON 공통수학1 (2026년용)" [ref=e1256] [cursor=pointer]:
+                    - /url: /product/goods/122543603
+                - paragraph [ref=e1257]:
+                  - text: 이투스북 수학개발팀 저
+                  - emphasis [ref=e1258]: "|"
+                  - text: 이투스북
+                - paragraph [ref=e1259]:
+                  - generic [ref=e1260]: 평점 10점
+                  - text: 99건
+                - paragraph [ref=e1261]:
+                  - emphasis [ref=e1262]: 18,900
+                  - text: 원 (10% 할인)
+          - generic [ref=e1263]:
+            - strong [ref=e1264]: "3"
+            - text: /4
+        - generic [ref=e1265]:
+          - heading "배송/반품/교환 안내" [level=4] [ref=e1267]
+          - generic [ref=e1268]:
+            - paragraph [ref=e1270]: 배송 안내
+            - table "배송 안내" [ref=e1272]:
+              - rowgroup [ref=e1276]:
+                - 'row "배송 구분 예스24 배송 배송비 : 무료배송" [ref=e1277]':
+                  - rowheader "배송 구분" [ref=e1278]
+                  - 'cell "예스24 배송 배송비 : 무료배송" [ref=e1279]':
+                    - text: 예스24 배송
+                    - list [ref=e1280]:
+                      - listitem [ref=e1281]:
+                        - emphasis [ref=e1282]
+                        - text: "배송비 : 무료배송"
+                - 'row "포장 안내 안전하고 정확한 포장을 위해 CCTV를 설치하여 운영하고 있습니다. 고객님께 배송되는 모든 상품을 CCTV로 녹화하고 있으며, 철저한 모니터링을 통해 작업 과정에 문제가 없도록 최선을 다 하겠습니다. 목적 : 안전한 포장 관리 촬영범위 : 박스 포장 작업 포장안내1 포장안내2 포장안내3 포장안내4" [ref=e1283]':
+                  - rowheader "포장 안내" [ref=e1284]
+                  - 'cell "안전하고 정확한 포장을 위해 CCTV를 설치하여 운영하고 있습니다. 고객님께 배송되는 모든 상품을 CCTV로 녹화하고 있으며, 철저한 모니터링을 통해 작업 과정에 문제가 없도록 최선을 다 하겠습니다. 목적 : 안전한 포장 관리 촬영범위 : 박스 포장 작업 포장안내1 포장안내2 포장안내3 포장안내4" [ref=e1285]':
+                    - paragraph [ref=e1286]: 안전하고 정확한 포장을 위해 CCTV를 설치하여 운영하고 있습니다.
+                    - paragraph [ref=e1287]: 고객님께 배송되는 모든 상품을 CCTV로 녹화하고 있으며, 철저한 모니터링을 통해 작업 과정에 문제가 없도록 최선을 다 하겠습니다.
+                    - paragraph [ref=e1288]:
+                      - text: "목적 : 안전한 포장 관리"
+                      - text: "촬영범위 : 박스 포장 작업"
+                    - list [ref=e1290]:
+                      - listitem [ref=e1291]:
+                        - img "포장안내1" [ref=e1292]
+                      - listitem [ref=e1293]:
+                        - img "포장안내2" [ref=e1294]
+                      - listitem [ref=e1295]:
+                        - img "포장안내3" [ref=e1296]
+                      - listitem [ref=e1297]:
+                        - img "포장안내4" [ref=e1298]
+            - generic [ref=e1299]:
+              - paragraph [ref=e1300]: 반품/교환 안내
+              - paragraph [ref=e1301]: ※ 상품 설명에 반품/교환과 관련한 안내가 있는경우 아래 내용보다 우선합니다. (업체 사정에 따라 달라질 수 있습니다)
+            - table "반품/교환 안내" [ref=e1303]:
+              - rowgroup [ref=e1307]:
+                - row "반품/교환 방법 마이페이지 > 반품/교환 신청 및 조회, 1:1 문의, 고객만족센터(1544-3800), 중고샵(1566-4295) 판매자 배송 상품은 판매자와 반품/교환이 협의된 상품에 한해 가능합니다." [ref=e1308]:
+                  - rowheader "반품/교환 방법" [ref=e1309]
+                  - cell "마이페이지 > 반품/교환 신청 및 조회, 1:1 문의, 고객만족센터(1544-3800), 중고샵(1566-4295) 판매자 배송 상품은 판매자와 반품/교환이 협의된 상품에 한해 가능합니다." [ref=e1310]:
+                    - list [ref=e1311]:
+                      - listitem [ref=e1312]:
+                        - emphasis [ref=e1313]
+                        - text: 마이페이지 >
+                        - link "반품/교환 신청 및 조회" [ref=e1314] [cursor=pointer]:
+                          - /url: https://ssl.yes24.com/MyPageOrderClaimList/MyPageOrderClaimList
+                        - text: ","
+                        - link "1:1 문의" [ref=e1315] [cursor=pointer]:
+                          - /url: https://www.yes24.com/Templates/FTMy1vs1Main.aspx
+                        - text: ", 고객만족센터(1544-3800), 중고샵(1566-4295)"
+                      - listitem [ref=e1316]:
+                        - emphasis [ref=e1317]
+                        - text: 판매자 배송 상품은 판매자와 반품/교환이 협의된 상품에 한해 가능합니다.
+                - row "반품/교환 가능기간 출고 완료 후 10일 이내의 주문 상품 디지털 콘텐츠인 eBook의 경우 구매 후 7일 이내의 상품 중고상품의 경우 출고 완료일로부터 6일 이내의 상품 (구매확정 전 상태) 모바일 쿠폰의 경우 유효기간(발행 후 1년) 내 등록하지 않은 상품" [ref=e1318]:
+                  - rowheader "반품/교환 가능기간" [ref=e1319]
+                  - cell "출고 완료 후 10일 이내의 주문 상품 디지털 콘텐츠인 eBook의 경우 구매 후 7일 이내의 상품 중고상품의 경우 출고 완료일로부터 6일 이내의 상품 (구매확정 전 상태) 모바일 쿠폰의 경우 유효기간(발행 후 1년) 내 등록하지 않은 상품" [ref=e1320]:
+                    - list [ref=e1321]:
+                      - listitem [ref=e1322]:
+                        - emphasis [ref=e1323]
+                        - text: 출고 완료 후 10일 이내의 주문 상품
+                      - listitem [ref=e1324]:
+                        - emphasis [ref=e1325]
+                        - text: 디지털 콘텐츠인 eBook의 경우 구매 후 7일 이내의 상품
+                      - listitem [ref=e1326]:
+                        - emphasis [ref=e1327]
+                        - text: 중고상품의 경우 출고 완료일로부터 6일 이내의 상품 (구매확정 전 상태)
+                      - listitem [ref=e1328]:
+                        - emphasis [ref=e1329]
+                        - text: 모바일 쿠폰의 경우 유효기간(발행 후 1년) 내 등록하지 않은 상품
+                - row "반품/교환 비용 고객의 단순변심 및 착오구매일 경우 상품 반송비용은 고객 부담임 직수입양서/직수입일서중 일부는 변심 또는 착오로 취소시 해외주문취소수수료 20%를 부과할수 있음 단, 아래의 주문/취소 조건인 경우, 취소 수수료 면제 오늘 00시 ~ 06시 30분 주문을 오늘 오전 06시 30분 이전에 취소 오늘 06시 30분 이후 주문을 익일 오전 06시 30분 이전에 취소 직수입 음반/영상물/기프트 중 일부는 변심 또는 착오로 취소 시 해외주문취소수수료 30%를 부과할 수 있음 단, 당일 00시~13시 사이의 주문은 취소 수수료 면제 박스 포장은 택배 배송이 가능한 규격과 무게를 준수하며, 고객의 단순변심 및 착오구매일 경우 상품의 반송비용은 박스 당 부과됩니다." [ref=e1330]:
+                  - rowheader "반품/교환 비용" [ref=e1331]
+                  - cell "고객의 단순변심 및 착오구매일 경우 상품 반송비용은 고객 부담임 직수입양서/직수입일서중 일부는 변심 또는 착오로 취소시 해외주문취소수수료 20%를 부과할수 있음 단, 아래의 주문/취소 조건인 경우, 취소 수수료 면제 오늘 00시 ~ 06시 30분 주문을 오늘 오전 06시 30분 이전에 취소 오늘 06시 30분 이후 주문을 익일 오전 06시 30분 이전에 취소 직수입 음반/영상물/기프트 중 일부는 변심 또는 착오로 취소 시 해외주문취소수수료 30%를 부과할 수 있음 단, 당일 00시~13시 사이의 주문은 취소 수수료 면제 박스 포장은 택배 배송이 가능한 규격과 무게를 준수하며, 고객의 단순변심 및 착오구매일 경우 상품의 반송비용은 박스 당 부과됩니다." [ref=e1332]:
+                    - list [ref=e1333]:
+                      - listitem [ref=e1334]:
+                        - emphasis [ref=e1335]
+                        - text: 고객의 단순변심 및 착오구매일 경우 상품 반송비용은 고객 부담임
+                      - listitem [ref=e1336]:
+                        - emphasis [ref=e1337]
+                        - text: 직수입양서/직수입일서중 일부는 변심 또는 착오로 취소시 해외주문취소수수료 20%를 부과할수 있음
+                        - paragraph [ref=e1338]: 단, 아래의 주문/취소 조건인 경우, 취소 수수료 면제
+                        - list [ref=e1339]:
+                          - listitem [ref=e1340]:
+                            - emphasis [ref=e1341]
+                            - text: 오늘 00시 ~ 06시 30분 주문을 오늘 오전 06시 30분 이전에 취소
+                          - listitem [ref=e1342]:
+                            - emphasis [ref=e1343]
+                            - text: 오늘 06시 30분 이후 주문을 익일 오전 06시 30분 이전에 취소
+                      - listitem [ref=e1344]:
+                        - emphasis [ref=e1345]
+                        - text: 직수입 음반/영상물/기프트 중 일부는 변심 또는 착오로 취소 시 해외주문취소수수료 30%를 부과할 수 있음
+                        - paragraph [ref=e1346]: 단, 당일 00시~13시 사이의 주문은 취소 수수료 면제
+                      - listitem [ref=e1347]:
+                        - emphasis [ref=e1348]
+                        - text: 박스 포장은 택배 배송이 가능한 규격과 무게를 준수하며, 고객의 단순변심 및 착오구매일 경우 상품의 반송비용은 박스 당 부과됩니다.
+                - 'row "반품/교환 불가사유 소비자의 책임 있는 사유로 상품 등이 손실 또는 훼손된 경우 소비자의 사용, 포장 개봉에 의해 상품 등의 가치가 현저히 감소한 경우 : 예) 화장품, 식품, 가전제품, 전자책 단말기 등 복제가 가능한 상품 등의 포장을 훼손한 경우 : 예) CD/LP, DVD/Blu-ray, 소프트웨어, 만화책, 잡지, 영상 화보집 소비자의 요청에 따라 개별적으로 주문 제작되는 상품의 경우 디지털 컨텐츠인 eBook, 오디오북 등을 1회 이상 다운로드를 받았을 경우 eBook 대여 상품은 대여 기간이 종료 되거나, 2회 이상 대여 했을 경우 취소 불가 모바일 쿠폰 등록 후 취소/환불 불가 중고상품이 구매확정(자동 구매확정은 출고완료일로부터 7일)된 경우 LP상품의 재생 불량 원인이 기기의 사양 및 문제인 경우 (All-in-One 일체형 일부 보급형 오디오 모델 사용 등) 시간의 경과에 의해 재판매가 곤란한 정도로 가치가 현저히 감소한 경우 전자상거래 등에서의 소비자보호에 관한 법률이 정하는 소비자 청약철회 제한 내용에 해당되는 경우 eBook 세트 상품은 일괄 구매 조건으로 낱개 상품 대비 추가적인 할인이 제공되는 상품으로서 eBook 세트 상품은 세트 상품 전체가 일괄적으로 1개의 상품으로 취급 및 판매됩니다. 이에 따라 eBook 세트 상품 구매 후 1회 이상 다운로드 또는 세트 구성 상품 중 일부라도 다운로드 되는 경우, 세트 상품 전부 및 세트 구성 상품 중 일부에 대한 취소 또는 환불이 불가합니다." [ref=e1349]':
+                  - rowheader "반품/교환 불가사유" [ref=e1350]
+                  - 'cell "소비자의 책임 있는 사유로 상품 등이 손실 또는 훼손된 경우 소비자의 사용, 포장 개봉에 의해 상품 등의 가치가 현저히 감소한 경우 : 예) 화장품, 식품, 가전제품, 전자책 단말기 등 복제가 가능한 상품 등의 포장을 훼손한 경우 : 예) CD/LP, DVD/Blu-ray, 소프트웨어, 만화책, 잡지, 영상 화보집 소비자의 요청에 따라 개별적으로 주문 제작되는 상품의 경우 디지털 컨텐츠인 eBook, 오디오북 등을 1회 이상 다운로드를 받았을 경우 eBook 대여 상품은 대여 기간이 종료 되거나, 2회 이상 대여 했을 경우 취소 불가 모바일 쿠폰 등록 후 취소/환불 불가 중고상품이 구매확정(자동 구매확정은 출고완료일로부터 7일)된 경우 LP상품의 재생 불량 원인이 기기의 사양 및 문제인 경우 (All-in-One 일체형 일부 보급형 오디오 모델 사용 등) 시간의 경과에 의해 재판매가 곤란한 정도로 가치가 현저히 감소한 경우 전자상거래 등에서의 소비자보호에 관한 법률이 정하는 소비자 청약철회 제한 내용에 해당되는 경우 eBook 세트 상품은 일괄 구매 조건으로 낱개 상품 대비 추가적인 할인이 제공되는 상품으로서 eBook 세트 상품은 세트 상품 전체가 일괄적으로 1개의 상품으로 취급 및 판매됩니다. 이에 따라 eBook 세트 상품 구매 후 1회 이상 다운로드 또는 세트 구성 상품 중 일부라도 다운로드 되는 경우, 세트 상품 전부 및 세트 구성 상품 중 일부에 대한 취소 또는 환불이 불가합니다." [ref=e1351]':
+                    - list [ref=e1352]:
+                      - listitem [ref=e1353]:
+                        - emphasis [ref=e1354]
+                        - text: 소비자의 책임 있는 사유로 상품 등이 손실 또는 훼손된 경우
+                      - listitem [ref=e1355]:
+                        - emphasis [ref=e1356]
+                        - text: "소비자의 사용, 포장 개봉에 의해 상품 등의 가치가 현저히 감소한 경우 : 예) 화장품, 식품, 가전제품, 전자책 단말기 등"
+                      - listitem [ref=e1357]:
+                        - emphasis [ref=e1358]
+                        - text: "복제가 가능한 상품 등의 포장을 훼손한 경우 : 예) CD/LP, DVD/Blu-ray, 소프트웨어, 만화책, 잡지, 영상 화보집"
+                      - listitem [ref=e1359]:
+                        - emphasis [ref=e1360]
+                        - text: 소비자의 요청에 따라 개별적으로 주문 제작되는 상품의 경우
+                      - listitem [ref=e1361]:
+                        - emphasis [ref=e1362]
+                        - strong [ref=e1363]: 디지털 컨텐츠인 eBook, 오디오북 등을 1회 이상 다운로드를 받았을 경우
+                      - listitem [ref=e1364]:
+                        - emphasis [ref=e1365]
+                        - text: eBook 대여 상품은 대여 기간이 종료 되거나, 2회 이상 대여 했을 경우 취소 불가
+                      - listitem [ref=e1366]:
+                        - emphasis [ref=e1367]
+                        - text: 모바일 쿠폰 등록 후 취소/환불 불가
+                      - listitem [ref=e1368]:
+                        - emphasis [ref=e1369]
+                        - text: 중고상품이 구매확정(자동 구매확정은 출고완료일로부터 7일)된 경우
+                      - listitem [ref=e1370]:
+                        - emphasis [ref=e1371]
+                        - text: LP상품의 재생 불량 원인이 기기의 사양 및 문제인 경우 (All-in-One 일체형 일부 보급형 오디오 모델 사용 등)
+                      - listitem [ref=e1372]:
+                        - emphasis [ref=e1373]
+                        - text: 시간의 경과에 의해 재판매가 곤란한 정도로 가치가 현저히 감소한 경우
+                      - listitem [ref=e1374]:
+                        - emphasis [ref=e1375]
+                        - text: 전자상거래 등에서의 소비자보호에 관한 법률이 정하는 소비자 청약철회 제한 내용에 해당되는 경우
+                      - listitem [ref=e1376]:
+                        - emphasis [ref=e1377]
+                        - text: eBook 세트 상품은 일괄 구매 조건으로 낱개 상품 대비 추가적인 할인이 제공되는 상품으로서 eBook 세트 상품은 세트 상품 전체가 일괄적으로 1개의 상품으로 취급 및 판매됩니다. 이에 따라 eBook 세트 상품 구매 후 1회 이상 다운로드 또는 세트 구성 상품 중 일부라도 다운로드 되는 경우, 세트 상품 전부 및 세트 구성 상품 중 일부에 대한 취소 또는 환불이 불가합니다.
+                - row "소비자 피해보상 상품의 불량에 의한 반품, 교환, A/S, 환불, 품질보증 및 피해보상 등에 관한 사항은 소비자분쟁해결기준(공정거래위원회 고시)에 준하여 처리됨" [ref=e1378]:
+                  - rowheader "소비자 피해보상" [ref=e1379]
+                  - cell "상품의 불량에 의한 반품, 교환, A/S, 환불, 품질보증 및 피해보상 등에 관한 사항은 소비자분쟁해결기준(공정거래위원회 고시)에 준하여 처리됨" [ref=e1380]:
+                    - list [ref=e1381]:
+                      - listitem [ref=e1382]:
+                        - emphasis [ref=e1383]
+                        - text: 상품의 불량에 의한 반품, 교환, A/S, 환불, 품질보증 및 피해보상 등에 관한 사항은
+                        - emphasis [ref=e1384]: 소비자분쟁해결기준(공정거래위원회 고시)에
+                        - emphasis [ref=e1385]: 준하여 처리됨
+                - row "환불 지연에 따른 배상 대금 환불 및 환불 지연에 따른 배상금 지급 조건, 절차 등은 전자상거래 등에서의 소비자 보호에 관한 법률에 따라 처리" [ref=e1386]:
+                  - rowheader "환불 지연에 따른 배상" [ref=e1387]
+                  - cell "대금 환불 및 환불 지연에 따른 배상금 지급 조건, 절차 등은 전자상거래 등에서의 소비자 보호에 관한 법률에 따라 처리" [ref=e1388]:
+                    - list [ref=e1389]:
+                      - listitem [ref=e1390]:
+                        - emphasis [ref=e1391]
+                        - text: 대금 환불 및 환불 지연에 따른 배상금 지급 조건, 절차 등은 전자상거래 등에서의 소비자 보호에 관한 법률에 따라 처리
+    - generic [ref=e1392]:
+      - generic [ref=e1393]:
+        - link [ref=e1395] [cursor=pointer]:
+          - /url: javascript:void(0);
+        - link "8" [ref=e1398] [cursor=pointer]:
+          - /url: javascript:void(0);
+          - generic [ref=e1399]: "8"
+      - generic [ref=e1402]:
+        - generic [ref=e1403]:
+          - list [ref=e1404]:
+            - listitem [ref=e1405]:
+              - link "회사소개" [ref=e1406] [cursor=pointer]:
+                - /url: https://company.yes24.com
+            - listitem [ref=e1407]:
+              - link "인재채용" [ref=e1408] [cursor=pointer]:
+                - /url: https://company.yes24.com/career
+            - listitem [ref=e1409]:
+              - link "이용약관" [ref=e1410] [cursor=pointer]:
+                - /url: https://www.yes24.com/notice/service.aspx
+            - listitem [ref=e1411]:
+              - link "개인정보처리방침" [ref=e1412] [cursor=pointer]:
+                - /url: https://www.yes24.com/notice/privacypolicy.aspx
+                - strong [ref=e1413]: 개인정보처리방침
+            - listitem [ref=e1414]:
+              - link "청소년보호정책" [ref=e1415] [cursor=pointer]:
+                - /url: https://www.yes24.com/notice/youthpolicy.aspx
+            - listitem [ref=e1416]:
+              - link "도서홍보안내" [ref=e1417] [cursor=pointer]:
+                - /url: https://www.yes24.com/company/Publish.aspx
+            - listitem [ref=e1418]:
+              - link "광고안내" [ref=e1419] [cursor=pointer]:
+                - /url: https://www.yes24.com/company/AdInfo.aspx
+            - listitem [ref=e1420]:
+              - link "제휴안내" [ref=e1421] [cursor=pointer]:
+                - /url: https://www.yes24.com/company/InfoCoopProgram.aspx
+            - listitem [ref=e1422]:
+              - link "복지제휴" [ref=e1423] [cursor=pointer]:
+                - /url: https://www.yes24.com/CorpLargeOrder/infoPartner.aspx
+            - listitem [ref=e1424]:
+              - link "매장안내" [ref=e1425] [cursor=pointer]:
+                - /url: https://www.yes24.com/campaign/00_corp/store/store_gangNam.aspx
+          - list [ref=e1426]:
+            - listitem [ref=e1427]:
+              - link "YES24 카카오채널" [ref=e1428] [cursor=pointer]:
+                - /url: https://pf.kakao.com/_yxkZjR
+            - listitem [ref=e1429]:
+              - link "YES24 페이스북" [ref=e1430] [cursor=pointer]:
+                - /url: https://www.facebook.com/yes24/
+            - listitem [ref=e1431]:
+              - link "YES24 트위터" [ref=e1432] [cursor=pointer]:
+                - /url: https://twitter.com/yes24_official
+            - listitem [ref=e1433]:
+              - link "YES24 인스타그램" [ref=e1434] [cursor=pointer]:
+                - /url: https://www.instagram.com/yes24_official/
+          - term [ref=e1436] [cursor=pointer]:
+            - link "가족회사 소개" [ref=e1437]:
+              - /url: javascript:void(0);
+        - generic [ref=e1438]:
+          - generic:
+            - term:
+              - link:
+                - /url: https://www.yes24.com/Main/default.aspx
+                - emphasis [ref=e1439] [cursor=pointer]
+              - emphasis [ref=e1440]: 예스이십사(주)
+            - definition [ref=e1441]:
+              - generic [ref=e1442]:
+                - generic [ref=e1443]: "대표 : 김석환, 최세라"
+                - generic [ref=e1444]: "주소 : 서울시 영등포구 은행로 11, 5층~6층(여의도동,일신빌딩)"
+                - generic [ref=e1445]:
+                  - text: "사업자등록번호 : 229-81-37000 통신판매업신고 : 제 2005-02682호"
+                  - link "사업자 정보확인" [ref=e1446] [cursor=pointer]:
+                    - /url: https://www.ftc.go.kr/bizCommPop.do?wrkr_no=2298137000
+                - generic [ref=e1447]: "이메일 : yes24help@yes24.com 호스팅 서비스사업자 : 예스이십사(주)"
+                - paragraph [ref=e1448]: Copyright ⓒ YES24 Corp. All Rights Reserved.
+          - list [ref=e1449]:
+            - listitem [ref=e1450]:
+              - generic [ref=e1451]:
+                - term [ref=e1452]: 고객문의
+                - definition [ref=e1453]:
+                  - paragraph [ref=e1454]:
+                    - generic [ref=e1455]: 도서/음반
+                    - text: 1544-3800
+                  - paragraph [ref=e1456]:
+                    - generic [ref=e1457]: 중고도서
+                    - text: 1566-4295
+                  - paragraph [ref=e1458]:
+                    - generic [ref=e1459]: 티켓예매
+                    - text: 1544-6399
+                  - paragraph [ref=e1460]:
+                    - link "eBook 1:1문의/채팅상담" [ref=e1462] [cursor=pointer]:
+                      - /url: https://www.yes24.com/Mall/Help/CS/Apply?AplNo=45
+            - listitem [ref=e1463]:
+              - link "1:1 문의하기" [ref=e1464] [cursor=pointer]:
+                - /url: https://www.yes24.com/Mall/Help/Main
+              - link "자주 묻는 질문" [ref=e1465] [cursor=pointer]:
+                - /url: https://www.yes24.com/Mall/Help/Faq
+              - link "상담시간 안내" [ref=e1466] [cursor=pointer]:
+                - /url: javascript:void(0);
+        - generic [ref=e1467]:
+          - img "YES24 수상내역" [ref=e1468]
+          - generic:
+            - link "정보보호 관리체계 ISMS인증획득":
+              - /url: javascript:void(0);
+            - link "개인정보보호 우수사이트":
+              - /url: javascript:void(0);
+        - generic [ref=e1469]: EQUUS14
+  - iframe
+  - iframe
+  - text: 이 상품의 시리즈 (53개) 품목정보 관련분류 이 상품의 태그 이 상품의 이벤트 (9개) 책소개 목차 저자 소개 (5명) 만든 이 코멘트 출판사 리뷰
+  - iframe
