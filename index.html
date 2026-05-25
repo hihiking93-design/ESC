@@ -6,6 +6,7 @@
 <title>ESC Listening Test</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js"></script>
 <style>
 :root {
   --bg: #edf0fa;
@@ -439,6 +440,9 @@ body {
 }
 .insight-body { font-size: 13px; color: var(--text); line-height: 1.75; }
 .insight-em { font-weight: 700; color: var(--text); }
+
+.option.dev-correct { border-color: var(--accent) !important; background: rgba(247,37,133,0.07) !important; }
+.option.dev-correct .option-key { background: var(--accent) !important; border-color: var(--accent) !important; color: white !important; }
 </style>
 </head>
 <body>
@@ -533,7 +537,8 @@ body {
   <div class="divider"></div>
 
   <div style="display:flex;gap:10px;">
-    <button class="btn btn-primary" id="downloadBtn">결과 다운로드 📥</button>
+    <button class="btn btn-primary" id="imageBtn">캡처 🖼️</button>
+    <button class="btn btn-primary" id="downloadBtn">저장 📥</button>
     <button class="btn btn-sm btn-primary" id="retryBtn"
       style="background:#f1f3ff;color:var(--primary);flex-shrink:0;">다시하기</button>
   </div>
@@ -773,22 +778,39 @@ const HIGH = [
 let currentAudio = null;
 function playMP3(url, onEnd) {
   if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+
+  let done = false;
+  function finish() {
+    if (done) return;
+    done = true;
+    currentAudio = null;
+    if (onEnd) onEnd();
+  }
+
   currentAudio = new Audio(url);
   const slider = document.getElementById('speedSlider');
-  if (slider) currentAudio.playbackRate = parseFloat(slider.value);
-  currentAudio.onended = () => { currentAudio = null; if (onEnd) onEnd(); };
-  currentAudio.onerror = () => {
-    currentAudio = null;
-    console.warn('오디오 로드 실패:', url);
-    if (onEnd) onEnd();
+  const rate = (typeof DEV !== 'undefined' && DEV.on) ? 16 : parseFloat(slider?.value || 1);
+  currentAudio.playbackRate = rate;
+  currentAudio.onended = finish;
+  currentAudio.onerror = () => { console.warn('오디오 로드 실패:', url); finish(); };
+
+  // 인앱 브라우저: onended 미발생 대비 — 재생 시간 기반 타임아웃
+  currentAudio.onloadedmetadata = () => {
+    const wait = Math.ceil(currentAudio.duration / rate * 1000) + 4000;
+    setTimeout(() => { if (!done) finish(); }, wait);
   };
-  currentAudio.play();
+  // 메타데이터도 못 가져올 경우 최대 60초 대기
+  setTimeout(() => { if (!done) finish(); }, 60000);
+
+  // play() Promise rejection 처리 (인앱 브라우저 autoplay 차단)
+  const p = currentAudio.play();
+  if (p && p.catch) p.catch(err => { console.warn('재생 실패:', err); finish(); });
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // 적응형 세트 선택
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-const MAX_SETS = 10, MIN_SETS = 3;
+const MAX_SETS = 5, MIN_SETS = 3;
 let pools = {};
 let currentLevel = '중수';
 let consecutiveHighPass = 0;
@@ -1031,6 +1053,7 @@ function unlockOptions() {
     div.classList.remove('locked');
     div.onclick = () => handleAnswer(div, div.dataset.text);
   });
+  highlightAnswer();
 }
 
 function handleAnswer(clicked, chosenText) {
@@ -1216,7 +1239,7 @@ function buildQMap() {
     if (!items.length) return null;
     const acc = Math.round(items.filter(r => r.결과 === 'O').length / items.length * 100);
     const color = acc >= 75 ? '#06d6a0' : acc >= 50 ? '#4361ee' : '#f72585';
-    const lbl = p === 1 ? '앞' : p === 4 ? '뒤' : `Q${p}`;
+    const lbl = `Q${p}`;
     return { lbl, acc, color };
   }).filter(Boolean);
 
@@ -1352,6 +1375,22 @@ document.getElementById('downloadBtn').onclick = () => {
   XLSX.writeFile(wb, `${studentName}_시험결과.xlsx`);
 };
 
+document.getElementById('imageBtn').onclick = () => {
+  const btn = document.getElementById('imageBtn');
+  btn.textContent = '저장 중...';
+  btn.disabled = true;
+  htmlToImage.toPng(document.getElementById('resultScreen'), { pixelRatio: 2 })
+    .then(dataUrl => {
+      const a = document.createElement('a');
+      a.download = `${studentName}_시험결과.png`;
+      a.href = dataUrl;
+      a.click();
+    }).finally(() => {
+      btn.textContent = '캡처 🖼️';
+      btn.disabled = false;
+    });
+};
+
 document.getElementById('retryBtn').onclick = () => {
   if (currentAudio) { currentAudio.pause(); currentAudio = null; }
   showScreen('startScreen');
@@ -1365,6 +1404,66 @@ document.getElementById('speedSlider').oninput = function() {
   document.getElementById('speedValue').textContent = parseFloat(this.value).toFixed(1) + 'x';
   if (currentAudio) currentAudio.playbackRate = parseFloat(this.value);
 };
+
+// ── 히든 커맨드 ───────────────────────────────────────
+const DEV = { on: false };
+let _cmdBuf = '';
+
+function devToast(msg) {
+  const el = document.getElementById('levelFlash');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 1600);
+}
+
+function highlightAnswer() {
+  document.querySelectorAll('.option').forEach(div => {
+    div.classList.toggle('dev-correct',
+      DEV.on && !!window._correctText && div.dataset.text === window._correctText);
+  });
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key.length !== 1 || !/[a-z]/i.test(e.key)) return;
+  _cmdBuf = (_cmdBuf + e.key.toLowerCase()).slice(-6);
+
+  if (_cmdBuf.endsWith('pdkcap')) {
+    DEV.on = !DEV.on;
+    if (DEV.on && currentAudio) currentAudio.playbackRate = 16;
+    else if (currentAudio) currentAudio.playbackRate = parseFloat(document.getElementById('speedSlider').value);
+    highlightAnswer();
+    devToast(DEV.on ? '⚡ dev ON' : '⚡ dev OFF');
+  }
+});
+
+// 모바일: 헤더 탭 시퀀스 (레벨→속도→레벨→속도→세트)
+const DEV_TAP_SEQ = ['level','speed','level','speed','set'];
+let _tapBuf = [];
+let _tapTimer = null;
+
+function getHeaderZone(el) {
+  const col = el.closest('.th-col');
+  if (!col) return null;
+  const cols = [...document.querySelectorAll('.th-col')];
+  return ['level', 'set', 'speed'][cols.indexOf(col)] ?? null;
+}
+
+document.addEventListener('click', e => {
+  const zone = getHeaderZone(e.target);
+  if (!zone) return;
+  clearTimeout(_tapTimer);
+  _tapBuf.push(zone);
+  if (_tapBuf.length > DEV_TAP_SEQ.length) _tapBuf.shift();
+  _tapTimer = setTimeout(() => { _tapBuf = []; }, 4000);
+  if (_tapBuf.length === DEV_TAP_SEQ.length && _tapBuf.every((z, i) => z === DEV_TAP_SEQ[i])) {
+    DEV.on = !DEV.on;
+    if (DEV.on && currentAudio) currentAudio.playbackRate = 16;
+    else if (currentAudio) currentAudio.playbackRate = parseFloat(document.getElementById('speedSlider').value);
+    highlightAnswer();
+    devToast(DEV.on ? '⚡ dev ON' : '⚡ dev OFF');
+    _tapBuf = []; clearTimeout(_tapTimer);
+  }
+}, true);
 </script>
 </body>
 </html>
