@@ -15,7 +15,7 @@
 > - **소스/문서**: https://github.com/lanssam/ESC_Listening_Test
 > - **라이브**: https://esc-listening-test.vercel.app
 >
-> repo 안 **HANDOFF.md** (이 문서)를 먼저 읽어주세요.
+> repo 안 **esc-handoff.md** (이 문서)를 먼저 읽어주세요.
 > 운영 · 수정 · 배포 · **본인 계정으로 이관**까지 전부 정리되어 있습니다.
 >
 > 현재 라이브는 전임자 개인 GitHub/Vercel에 떠 있습니다.
@@ -120,7 +120,7 @@ python3 generate_all.py          # output/low|mid|high 에 mp3 생성
 ESC_Listening_Test/
 ├── index.html        앱 본체 (JS/CSS/데이터 내장)
 ├── intro.html        소개 페이지
-├── HANDOFF.md        ← 이 문서
+├── esc-handoff.md    ← 이 문서
 ├── ESC_Listening_Test_.Script.txt   지문 대본 원본
 ├── lt/               오디오 (배포에 포함, 상대경로로 서빙)
 │   ├── low/  (초보 50) · mid/ (중수 50) · high/ (고수 50)
