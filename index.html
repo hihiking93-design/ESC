@@ -548,10 +548,12 @@ body {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // 스크립트 데이터 (TTS용 지문 포함)
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 상대경로 — 같은 곳에 배포된 lt/ 폴더에서 오디오를 불러옵니다.
+// (Vercel·GitHub Pages·로컬 어디에 올리든 코드 수정 없이 동작)
 const AUDIO_BASE = {
-  '초보': 'https://lanssam.github.io/ESC_Listening_Test/lt/low/',
-  '중수': 'https://lanssam.github.io/ESC_Listening_Test/lt/mid/',
-  '고수': 'https://lanssam.github.io/ESC_Listening_Test/lt/high/',
+  '초보': 'lt/low/',
+  '중수': 'lt/mid/',
+  '고수': 'lt/high/',
 };
 function getBase(level) { return AUDIO_BASE[level] || AUDIO_BASE['초보']; }
 
