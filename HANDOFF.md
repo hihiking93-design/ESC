@@ -8,6 +8,22 @@
 
 ---
 
+## 📩 인수인계 안내 (실장님께)
+
+> ESC Listening Test 인수인계입니다.
+>
+> - **소스/문서**: https://github.com/lanssam/ESC_Listening_Test
+> - **라이브**: https://esc-listening-test.vercel.app
+>
+> repo 안 **HANDOFF.md** (이 문서)를 먼저 읽어주세요.
+> 운영 · 수정 · 배포 · **본인 계정으로 이관**까지 전부 정리되어 있습니다.
+>
+> 현재 라이브는 전임자 개인 GitHub/Vercel에 떠 있습니다.
+> **본인 계정으로 이관(아래 2번)을 완료하시면 알려주세요. 그때 전임자 계정을 정리하겠습니다.**
+> (이관 전까지는 아무것도 삭제하지 않으니 서비스는 계속 정상 작동합니다.)
+
+---
+
 ## 1. 지금 상태 (전임자 퇴사 시점 기준)
 
 - **라이브 서비스**: https://esc-listening-test.vercel.app — 정상 작동, 자기완결형
