@@ -7,26 +7,29 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js"></script>
+<link rel="stylesheet" href="shared/esc.css?v=2">
+<script src="shared/tips.js?v=1"></script>
+<script src="shared/sfx.js?v=1"></script>
 <style>
 :root {
-  --bg: #edf0fa;
+  --bg: #eff3f8;
   --card: #ffffff;
-  --primary: #4361ee;
-  --primary-light: #eef0ff;
-  --accent: #f72585;
-  --success: #06d6a0;
-  --text: #1a1a2e;
-  --muted: #8892a4;
-  --border: #e2e8f0;
-  --shadow: 0 16px 64px rgba(13,27,42,0.16), 0 2px 12px rgba(13,27,42,0.06);
+  --primary: #4C82E8;
+  --primary-light: #EAF1FC;
+  --accent: #7C6CE0;
+  --success: #2FB8A6;
+  --text: #28303B;
+  --muted: #6B7685;
+  --border: #E3E8EF;
+  --shadow: 0 16px 64px rgba(35,43,54,0.14), 0 2px 12px rgba(35,43,54,0.06);
   --radius: 20px;
-  --dark1: #0d1b2a;
-  --dark2: #1b3a6b;
+  --dark1: #1B2430;
+  --dark2: #2B4366;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
   font-family: 'Noto Sans KR', sans-serif;
-  background: linear-gradient(145deg, #e8ecff 0%, #edf0fa 45%, #e4f0ff 100%);
+  background: linear-gradient(180deg, #E7ECF3 0%, #EFF3F8 42%, #F8FAFC 100%);
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -83,8 +86,8 @@ body {
   transition: transform 0.1s, opacity 0.2s;
 }
 .btn:active { transform: scale(0.98); }
-.btn-primary { background: linear-gradient(135deg, #4361ee 0%, #6a3fc8 100%); color: white; }
-.btn-primary:hover { opacity: 0.90; }
+.btn-primary { background: var(--primary); color: white; box-shadow: 0 5px 0 #3A66C4, 0 9px 16px rgba(35,43,54,.16); }
+.btn-primary:active { transform: translateY(5px); box-shadow: 0 0 0 #3A66C4; }
 .btn-sm {
   width: auto; padding: 8px 18px;
   font-size: 14px; font-weight: 500; border-radius: 8px;
@@ -150,14 +153,18 @@ body {
 .options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
 .option {
   display: flex; align-items: center; gap: 14px;
-  padding: 14px 18px;
-  border: 2px solid var(--border); border-radius: 12px;
-  cursor: pointer;
-  transition: border-color 0.15s, background 0.15s;
-  font-size: 15px; color: var(--text);
+  padding: 15px 18px;
+  border: 2.5px solid var(--border); border-radius: 16px;
+  background:#fff; cursor: pointer;
+  box-shadow: 0 3px 0 var(--border);
+  transition: transform .08s, border-color .15s, background .15s, box-shadow .12s;
+  font-size: 15px; color: var(--text); font-weight: 500;
 }
-.option:hover:not(.locked) { border-color: var(--primary); background: var(--primary-light); }
-.option.selected { border-color: var(--primary); background: var(--primary-light); }
+.option:active:not(.locked){ transform: translateY(3px); box-shadow: 0 0 0 var(--border); }
+.option:hover:not(.locked) { border-color: var(--primary); }
+.option.selected { border-color: var(--primary); background: var(--primary-light); box-shadow: 0 3px 0 #9BBEEF; }
+.option.correct { border-color: var(--success); background:#E6F8F3; box-shadow: 0 3px 0 #93D5C8; }
+.option.wrong   { border-color: #E5634D; background:#FCEBE7; box-shadow: 0 3px 0 #ECB3A8; }
 .option.locked   { pointer-events: none; }
 
 /* 듣는 중: 박스/키는 보이고 텍스트만 완전히 숨김 */
@@ -168,13 +175,35 @@ body {
   pointer-events: none;
 }
 .option-key {
-  width: 30px; height: 30px; border-radius: 8px;
+  width: 30px; height: 30px; border-radius: 9px;
   border: 1.5px solid var(--border);
   display: flex; align-items: center; justify-content: center;
   font-weight: 700; font-size: 13px; flex-shrink: 0;
   transition: background 0.15s, border-color 0.15s;
 }
 .option.selected .option-key { background: var(--primary); border-color: var(--primary); color: white; }
+.option.correct .option-key { background: var(--success); border-color: var(--success); color:#fff; }
+.option.wrong .option-key { background:#E5634D; border-color:#E5634D; color:#fff; }
+
+/* 확인 버튼 + 정답/오답 피드백 바 (듀오링고식) */
+#checkBtn{ margin-top: 18px; }
+#checkBtn:disabled{ opacity:.5; cursor:default; background:#AEBBC9; box-shadow:0 5px 0 #93A1B2; }
+.feedback-bar{ margin-top:16px; border-radius:16px; padding:13px 14px 13px 18px;
+  display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.feedback-bar .fb-msg{ font-weight:700; font-size:15px; }
+.feedback-bar.correct{ background:#E6F8F3; } .feedback-bar.correct .fb-msg{ color:#159B82; }
+.feedback-bar.wrong{ background:#FCEBE7; } .feedback-bar.wrong .fb-msg{ color:#D24A33; }
+.feedback-bar .btn{ width:auto; padding:11px 26px; white-space:nowrap; flex-shrink:0; }
+.feedback-bar.correct .btn{ background:var(--success); box-shadow:0 5px 0 #1B9C84; }
+.feedback-bar.wrong .btn{ background:#E5634D; box-shadow:0 5px 0 #C2452F; }
+.feedback-bar .btn:active{ transform:translateY(5px); box-shadow:none; }
+/* ── 모션 juice ── */
+@keyframes esc-pop{0%{transform:scale(1)}45%{transform:scale(1.05)}100%{transform:scale(1)}}
+@keyframes esc-shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+@keyframes esc-slideup{from{transform:translateY(14px);opacity:0}to{transform:translateY(0);opacity:1}}
+.option.correct{animation:esc-pop .34s ease}
+.option.wrong{animation:esc-shake .4s ease}
+.feedback-bar:not([hidden]){animation:esc-slideup .26s ease}
 
 /* 결과 */
 .score-circle {
@@ -220,9 +249,9 @@ body {
   display: inline-block; padding: 2px 8px; border-radius: 6px;
   font-size: 12px; font-weight: 700; color: white; vertical-align: middle;
 }
-.level-badge.초보 { background: #06d6a0; }
-.level-badge.중수 { background: #4361ee; }
-.level-badge.고수 { background: #f72585; }
+.level-badge.초보 { background: #2FB8A6; }
+.level-badge.중수 { background: #4C82E8; }
+.level-badge.고수 { background: #7C6CE0; }
 
 /* ── 결과 분석 화면 ─────────────────────────── */
 .verdict-box {
@@ -447,6 +476,14 @@ body {
 </head>
 <body>
 
+<!-- ESC 인트로/로딩 (쿨 디자인 + 학습 팁) -->
+<div class="ob" id="escIntro" style="z-index:80;gap:16px">
+  <div class="eco bob" style="width:148px"><img src="assets/mascot/web/quokka_listen.png" alt="에코"></div>
+  <div class="bubble" style="max-width:330px;font-size:16px"><b id="introNick">학생</b>, 듣기 모드 시작할까? 🎧</div>
+  <div class="tipcard" id="introTip"></div>
+  <button class="btn3d" id="introStart">시작하기 →</button>
+</div>
+
 <!-- 레벨 변경 플래시 -->
 <div class="level-flash" id="levelFlash"></div>
 
@@ -501,6 +538,12 @@ body {
 
   <div class="options listening" id="optionsWrap"></div>
 
+  <button class="btn btn-primary" id="checkBtn" disabled hidden>확인</button>
+  <div class="feedback-bar" id="feedbackBar" hidden>
+    <div class="fb-msg" id="fbMsg"></div>
+    <button class="btn btn-primary" id="continueBtn">계속</button>
+  </div>
+
 </div>
 
 <!-- ③ 결과 화면 -->
@@ -537,15 +580,15 @@ body {
   <div class="divider"></div>
 
   <div style="display:flex;gap:10px;">
-    <button class="btn btn-primary" id="imageBtn">캡처 🖼️</button>
-    <button class="btn btn-primary" id="downloadBtn">저장 📥</button>
+    <button class="btn btn-primary" id="imageBtn">캡처</button>
+    <button class="btn btn-primary" id="downloadBtn">저장</button>
     <button class="btn btn-sm btn-primary" id="retryBtn"
-      style="background:#f1f3ff;color:var(--primary);flex-shrink:0;">다시하기</button>
+      style="background:#EAF1FC;color:var(--primary);box-shadow:none;flex-shrink:0;">다시</button>
   </div>
 </div>
 
 <script src="shared/telemetry.js"></script>
-<script src="shared/progress.js"></script>
+<script src="shared/progress.js?v=2"></script>
 <script src="shared/interlude.js"></script>
 <script>
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1057,94 +1100,146 @@ function unlockOptions() {
 
   window._correctText = opts.find(o => o.key === correctKey)?.text || '';
   window._qShownAt = (window.performance && performance.now) ? performance.now() : Date.now();
+  window._selectedDiv = null;
 
   document.querySelectorAll('.option').forEach(div => {
-    div.classList.remove('locked');
-    div.onclick = () => handleAnswer(div, div.dataset.text);
+    div.classList.remove('locked', 'selected', 'correct', 'wrong');
+    div.onclick = () => selectOption(div);
   });
+  const cb = document.getElementById('checkBtn');
+  cb.hidden = false; cb.disabled = true; cb.onclick = submitAnswer;
+  document.getElementById('feedbackBar').hidden = true;
+  document.getElementById('continueBtn').onclick = proceedNext;
   highlightAnswer();
 }
 
-function handleAnswer(clicked, chosenText) {
-  if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+// 선택만(제출 X) — 듀오링고식
+function selectOption(div) {
+  if (div.classList.contains('locked')) return;
+  document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+  div.classList.add('selected');
+  window._selectedDiv = div;
+  if (window.SFX) SFX.play('select');
+  document.getElementById('checkBtn').disabled = false;
+}
 
-  document.querySelectorAll('.option').forEach(o => {
-    o.classList.add('locked'); o.onclick = null;
-  });
-  clicked.classList.remove('locked');
-  clicked.classList.add('selected');
+// 확인 → 채점·피드백
+function submitAnswer() {
+  const clicked = window._selectedDiv;
+  if (!clicked) return;
+  const chosenText = clicked.dataset.text;
+  if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+  document.querySelectorAll('.option').forEach(o => { o.classList.add('locked'); o.onclick = null; });
+
+  const correct = chosenText === window._correctText;
+  if (window.SFX) SFX.play(correct ? 'correct' : 'wrong');
+  clicked.classList.remove('selected');
+  clicked.classList.add(correct ? 'correct' : 'wrong');
+  if (!correct) {
+    document.querySelectorAll('.option').forEach(o => { if (o.dataset.text === window._correctText) o.classList.add('correct'); });
+  }
 
   const set = questions[index];
   resultData.push({
-    이름: studentName,
-    단계: set._level,
-    세트: index + 1,
-    문항: currentQIdx + 1,
-    지문위치: currentSetOrder[currentQIdx],
-    셔플: shuffleQuestions,
-    선택: chosenText,
-    정답: window._correctText,
-    결과: chosenText === window._correctText ? 'O' : 'X'
+    이름: studentName, 단계: set._level, 세트: index + 1, 문항: currentQIdx + 1,
+    지문위치: currentSetOrder[currentQIdx], 셔플: shuffleQuestions,
+    선택: chosenText, 정답: window._correctText, 결과: correct ? 'O' : 'X'
   });
-
   const _rt = Math.round(((window.performance && performance.now) ? performance.now() : Date.now()) - (window._qShownAt || 0));
   window._rtSum = (window._rtSum || 0) + _rt;
   window._rtCount = (window._rtCount || 0) + 1;
-  ESCT.log('answer_submitted', { setNum: index + 1, qIdx: currentQIdx + 1, choice: chosenText, correct: chosenText === window._correctText, rtMs: _rt });
+  ESCT.log('answer_submitted', { setNum: index + 1, qIdx: currentQIdx + 1, choice: chosenText, correct: correct, rtMs: _rt });
 
-  setTimeout(() => {
-    if (currentQIdx < totalQ - 1) {
-      currentQIdx++;
-      playQuestion();
-    } else {
-      const _fromLevel = currentLevel, _fromSpeed = currentSpeed, _setAcc = getSetAccuracy();
-      adaptLevel();
-      ESCT.log('level_adapted', { fromLevel: _fromLevel, toLevel: currentLevel, fromSpeed: _fromSpeed, toSpeed: currentSpeed, setAccuracy: Math.round(_setAcc * 100) / 100 });
-
-      // 세트별 이력 기록
-      const sn = index + 1;
-      const sr = resultData.filter(r => r.세트 === sn);
-      const sc = sr.filter(r => r.결과 === 'O').length;
-      const st = sr.length;
-      const sa = st > 0 ? sc / st : 0;
-      const cl = questions[index]._level;
-      let 판정;
-      if (sa === 1) {
-        판정 = cl === '고수' ? '만점 → 시험 종료' : `만점 → ${currentLevel} 승급`;
-      } else if (sa >= 0.75) {
-        판정 = currentLevel !== cl ? `우수 → ${currentLevel} 승급` : '우수 → 레벨 유지';
-      } else if (sa >= 0.5) {
-        판정 = '보통 → 레벨 유지';
-      } else {
-        판정 = currentLevel !== cl ? `미흡 → ${currentLevel} 하향` : '미흡 → 최저 레벨';
-      }
-      setHistory.push({ 세트: sn, 난이도: cl, 정답: `${sc}/${st}`, 정답률: Math.round(sa * 100), 판정 });
-
-      if (shouldStop()) { showResult(); }
-      else {
-        const next = pickNextSet();
-        if (!next) { showResult(); return; }
-        questions.push(next);
-        index++;
-        startSet();
-      }
-    }
-  }, 700);
+  document.getElementById('checkBtn').hidden = true;
+  const fb = document.getElementById('feedbackBar');
+  fb.hidden = false;
+  fb.className = 'feedback-bar ' + (correct ? 'correct' : 'wrong');
+  document.getElementById('fbMsg').textContent = correct ? '정답이에요! 🎉' : ('아쉬워요 · 정답은 「' + window._correctText + '」');
 }
 
-function _injectShellActions() {
+// 계속 → 다음 문항/세트/결과
+function proceedNext() {
+  document.getElementById('feedbackBar').hidden = true;
+  if (currentQIdx < totalQ - 1) {
+    currentQIdx++;
+    playQuestion();
+  } else {
+    const _fromLevel = currentLevel, _fromSpeed = currentSpeed, _setAcc = getSetAccuracy();
+    adaptLevel();
+    ESCT.log('level_adapted', { fromLevel: _fromLevel, toLevel: currentLevel, fromSpeed: _fromSpeed, toSpeed: currentSpeed, setAccuracy: Math.round(_setAcc * 100) / 100 });
+
+    const sn = index + 1;
+    const sr = resultData.filter(r => r.세트 === sn);
+    const sc = sr.filter(r => r.결과 === 'O').length;
+    const st = sr.length;
+    const sa = st > 0 ? sc / st : 0;
+    const cl = questions[index]._level;
+    let 판정;
+    if (sa === 1) {
+      판정 = cl === '고수' ? '만점 → 시험 종료' : `만점 → ${currentLevel} 승급`;
+    } else if (sa >= 0.75) {
+      판정 = currentLevel !== cl ? `우수 → ${currentLevel} 승급` : '우수 → 레벨 유지';
+    } else if (sa >= 0.5) {
+      판정 = '보통 → 레벨 유지';
+    } else {
+      판정 = currentLevel !== cl ? `미흡 → ${currentLevel} 하향` : '미흡 → 최저 레벨';
+    }
+    setHistory.push({ 세트: sn, 난이도: cl, 정답: `${sc}/${st}`, 정답률: Math.round(sa * 100), 판정 });
+
+    if (shouldStop()) { showResult(); }
+    else {
+      const next = pickNextSet();
+      if (!next) { showResult(); return; }
+      questions.push(next);
+      index++;
+      startSet();
+    }
+  }
+}
+
+function _celebrate(){
+  var colors=['#4C82E8','#2FB8A6','#E68A4E','#7C6CE0','#4FB477','#46AEC9'];
+  for(var i=0;i<70;i++){ (function(k){
+    var c=document.createElement('div'); c.className='confetti';
+    c.style.left=(Math.random()*100)+'vw';
+    c.style.background=colors[k%colors.length];
+    c.style.animationDuration=(2.4+Math.random()*1.8)+'s';
+    c.style.animationDelay=(Math.random()*0.5)+'s';
+    document.body.appendChild(c);
+    setTimeout(function(){ if(c.parentNode) c.parentNode.removeChild(c); }, 4600);
+  })(i); }
+}
+
+function _injectShellActions(info) {
   const rs = document.getElementById('resultScreen');
   if (!rs || document.getElementById('escShellActions')) return;
+  info = info || {};
+  const gained = info.gained || 0;
+  const acc = (info.acc != null) ? Math.round(info.acc * 100) : null;
+  const level = info.level || '-';
+  const cel = document.createElement('div');
+  cel.id = 'escCelebrate';
+  cel.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:6px;margin:2px 0 12px';
+  cel.innerHTML =
+    '<div class="celebrate celebrate-pop"><div class="eco bob" style="width:122px"><img src="assets/mascot/web/quokka_celebrate.png" alt="에코"></div></div>'
+    + '<div class="celebrate-pop" style="font-family:Jua,sans-serif;font-size:24px;color:#28303B">잘했어! 🎉</div>';
+  rs.insertBefore(cel, rs.firstChild);
+  const sg = document.createElement('div');
+  sg.className = 'statgrid';
+  sg.innerHTML =
+    '<div class="stat-tile gold"><div class="k">⭐ 획득</div><div class="v">+' + gained + '</div></div>'
+    + '<div class="stat-tile blue"><div class="k">🎯 정답률</div><div class="v">' + (acc != null ? acc + '%' : '-') + '</div></div>'
+    + '<div class="stat-tile green"><div class="k">📊 도달</div><div class="v" style="font-family:Jua,sans-serif;font-size:17px">' + level + '</div></div>';
+  cel.insertAdjacentElement('afterend', sg);
+  var _ds = rs.querySelector('.dark-section'); if (_ds) _ds.style.marginTop = '6px';
   const bar = document.createElement('div');
   bar.id = 'escShellActions';
-  bar.style.cssText = 'display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:18px 0 6px';
-  const calm = document.createElement('button');
-  calm.textContent = '🫧 숨 고르고 홈으로';
-  calm.style.cssText = 'padding:12px 18px;border:0;border-radius:12px;background:#2563eb;color:#fff;font-size:15px;font-weight:600;cursor:pointer';
+  bar.style.cssText = 'display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:16px 0 6px';
+  const calm = document.createElement('a');
+  calm.className = 'btn3d'; calm.textContent = '🫧 숨 고르고 홈으로'; calm.style.cursor = 'pointer';
   calm.onclick = () => Interlude.run(() => location.href = 'index.html');
-  const home = document.createElement('button');
-  home.textContent = '🏠 홈으로';
-  home.style.cssText = 'padding:12px 18px;border:1px solid #cbd5e1;border-radius:12px;background:#fff;color:#334155;font-size:15px;cursor:pointer';
+  const home = document.createElement('a');
+  home.className = 'btn3d ghost'; home.textContent = '홈으로'; home.style.cursor = 'pointer';
   home.onclick = () => location.href = 'index.html';
   bar.appendChild(calm); bar.appendChild(home);
   rs.appendChild(bar);
@@ -1162,8 +1257,11 @@ function showResult() {
   const _overallAcc = total > 0 ? Math.round((correct / total) * 100) / 100 : 0;
   const _avgRt = window._rtCount ? Math.round(window._rtSum / window._rtCount) : 0;
   ESCT.log('session_completed', { sets: nSets, finalLevel: finalLevel, finalSpeed: currentSpeed, overallAccuracy: _overallAcc, avgRt: _avgRt, completed: true });
-  try { ESCProgress.recordSession('listening', { overallAccuracy: _overallAcc, sets: nSets, finalLevel: finalLevel }); } catch (e) {}
-  _injectShellActions();
+  var _rw = null;
+  try { _rw = ESCProgress.recordSession('listening', { overallAccuracy: _overallAcc, sets: nSets, finalLevel: finalLevel }); } catch (e) {}
+  _injectShellActions({ gained: _rw ? _rw.gained : 0, acc: _overallAcc, level: finalLevel });
+  _celebrate();
+  if (window.SFX) SFX.play('complete');
 
   // ── 최종 판정 ──────────────────────────────
   let headline, sub;
@@ -1504,6 +1602,24 @@ document.addEventListener('click', e => {
     _tapBuf = []; clearTimeout(_tapTimer);
   }
 }, true);
+</script>
+<script>
+// ESC 인트로/로딩 와이어링 (닉네임·팁·시작)
+(function(){
+  var nick = (function(){try{return localStorage.getItem('esc_nick');}catch(e){return null;}})() || '학생';
+  var n=document.getElementById('introNick'); if(n) n.textContent=nick;
+  try{ var tip=ESCTips.pickAny();
+    document.getElementById('introTip').innerHTML =
+      '<div class="tag">'+ESCTips.icon[tip.t]+' '+ESCTips.tag[tip.t]+'</div>'
+      +'<div class="h">'+tip.h+'</div><div class="s">'+tip.s+'</div>';
+  }catch(e){}
+  var b=document.getElementById('introStart');
+  if(b) b.onclick=function(){
+    var si=document.getElementById('studentName'); if(si) si.value=nick;
+    var intro=document.getElementById('escIntro'); if(intro) intro.style.display='none';
+    var sb=document.getElementById('startBtn'); if(sb) sb.click();
+  };
+})();
 </script>
 </body>
 </html>

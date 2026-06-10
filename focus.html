@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ESC · 집중 모드</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="shared/esc.css?v=3">
+<script src="shared/telemetry.js"></script>
+<script src="shared/progress.js?v=2"></script>
+<script src="shared/tips.js?v=1"></script>
+<script src="shared/sfx.js?v=1"></script>
+<script src="shared/fx.js?v=1"></script>
+<style>
+  body{overflow:hidden}
+  .gwrap{max-width:460px;margin:0 auto;height:100vh;display:flex;flex-direction:column;padding:14px 16px;position:relative}
+  .ghud{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+  .ghud .x{width:42px;height:42px;border-radius:50%;background:#fff;border:none;box-shadow:0 4px 10px rgba(35,43,54,.14);font-size:18px;cursor:pointer;flex:none}
+  .gauge{flex:1;height:16px;border-radius:999px;background:rgba(40,48,59,.12);overflow:hidden}
+  .gauge .fill{height:100%;border-radius:999px;background:var(--m-focus);width:0;transition:width .12s linear}
+  .gtimer{font-family:var(--f-num);font-weight:700;font-size:16px;color:var(--ink-soft);min-width:34px;text-align:right}
+  .play{flex:1;position:relative;border-radius:22px;overflow:hidden;touch-action:none;
+    background:radial-gradient(140% 100% at 50% 0%, #EAF3FF, #E5ECF6 70%);box-shadow:inset 0 2px 10px rgba(35,43,54,.06);transition:background .8s ease}
+  .lane{position:absolute;top:0;bottom:0;width:92px;border-radius:18px;left:0;
+    background:linear-gradient(180deg, rgba(47,184,166,.16), rgba(47,184,166,.26));border:2.5px dashed rgba(47,184,166,.5)}
+  .lane.hit{background:linear-gradient(180deg, rgba(47,184,166,.30), rgba(47,184,166,.42));border-color:rgba(47,184,166,.9)}
+  .avatar{position:absolute;bottom:18px;left:0;width:54px;height:54px}
+  .avatar img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 4px 6px rgba(35,43,54,.2))}
+  .cue{position:absolute;top:26px;left:50%;transform:translateX(-50%) scale(.6);opacity:0;transition:.12s;
+    padding:12px 22px;border-radius:16px;font-family:var(--f-display);font-size:22px;color:#fff;box-shadow:0 6px 16px rgba(35,43,54,.2)}
+  .cue.show{opacity:1;transform:translateX(-50%) scale(1)}
+  .cue.go{background:var(--m-grit)} .cue.nogo{background:#E5634D}
+  .flash{position:absolute;inset:0;border-radius:22px;pointer-events:none;opacity:0}
+  .flash.good{box-shadow:inset 0 0 0 5px rgba(79,180,119,.7);animation:fl .4s} .flash.bad{box-shadow:inset 0 0 0 5px rgba(229,99,77,.7);animation:fl .4s}
+  @keyframes fl{0%{opacity:.9}100%{opacity:0}}
+  .gobtn{margin-top:12px;font-family:var(--f-display);font-size:22px;color:#fff;background:var(--m-focus);border:none;
+    border-radius:20px;padding:18px;box-shadow:0 7px 0 var(--m-focus-d);cursor:pointer;user-select:none;-webkit-user-select:none}
+  .gobtn:active{transform:translateY(7px);box-shadow:0 0 0 var(--m-focus-d)}
+  .ghint{text-align:center;color:var(--ink-soft);font-size:12px;margin-top:8px;line-height:1.5}
+</style>
+</head>
+<body>
+
+<!-- 인트로 -->
+<div class="ob" id="intro" style="z-index:80;gap:16px">
+  <div class="eco bob" style="width:140px"><img src="assets/mascot/web/friend_owl.png" alt="부엉이"></div>
+  <div class="bubble" style="max-width:330px;font-size:16px"><b id="introNick" style="color:var(--m-focus)">학생</b>, 집중 모드 시작할까? 🎯</div>
+  <div class="tipcard" id="introTip" style="border-left-color:var(--m-focus)"></div>
+  <button class="btn3d" id="introStart" style="--btn:var(--m-focus);--btnd:var(--m-focus-d)">시작하기 →</button>
+</div>
+
+<!-- 게임 -->
+<div class="gwrap" id="game" style="display:none">
+  <div class="ghud">
+    <button class="x" onclick="location.href='index.html'" aria-label="나가기">✕</button>
+    <div class="gauge"><div class="fill" id="gauge"></div></div>
+    <div class="gtimer" id="timer">45s</div>
+  </div>
+  <div class="play" id="play">
+    <div class="lane" id="lane"></div>
+    <div class="avatar" id="avatar"><img src="assets/mascot/cutout/friend_owl.png" alt=""></div>
+    <div class="cue" id="cue"></div>
+    <div class="flash" id="flash"></div>
+  </div>
+  <button class="gobtn" id="goBtn">탭!</button>
+  <div class="ghint">움직이는 <b style="color:var(--m-focus-d)">칸을 따라가며</b>, <b style="color:var(--m-grit)">초록(탭!)</b>엔 탭 · <b style="color:#E5634D">빨강(멈춰)</b>엔 가만히</div>
+</div>
+
+<!-- 결과 -->
+<div class="screen" id="result" style="display:none"></div>
+
+<script>
+var GAME_MS=45000, CUE_WIN=1100;
+var play=document.getElementById('play'), lane=document.getElementById('lane'),
+    avatar=document.getElementById('avatar'), cue=document.getElementById('cue'),
+    gauge=document.getElementById('gauge'), timer=document.getElementById('timer'),
+    flash=document.getElementById('flash'), goBtn=document.getElementById('goBtn');
+var W=0,H=0,pointerX=0,avatarX=0,amp=0,period=1400,laneW=92;
+var t0,last,running=false,focusOn=0,focusTot=0,cueState=null,cueNext=0;
+var stats={hits:0,miss:0,fa:0,cr:0,cues:0};
+// 난이도별 테마 배경 (추후 Meshy 풍경 아트로 교체 가능)
+var THEMES=[
+  {name:'하늘', bg:'radial-gradient(140% 100% at 50% 0%, #EAF3FF, #E5ECF6 70%)'},
+  {name:'노을', bg:'radial-gradient(140% 100% at 50% 0%, #FFEAD6, #FFD7C4 70%)'},
+  {name:'우주', bg:'radial-gradient(140% 100% at 50% 0%, #2C3654, #1C2438 70%)'}
+];
+var curTheme=-1;
+
+function resize(){ var r=play.getBoundingClientRect(); W=r.width; H=r.height; }
+play.addEventListener('pointermove',function(e){ var r=play.getBoundingClientRect(); pointerX=e.clientX-r.left; });
+play.addEventListener('pointerdown',function(e){ var r=play.getBoundingClientRect(); pointerX=e.clientX-r.left; });
+
+function laneCenter(now){ return W/2 + amp*Math.sin(now/period); }
+function doFlash(cls){ flash.className='flash '+cls; setTimeout(function(){ flash.className='flash'; },380); }
+function spawnCue(now){
+  var go=Math.random()<0.62;
+  cueState={go:go,start:now,resolved:false}; stats.cues++;
+  cue.className='cue show '+(go?'go':'nogo'); cue.textContent=go?'탭!':'멈춰';
+}
+function hideCue(){ cue.className='cue'; }
+function tap(){
+  if(window.SFX) SFX.play('select');
+  if(cueState && !cueState.resolved){
+    if(cueState.go){ stats.hits++; doFlash('good'); } else { stats.fa++; doFlash('bad'); }
+    cueState.resolved=true; hideCue(); cueNext=performance.now()+(1500+Math.random()*1100);
+  }
+}
+goBtn.addEventListener('pointerdown',function(e){ e.preventDefault(); tap(); });
+document.addEventListener('keydown',function(e){ if(e.code==='Space'){ e.preventDefault(); tap(); } });
+
+function loop(now){
+  if(!running) return;
+  var dt=Math.min(50, now-last); last=now; var elapsed=now-t0;
+  // 난이도 램프 (점점 빠르게) + 테마 전환
+  var prog=elapsed/GAME_MS; period=1400-prog*520;
+  var ti=prog<0.4?0:(prog<0.72?1:2); if(ti!==curTheme){ curTheme=ti; play.style.background=THEMES[ti].bg; }
+  // 추적
+  avatarX += (pointerX-avatarX)*Math.min(1, dt/110);
+  avatarX=Math.max(28, Math.min(W-28, avatarX));
+  var lc=laneCenter(now);
+  lane.style.transform='translateX('+(lc-laneW/2)+'px)';
+  avatar.style.transform='translateX('+(avatarX-27)+'px)';
+  var onT=Math.abs(avatarX-lc)<laneW/2; lane.classList.toggle('hit',onT);
+  focusTot+=dt; if(onT) focusOn+=dt;
+  gauge.style.width=Math.round(focusOn/Math.max(1,focusTot)*100)+'%';
+  // Go/No-Go
+  if(cueState && !cueState.resolved && now-cueState.start>CUE_WIN){
+    if(cueState.go) stats.miss++; else stats.cr++;
+    cueState.resolved=true; hideCue(); cueNext=now+(1400+Math.random()*1100);
+  }
+  if((!cueState||cueState.resolved) && now>=cueNext) spawnCue(now);
+  // 타이머
+  timer.textContent=Math.ceil(Math.max(0,GAME_MS-elapsed)/1000)+'s';
+  if(elapsed>=GAME_MS){ endGame(); return; }
+  requestAnimationFrame(loop);
+}
+
+function startGame(){
+  document.getElementById('intro').classList.add('hide');
+  setTimeout(function(){ document.getElementById('intro').style.display='none'; },420);
+  document.getElementById('game').style.display='flex';
+  resize(); pointerX=W/2; avatarX=W/2; amp=W*0.33; curTheme=-1;
+  focusOn=0; focusTot=0; stats={hits:0,miss:0,fa:0,cr:0,cues:0};
+  ESCT.log('session_started',{mode:'focus'});
+  t0=performance.now(); last=t0; cueNext=t0+1500; running=true;
+  requestAnimationFrame(loop);
+}
+
+function endGame(){
+  running=false;
+  var focusPct=Math.round(focusOn/Math.max(1,focusTot)*100);
+  var gng=stats.cues? Math.round((stats.hits+stats.cr)/stats.cues*100) : 0;
+  var overall=Math.round((focusPct+gng)/2);
+  ESCT.log('session_completed',{mode:'focus', overallAccuracy:overall/100, focusPct:focusPct, gngAcc:gng, cues:stats.cues, completed:true});
+  var rw=null; try{ rw=ESCProgress.recordSession('focus'); }catch(e){}
+  if(window.SFX) SFX.play('complete');
+  showResult(focusPct, gng, overall, rw);
+}
+
+function showResult(focusPct, gng, overall, rw){
+  document.getElementById('game').style.display='none';
+  var gained=rw&&rw.gained?rw.gained:0;
+  var fb = overall>=80 ? '두 가지를 잘 잡았어요! 간섭을 이겨내는 힘이 늘고 있어요.' : overall>=55 ? '칸을 따라가며 신호엔 손만 빠르게 반응해봐요.' : '한 번에 둘 다 어렵죠. 칸 따라가기에 익숙해진 뒤 탭을 더해봐요.';
+  var r=document.getElementById('result'); r.style.display='flex'; if(window.FX)FX.confetti();
+  r.innerHTML=
+    '<div style="display:flex;flex-direction:column;align-items:center;gap:8px;margin:22px 0 16px">'
+    +'<div class="celebrate celebrate-pop"><div class="eco bob" style="width:124px"><img src="assets/mascot/web/friend_owl.png" alt=""></div></div>'
+    +'<div class="celebrate-pop" style="font-family:Jua,sans-serif;font-size:25px">집중 완료! 🎉</div></div>'
+    +'<div class="statgrid">'
+    +'<div class="stat-tile blue"><div class="k">🎯 집중도</div><div class="v">'+focusPct+'%</div></div>'
+    +'<div class="stat-tile green"><div class="k">⚡ 반응</div><div class="v">'+gng+'%</div></div>'
+    +'<div class="stat-tile gold"><div class="k">⭐ 획득</div><div class="v">+'+gained+'</div></div>'
+    +'</div>'
+    +'<div class="bubble" style="margin:6px 0 14px">'+fb+'</div>'
+    +'<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">'
+    +'<a class="btn3d" style="--btn:var(--m-focus);--btnd:var(--m-focus-d)" href="focus.html">다시 🔄</a>'
+    +'<a class="btn3d ghost" href="index.html">홈으로</a></div>';
+}
+
+// 인트로 와이어링
+(function(){
+  document.getElementById('introNick').textContent=(localStorage.getItem('esc_nick')||'학생');
+  try{ var tip=ESCTips.pickAny();
+    document.getElementById('introTip').innerHTML='<div class="tag" style="color:var(--m-focus)">'+ESCTips.icon[tip.t]+' '+ESCTips.tag[tip.t]+'</div><div class="h">'+tip.h+'</div><div class="s">'+tip.s+'</div>';
+  }catch(e){}
+  document.getElementById('introStart').onclick=startGame;
+})();
+window.addEventListener('resize',resize);
+</script>
+</body>
+</html>

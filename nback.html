@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ESC · N-back (작업기억)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="shared/esc.css?v=3">
+<script src="shared/telemetry.js"></script>
+<script src="shared/progress.js?v=2"></script>
+<script src="shared/tips.js?v=1"></script>
+<script src="shared/sfx.js?v=1"></script>
+<script src="shared/fx.js?v=1"></script>
+<style>
+  body{overflow:hidden}
+  .gwrap{max-width:460px;margin:0 auto;height:100vh;display:flex;flex-direction:column;padding:14px 16px}
+  .ghud{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+  .ghud .x{width:42px;height:42px;border-radius:50%;background:#fff;border:none;box-shadow:0 4px 10px rgba(35,43,54,.14);font-size:18px;cursor:pointer;flex:none}
+  .prog{flex:1;height:14px;border-radius:999px;background:rgba(40,48,59,.12);overflow:hidden}
+  .prog .fill{height:100%;border-radius:999px;background:var(--m-focus);width:0;transition:width .2s}
+  .pn{font-family:var(--f-num);font-weight:700;font-size:15px;color:var(--ink-soft);min-width:48px;text-align:right}
+  .nb-ask{text-align:center;font-family:var(--f-display);font-size:15px;color:var(--ink);margin:4px 0 10px}
+  .nb-ask b{color:var(--m-focus)}
+  .stage{flex:1;display:flex;align-items:center;justify-content:center;background:radial-gradient(140% 100% at 50% 0%,#EAF3FF,#E5ECF6 70%);border-radius:22px;box-shadow:inset 0 2px 10px rgba(35,43,54,.06)}
+  .ngrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:min(78vw,300px)}
+  .ncell{aspect-ratio:1;border-radius:16px;background:#fff;box-shadow:0 3px 0 rgba(35,43,54,.08);transition:transform .12s,background .12s,box-shadow .12s}
+  .ncell.lit{background:var(--m-focus);box-shadow:0 4px 0 var(--m-focus-d);transform:scale(1.06)}
+  .matchbtn{margin-top:14px;font-family:var(--f-display);font-size:21px;color:#fff;background:var(--m-focus);border:none;
+    border-radius:20px;padding:18px;box-shadow:0 7px 0 var(--m-focus-d);cursor:pointer;user-select:none}
+  .matchbtn:active{transform:translateY(7px);box-shadow:0 0 0 var(--m-focus-d)}
+  .matchbtn.flash{background:var(--m-grit);box-shadow:0 7px 0 var(--m-grit-d)}
+  .ghint{text-align:center;color:var(--ink-soft);font-size:12px;margin-top:8px}
+</style>
+</head>
+<body>
+
+<div class="ob" id="intro" style="z-index:80;gap:16px">
+  <div class="eco bob" style="width:138px"><img src="assets/mascot/web/friend_owl.png" alt="부엉이"></div>
+  <div class="bubble" style="max-width:330px;font-size:16px"><b id="introNick" style="color:var(--m-focus)">학생</b>, 2칸 전을 기억해! 🧠</div>
+  <div class="tipcard" id="introTip" style="border-left-color:var(--m-focus)"></div>
+  <button class="btn3d" id="introStart" style="--btn:var(--m-focus);--btnd:var(--m-focus-d)">시작하기 →</button>
+</div>
+
+<div class="gwrap" id="game" style="display:none">
+  <div class="ghud">
+    <button class="x" onclick="location.href='index.html'" aria-label="나가기">✕</button>
+    <div class="prog"><div class="fill" id="prog"></div></div>
+    <div class="pn" id="pn">0/24</div>
+  </div>
+  <div class="nb-ask">지금 칸이 <b>2칸 전</b>과 같으면 "같음!"</div>
+  <div class="stage"><div class="ngrid" id="ngrid"></div></div>
+  <button class="matchbtn" id="matchBtn">같음! (2칸 전)</button>
+  <div class="ghint">머릿속으로 마지막 두 칸을 계속 되뇌어요 — 작업기억 훈련</div>
+</div>
+
+<div class="screen" id="result" style="display:none"></div>
+
+<script>
+var N=2, STEPS=24, STIM=1700, GAP=550, MATCH=0.32;
+var seq=[], step=-1, hits=0,miss=0,fa=0,cr=0, tapped=false, curMatch=false, cells=[];
+var ngrid=document.getElementById('ngrid'), prog=document.getElementById('prog'), pn=document.getElementById('pn'),
+    matchBtn=document.getElementById('matchBtn');
+
+function buildGrid(){ ngrid.innerHTML=''; cells=[]; for(var i=0;i<9;i++){ var c=document.createElement('div'); c.className='ncell'; ngrid.appendChild(c); cells.push(c); } }
+function tap(){ if(tapped||step<0)return; tapped=true; if(window.SFX)SFX.play('select'); matchBtn.classList.add('flash'); setTimeout(function(){matchBtn.classList.remove('flash');},160); }
+matchBtn.addEventListener('pointerdown',function(e){ e.preventDefault(); tap(); });
+document.addEventListener('keydown',function(e){ if(e.code==='Space'){ e.preventDefault(); tap(); } });
+
+function nextStep(){
+  step++;
+  if(step>=STEPS){ endGame(); return; }
+  var pos;
+  if(step>=N && Math.random()<MATCH){ pos=seq[step-N]; }
+  else { pos=Math.floor(Math.random()*9); }
+  curMatch=(step>=N && pos===seq[step-N]);
+  seq[step]=pos; tapped=false;
+  pn.textContent=(step+1)+'/'+STEPS; prog.style.width=Math.round(step/STEPS*100)+'%';
+  cells[pos].classList.add('lit');
+  setTimeout(function(){
+    cells[pos].classList.remove('lit');
+    if(step>=N){ if(curMatch){ tapped?hits++:miss++; } else { tapped?fa++:cr++; } }
+    setTimeout(nextStep, GAP);
+  }, STIM);
+}
+function startGame(){
+  document.getElementById('intro').classList.add('hide');
+  setTimeout(function(){ document.getElementById('intro').style.display='none'; },420);
+  document.getElementById('game').style.display='flex';
+  buildGrid(); seq=[]; step=-1; hits=miss=fa=cr=0;
+  ESCT.log('session_started',{mode:'focus',game:'nback'});
+  setTimeout(nextStep, 500);
+}
+function endGame(){
+  prog.style.width='100%';
+  var scored=STEPS-N, acc=Math.round((hits+cr)/scored*100);
+  ESCT.log('session_completed',{mode:'focus',game:'nback',overallAccuracy:acc/100,hits:hits,miss:miss,fa:fa,completed:true});
+  var rw=null; try{ rw=ESCProgress.recordSession('focus'); }catch(e){}
+  if(window.SFX)SFX.play('complete');
+  document.getElementById('game').style.display='none';
+  var gained=rw&&rw.gained?rw.gained:0;
+  var fb = acc>=80 ? '2칸 전을 잘 붙잡았어요! 기억력이 좋네요.' : acc>=55 ? '마지막 두 칸을 머릿속으로 되뇌면 더 정확해져요.' : '어려운 게 정상이에요. 1칸 전부터 천천히 떠올려봐요.';
+  var r=document.getElementById('result'); r.style.display='flex'; if(window.FX)FX.confetti();
+  r.innerHTML=
+    '<div style="display:flex;flex-direction:column;align-items:center;gap:8px;margin:22px 0 16px">'
+    +'<div class="celebrate celebrate-pop"><div class="eco bob" style="width:124px"><img src="assets/mascot/web/friend_owl.png" alt=""></div></div>'
+    +'<div class="celebrate-pop" style="font-family:Jua,sans-serif;font-size:25px">기억 완료! 🧠</div></div>'
+    +'<div class="statgrid">'
+    +'<div class="stat-tile blue"><div class="k">🎯 정확도</div><div class="v">'+acc+'%</div></div>'
+    +'<div class="stat-tile green"><div class="k">✅ 적중</div><div class="v">'+hits+'</div></div>'
+    +'<div class="stat-tile gold"><div class="k">⭐ 획득</div><div class="v">+'+gained+'</div></div>'
+    +'</div>'
+    +'<div class="bubble" style="margin:6px 0 14px">적중 '+hits+' · '+fb+'</div>'
+    +'<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">'
+    +'<a class="btn3d" style="--btn:var(--m-focus);--btnd:var(--m-focus-d)" href="nback.html">다시 🔄</a>'
+    +'<a class="btn3d ghost" href="index.html">홈으로</a></div>';
+}
+
+(function(){
+  document.getElementById('introNick').textContent=(localStorage.getItem('esc_nick')||'학생');
+  try{ var tip=ESCTips.pickAny();
+    document.getElementById('introTip').innerHTML='<div class="tag" style="color:var(--m-focus)">'+ESCTips.icon[tip.t]+' '+ESCTips.tag[tip.t]+'</div><div class="h">'+tip.h+'</div><div class="s">'+tip.s+'</div>';
+  }catch(e){}
+  document.getElementById('introStart').onclick=startGame;
+})();
+</script>
+</body>
+</html>

@@ -62,16 +62,15 @@ body{
 .btn3d.ghost:active{box-shadow:0 0 0 var(--line)}
 
 /* ── 학습 여정 path (징검다리) ──────────────────────── */
-.path{display:flex;flex-direction:column;align-items:center;padding:6px 0 4px}
-.connector{width:0;height:30px;border-left:5px dotted #C7D2DF}
-.stone{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;
-  text-decoration:none;color:var(--ink);padding:4px 0}
-.stone.z-l{transform:translateX(-56px)} .stone.z-r{transform:translateX(56px)}
+.path{position:relative;padding:8px 0 16px}
+.path svg{position:absolute;left:0;top:0;z-index:0;pointer-events:none}
+.stone{position:absolute;width:112px;z-index:1;display:flex;flex-direction:column;align-items:center;
+  gap:6px;text-decoration:none;color:var(--ink)}
 .stone .node{width:90px;height:90px;border-radius:50%;position:relative;overflow:hidden;
   border:5px solid #fff;background:var(--mc,var(--m-listen));
   box-shadow:0 8px 0 var(--mcd,var(--m-listen-d)),0 14px 22px rgba(35,43,54,.18)}
 .stone .node img{position:absolute;inset:0;width:120%;height:120%;left:-10%;top:-4%;object-fit:cover;object-position:50% 22%}
-.stone .label{font-family:var(--f-display);font-size:15.5px;line-height:1}
+.stone .label{font-family:var(--f-display);font-size:15.5px;line-height:1;margin-top:9px}
 .stone .sub{font-size:11px;color:var(--ink-soft);margin-top:-2px}
 .stone.locked .node{box-shadow:0 8px 0 var(--mcd),0 10px 16px rgba(35,43,54,.12);filter:saturate(.82)}
 .stone.locked .node img{filter:grayscale(.25) opacity(.92)}
@@ -82,7 +81,8 @@ body{
 .stone.active .node{animation:stone-bounce 1.7s ease-in-out infinite}
 @keyframes stone-bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
 .start-bubble{font-family:var(--f-display);background:#fff;color:var(--ink);border-radius:13px;
-  padding:6px 13px;font-size:13px;box-shadow:0 7px 16px rgba(35,43,54,.18);position:relative;margin-bottom:3px}
+  padding:6px 13px;font-size:13px;box-shadow:0 7px 16px rgba(35,43,54,.18);white-space:nowrap;
+  position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);z-index:3}
 .start-bubble::after{content:'';position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);
   border:8px solid transparent;border-top-color:#fff;border-bottom:0}
 
@@ -101,6 +101,27 @@ body{
 .weekbar .dots i.over{background:var(--m-speed);box-shadow:0 2px 0 var(--m-speed-d)}
 .weekbar .ql{font-family:var(--f-display);font-size:11.5px;color:var(--ink-soft)}
 .weekbar .ql.met{color:var(--m-grit)} .weekbar .ql.miss{color:var(--m-speed)}
+
+/* ── 로딩 팁 카드 ───────────────────────────────────── */
+.tipcard{background:#fff;border-radius:var(--r-md);padding:13px 15px;max-width:330px;text-align:left;
+  box-shadow:0 8px 20px rgba(35,43,54,.12);border-left:5px solid var(--m-listen)}
+.tipcard .tag{font-family:var(--f-display);font-size:12px;color:var(--m-listen);margin-bottom:3px}
+.tipcard .h{font-family:var(--f-display);font-size:15px;line-height:1.35;margin-bottom:4px;color:var(--ink)}
+.tipcard .s{font-size:13px;color:var(--ink-soft);line-height:1.5}
+
+/* ── 결과 스탯 타일 (듀오링고 수업완료식) ───────────── */
+.statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:2px 0 14px;width:100%}
+.stat-tile{background:#fff;border-radius:14px;padding:11px 6px;text-align:center;border:2px solid var(--line);box-shadow:0 4px 0 var(--line)}
+.stat-tile .k{font-size:11px;color:var(--ink-soft);font-family:var(--f-display)}
+.stat-tile .v{font-family:var(--f-num);font-weight:700;font-size:21px;margin-top:2px;line-height:1}
+.stat-tile.gold{border-color:#F4D58D;box-shadow:0 4px 0 #E9C36A} .stat-tile.gold .v{color:#E8A11E}
+.stat-tile.blue{border-color:#BBD3F6;box-shadow:0 4px 0 #9BBEEF} .stat-tile.blue .v{color:var(--m-listen)}
+.stat-tile.green{border-color:#B6E4C2;box-shadow:0 4px 0 #93D5A6} .stat-tile.green .v{color:var(--m-grit)}
+.statgrid .stat-tile{animation:pop-in .42s both}
+.statgrid .stat-tile:nth-child(2){animation-delay:.1s} .statgrid .stat-tile:nth-child(3){animation-delay:.2s}
+/* 결과: 축하/스탯 타일 위로 다크섹션이 겹치지 않게 — 부모 마진붕괴 차단 + 상단 마진 양수(풀블리드 사이드 유지) */
+#resultScreen #finalVerdict{margin-top:12px}
+#resultScreen .dark-section{margin-top:0}
 
 /* ── 카드/타일(재사용) ──────────────────────────────── */
 .tile{background:#fff;border-radius:var(--r-md);padding:15px;text-decoration:none;color:var(--ink);
@@ -158,9 +179,17 @@ body{
   color:var(--ink);outline:none}
 .ob .nick::placeholder{color:#9AA7B5}
 
-/* ── 컨페티 ─────────────────────────────────────────── */
-.confetti{position:fixed;top:-12px;width:11px;height:16px;border-radius:2px;z-index:70;animation:fall linear forwards}
-@keyframes fall{to{transform:translateY(105vh) rotate(540deg);opacity:.9}}
+/* ── 컨페티 + 축하 FX ───────────────────────────────── */
+.confetti{position:fixed;top:-14px;width:11px;height:16px;border-radius:2px;z-index:80;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(560deg);opacity:.85}}
+.celebrate{position:relative;display:inline-flex;align-items:center;justify-content:center}
+.celebrate::before{content:'';position:absolute;width:250px;height:250px;border-radius:50%;z-index:-1;
+  background:repeating-conic-gradient(from 0deg, rgba(255,201,60,.28) 0deg 11deg, transparent 11deg 22deg);
+  -webkit-mask-image:radial-gradient(circle,#000 36%,transparent 70%);mask-image:radial-gradient(circle,#000 36%,transparent 70%);
+  animation:ray-spin 16s linear infinite}
+@keyframes ray-spin{to{transform:rotate(360deg)}}
+@keyframes celebrate-in{0%{transform:scale(.5) translateY(16px);opacity:0}60%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+.celebrate-pop{animation:celebrate-in .55s cubic-bezier(.2,.9,.3,1.35) both}
 
 .muted{color:var(--ink-soft);font-size:12.5px;line-height:1.6;text-align:center}
 h2.sec{font-family:var(--f-display);font-size:15px;color:var(--ink-soft);margin:6px 2px 12px;letter-spacing:.4px}

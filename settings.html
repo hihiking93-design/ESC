@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ESC · 설정</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="shared/esc.css?v=3">
+<script src="shared/sfx.js?v=1"></script>
+<style>
+  .topbar2{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+  .back{width:44px;height:44px;border-radius:50%;background:#fff;border:none;box-shadow:0 4px 10px rgba(35,43,54,.14);font-size:20px;cursor:pointer}
+  .ptitle{font-family:var(--f-display);font-size:18px}
+  .scard{background:#fff;border-radius:16px;padding:16px;box-shadow:0 4px 12px rgba(35,43,54,.08);margin-bottom:14px}
+  .scard .lbl{font-family:var(--f-display);font-size:14px;margin-bottom:9px;display:flex;align-items:center;gap:7px}
+  .row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .nickin{flex:1;font-family:var(--f-display);font-size:17px;border:2.5px solid var(--line);border-radius:13px;padding:11px 14px;color:var(--ink);outline:none;background:#FBFDFF}
+  .nickin:focus{border-color:var(--m-listen)}
+  .savebtn{font-family:var(--f-display);font-size:14px;color:#fff;background:var(--m-listen);border:none;border-radius:13px;padding:11px 16px;box-shadow:0 4px 0 var(--m-listen-d);cursor:pointer}
+  .savebtn:active{transform:translateY(4px);box-shadow:none}
+  /* 토글 스위치 */
+  .sw{width:56px;height:32px;border-radius:999px;background:#CFD8E2;position:relative;cursor:pointer;transition:background .18s;flex:none}
+  .sw.on{background:var(--m-grit)}
+  .sw .knob{position:absolute;top:3px;left:3px;width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 2px 4px rgba(35,43,54,.25);transition:left .18s}
+  .sw.on .knob{left:27px}
+  .sub{font-size:12px;color:var(--ink-soft);margin-top:8px}
+  .danger{font-family:var(--f-display);font-size:14px;color:#D24A33;background:#FCEBE7;border:none;border-radius:13px;padding:12px;width:100%;cursor:pointer}
+  .toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;
+    padding:11px 20px;border-radius:999px;font-size:14px;opacity:0;transition:.25s;z-index:50;font-family:var(--f-display)}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="screen">
+  <div class="topbar2">
+    <button class="back" onclick="location.href='profile.html'" aria-label="뒤로">←</button>
+    <div class="ptitle">설정</div>
+  </div>
+
+  <div class="scard">
+    <div class="lbl">🙂 이름</div>
+    <div class="row">
+      <input class="nickin" id="nick" maxlength="12" placeholder="이름">
+      <button class="savebtn" id="saveNick">저장</button>
+    </div>
+  </div>
+
+  <div class="scard">
+    <div class="row">
+      <div class="lbl" style="margin:0">🔊 소리</div>
+      <div class="sw" id="soundSw"><div class="knob"></div></div>
+    </div>
+    <div class="sub">탭·정답·축하 효과음을 켜고 끕니다.</div>
+  </div>
+
+  <div class="scard">
+    <div class="lbl">🗑️ 기록</div>
+    <button class="danger" id="resetBtn">모든 기록 초기화</button>
+    <div class="sub">별·연속·통계·이름이 모두 지워집니다. 되돌릴 수 없어요.</div>
+  </div>
+
+  <p class="muted" style="margin-top:10px">ESC · 매일 5분 집중 훈련 · v0.1 (웹 스파이크)</p>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+function toast(t){ var el=document.getElementById('toast'); el.textContent=t; el.classList.add('show'); setTimeout(function(){el.classList.remove('show');},1600); }
+
+// 닉네임
+var nick=document.getElementById('nick');
+nick.value=localStorage.getItem('esc_nick')||'';
+document.getElementById('saveNick').onclick=function(){
+  var v=nick.value.trim(); if(!v){ toast('이름을 입력하세요'); return; }
+  localStorage.setItem('esc_nick',v); if(window.SFX)SFX.play('select'); toast('저장됐어요 ✅');
+};
+
+// 소리 토글
+var sw=document.getElementById('soundSw');
+function syncSound(){ var off=(localStorage.getItem('esc_sound')==='off'); sw.classList.toggle('on',!off); }
+syncSound();
+sw.onclick=function(){
+  var nowOff=(localStorage.getItem('esc_sound')==='off');
+  SFX.setMuted(!nowOff ? true : false); // 켜져있으면 끄고, 꺼져있으면 켬
+  syncSound();
+  if(localStorage.getItem('esc_sound')!=='off') SFX.play('correct');
+};
+
+// 초기화
+document.getElementById('resetBtn').onclick=function(){
+  if(!confirm('정말 모든 기록을 초기화할까요? 되돌릴 수 없어요.')) return;
+  ['esc_nick','esc_progress','esc_events','esc_anon_id','esc_sound'].forEach(function(k){ localStorage.removeItem(k); });
+  toast('초기화됐어요');
+  setTimeout(function(){ location.href='index.html'; }, 900);
+};
+</script>
+</body>
+</html>

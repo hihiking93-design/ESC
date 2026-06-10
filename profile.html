@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ESC · 프로필</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="shared/esc.css?v=3">
+<script src="shared/telemetry.js"></script>
+<script src="shared/progress.js?v=2"></script>
+<style>
+  .topbar2{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+  .back{width:44px;height:44px;border-radius:50%;background:#fff;border:none;box-shadow:0 4px 10px rgba(35,43,54,.14);font-size:20px;cursor:pointer}
+  .ptitle{font-family:var(--f-display);font-size:18px}
+  .pcard{background:#fff;border-radius:var(--r-lg);padding:20px;text-align:center;box-shadow:var(--shadow-soft);margin-bottom:14px}
+  .pcard .av{width:120px;margin:0 auto 8px}
+  .pcard .nick{font-family:var(--f-display);font-size:22px}
+  .pcard .meta{color:var(--ink-soft);font-size:13px;margin-top:3px}
+  .srow{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:18px}
+  .scard{background:#fff;border-radius:16px;padding:13px 14px;display:flex;align-items:center;gap:11px;box-shadow:0 4px 12px rgba(35,43,54,.08)}
+  .scard .ic{font-size:24px}
+  .scard .k{font-size:12px;color:var(--ink-soft)} .scard .v{font-family:var(--f-num);font-weight:700;font-size:20px;line-height:1.1}
+  .week7{display:flex;justify-content:space-between;background:#fff;border-radius:16px;padding:14px 10px;box-shadow:0 4px 12px rgba(35,43,54,.08);margin-bottom:18px}
+  .day{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;color:var(--ink-soft)}
+  .day .dot{width:28px;height:28px;border-radius:50%;background:#E5EAF1;display:grid;place-items:center;font-size:14px;color:#fff}
+  .day.on .dot{background:var(--m-grit)}
+  .day.today .dot{box-shadow:0 0 0 3px rgba(76,130,232,.35)}
+  .pill{background:#fff;border-radius:16px;padding:12px 15px;box-shadow:0 4px 12px rgba(35,43,54,.08);margin-bottom:10px;display:flex;align-items:center;gap:12px}
+  .pill .face{width:46px;height:46px;border-radius:13px;overflow:hidden;border:2.5px solid var(--mc);flex:none;background:#FBEBD3}
+  .pill .face img{width:100%;height:100%;object-fit:cover;object-position:50% 28%}
+  .pill .body{flex:1;min-width:0}
+  .pill .nm{font-family:var(--f-display);font-size:14px}
+  .pill .bar{height:10px;border-radius:6px;background:#E5EAF1;margin-top:6px;overflow:hidden}
+  .pill .fill{height:100%;border-radius:6px;background:var(--mc)}
+  .pill .st{font-size:11px;color:var(--ink-soft);margin-top:5px}
+  .pill.lock{opacity:.62}
+  .badges{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  .badge{background:#fff;border-radius:14px;padding:12px 5px;text-align:center;box-shadow:0 4px 12px rgba(35,43,54,.08)}
+  .badge .bi{font-size:26px} .badge .bl{font-size:10.5px;color:var(--ink-soft);margin-top:4px;line-height:1.2}
+  .badge.off{opacity:.4;filter:grayscale(1)}
+  .chartcard{background:#fff;border-radius:16px;padding:14px 12px;box-shadow:0 4px 12px rgba(35,43,54,.08);margin-bottom:18px}
+  .sechead{display:flex;align-items:center;justify-content:space-between;margin:10px 2px 10px}
+  .seg{display:inline-flex;background:#E9EEF4;border-radius:10px;padding:3px}
+  .seg button{border:none;background:transparent;font-family:var(--f-body);font-size:12px;font-weight:700;color:var(--ink-soft);padding:5px 12px;border-radius:8px;cursor:pointer}
+  .seg button.on{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(35,43,54,.12)}
+</style>
+</head>
+<body>
+<div class="screen">
+  <div class="topbar2" style="justify-content:space-between">
+    <div style="display:flex;align-items:center;gap:10px">
+      <button class="back" onclick="location.href='index.html'" aria-label="뒤로">←</button>
+      <div class="ptitle">프로필</div>
+    </div>
+    <button class="back" onclick="location.href='settings.html'" aria-label="설정">⚙️</button>
+  </div>
+
+  <div class="pcard">
+    <div class="eco av"><img src="assets/mascot/web/quokka_greet.png" alt="에코"></div>
+    <div class="nick" id="nick">학생</div>
+    <div class="meta" id="meta"></div>
+  </div>
+
+  <div class="srow" id="srow"></div>
+
+  <h2 class="sec">종합 능력치</h2>
+  <div class="chartcard" id="radar"></div>
+
+  <h2 class="sec">이번 주 활동</h2>
+  <div class="week7" id="week7"></div>
+
+  <h2 class="sec">능력별 진행</h2>
+  <div id="pillars"></div>
+
+  <div class="sechead">
+    <h2 class="sec" style="margin:0">정답률 추이</h2>
+    <div class="seg" id="trendSeg">
+      <button data-m="session" class="on">세션</button><button data-m="week">주간</button><button data-m="month">월간</button>
+    </div>
+  </div>
+  <div class="chartcard" id="trend"></div>
+
+  <h2 class="sec" style="margin-top:8px">뱃지</h2>
+  <div class="badges" id="badges"></div>
+
+  <p class="muted" style="margin-top:18px">이 통계는 나중에 선생님·학부모와 공유할 수 있어요.</p>
+</div>
+
+<script>
+function ymd(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function monday(d){var x=new Date(d.getFullYear(),d.getMonth(),d.getDate());var g=(x.getDay()+6)%7;x.setDate(x.getDate()-g);return x;}
+
+var p = ESCProgress.get();
+var wk = ESCProgress.week();
+document.getElementById('nick').textContent = localStorage.getItem('esc_nick') || '학생';
+document.getElementById('meta').textContent = 'ESC와 함께 · 총 ' + (p.totalSessions||0) + '판';
+
+// 스탯 카드
+var srow=document.getElementById('srow');
+[['🔥','연속',(p.streak||0)+'일'],['⭐','총 별',(p.stars||0)],['🎯','총 판수',(p.totalSessions||0)],['📅','이번 주',wk.done+'/'+wk.quota]]
+.forEach(function(s){var d=document.createElement('div');d.className='scard';d.innerHTML='<div class="ic">'+s[0]+'</div><div><div class="k">'+s[1]+'</div><div class="v">'+s[2]+'</div></div>';srow.appendChild(d);});
+
+// 이번 주 7일
+var days=['월','화','수','목','금','토','일'], mon=monday(new Date()), todayStr=ymd(new Date());
+var weekDays=(p.week&&p.week.days)||[], w7=document.getElementById('week7');
+for(var i=0;i<7;i++){var dd=new Date(mon);dd.setDate(mon.getDate()+i);var ds=ymd(dd);
+  var on=weekDays.indexOf(ds)>-1, today=ds===todayStr;
+  var el=document.createElement('div');el.className='day'+(on?' on':'')+(today?' today':'');
+  el.innerHTML='<div class="dot">'+(on?'✓':'')+'</div>'+days[i];w7.appendChild(el);}
+
+// 능력별 진행 (듣기는 텔레메트리에서 도달레벨·평균정답률)
+var ev=[]; try{ev=ESCT.dump();}catch(e){}
+var comp=ev.filter(function(e){return e.event==='session_completed';});
+var lvOrder={'초보':1,'중수':2,'고수':3}, lvName={1:'초보',2:'중수',3:'고수'};
+var listen={n:(p.byMode&&p.byMode.listening)||0,bestLv:0,avgAcc:null};
+if(comp.length){var accs=[];comp.forEach(function(e){if(e.finalLevel&&lvOrder[e.finalLevel]>listen.bestLv)listen.bestLv=lvOrder[e.finalLevel];if(typeof e.overallAccuracy==='number')accs.push(e.overallAccuracy);});
+  if(accs.length)listen.avgAcc=Math.round(accs.reduce(function(a,b){return a+b;},0)/accs.length*100);}
+var PILLARS=[
+  {nm:'듣기',face:'quokka_listen',c:'--m-listen',ready:true},
+  {nm:'집중',face:'friend_owl',c:'--m-focus'},
+  {nm:'속도',face:'friend_rabbit',c:'--m-speed'},
+  {nm:'도전',face:'friend_hedgehog',c:'--m-challenge'},
+  {nm:'끈기',face:'friend_turtle',c:'--m-grit'},
+  {nm:'진정',face:'quokka_calm',c:'--m-calm'}
+];
+var pc=document.getElementById('pillars');
+PILLARS.forEach(function(pl){
+  var el=document.createElement('div');el.className='pill'+(pl.ready?'':' lock');el.style.setProperty('--mc','var('+pl.c+')');
+  var fill,st;
+  if(pl.ready){fill=listen.bestLv?Math.round(listen.bestLv/3*100):10;st=listen.n+'판 · 도달 '+(listen.bestLv?lvName[listen.bestLv]:'-')+(listen.avgAcc!=null?' · 평균 '+listen.avgAcc+'%':'');}
+  else{fill=0;st='준비중';}
+  el.innerHTML='<div class="face"><img src="assets/mascot/web/'+pl.face+'.png" alt=""></div><div class="body"><div class="nm">'+pl.nm+'</div><div class="bar"><div class="fill" style="width:'+fill+'%"></div></div><div class="st">'+st+'</div></div>';
+  pc.appendChild(el);
+});
+
+// 뱃지
+var BADGES={'first-listening':['🎧','첫 듣기'],'streak-3':['🔥','3일 연속'],'streak-7':['🔥','7일 연속'],'week-quota':['🏆','주간 달성']};
+var earned=p.badges||[], bg=document.getElementById('badges');
+Object.keys(BADGES).forEach(function(id){var b=BADGES[id],on=earned.indexOf(id)>-1;
+  var el=document.createElement('div');el.className='badge'+(on?'':' off');el.innerHTML='<div class="bi">'+b[0]+'</div><div class="bl">'+b[1]+'</div>';bg.appendChild(el);});
+
+// ── 종합 능력치 (육각 레이더) ──
+function drawRadar(values,labels){
+  var sz=250,cx=sz/2,cy=sz/2+4,R=82,n=values.length,i,a,r,pts;
+  var s='<svg viewBox="0 0 '+sz+' '+(sz+8)+'" width="100%" style="max-width:300px;display:block;margin:0 auto">';
+  for(var ring=1;ring<=4;ring++){ r=R*ring/4; pts=[];
+    for(i=0;i<n;i++){ a=Math.PI*2*i/n-Math.PI/2; pts.push((cx+r*Math.cos(a)).toFixed(1)+','+(cy+r*Math.sin(a)).toFixed(1)); }
+    s+='<polygon points="'+pts.join(' ')+'" fill="none" stroke="#E6ECF3" stroke-width="1"/>'; }
+  for(i=0;i<n;i++){ a=Math.PI*2*i/n-Math.PI/2;
+    s+='<line x1="'+cx+'" y1="'+cy+'" x2="'+(cx+R*Math.cos(a)).toFixed(1)+'" y2="'+(cy+R*Math.sin(a)).toFixed(1)+'" stroke="#E6ECF3" stroke-width="1"/>';
+    s+='<text x="'+(cx+(R+18)*Math.cos(a)).toFixed(1)+'" y="'+(cy+(R+18)*Math.sin(a)+4).toFixed(1)+'" font-size="11.5" fill="#6B7685" text-anchor="middle" font-family="Jua,sans-serif">'+labels[i]+'</text>'; }
+  var dp=[];
+  for(i=0;i<n;i++){ a=Math.PI*2*i/n-Math.PI/2; r=R*Math.max(0,Math.min(100,values[i]))/100; dp.push((cx+r*Math.cos(a)).toFixed(1)+','+(cy+r*Math.sin(a)).toFixed(1)); }
+  s+='<polygon points="'+dp.join(' ')+'" fill="rgba(76,130,232,.22)" stroke="#4C82E8" stroke-width="2.5" stroke-linejoin="round"/>';
+  for(i=0;i<n;i++){ a=Math.PI*2*i/n-Math.PI/2; r=R*Math.max(0,Math.min(100,values[i]))/100; s+='<circle cx="'+(cx+r*Math.cos(a)).toFixed(1)+'" cy="'+(cy+r*Math.sin(a)).toFixed(1)+'" r="3.5" fill="#4C82E8"/>'; }
+  return s+'</svg>';
+}
+var listenScore=listen.bestLv?Math.round((listen.bestLv/3)*70+(listen.avgAcc||0)/100*30):(listen.n?12:0);
+document.getElementById('radar').innerHTML=drawRadar([listenScore,0,0,0,0,0],['듣기','집중','속도','도전','끈기','진정']);
+
+// ── 정답률 추이 (세션/주간/월간) ──
+function drawLine(series){
+  if(!series||!series.length) return '<div class="muted" style="padding:20px 0">아직 추이 데이터가 부족해요</div>';
+  var W=340,H=158,padL=20,padB=22,padT=12,n=series.length,i;
+  var s='<svg viewBox="0 0 '+W+' '+H+'" width="100%">';
+  [0,50,100].forEach(function(v){ var y=padT+(H-padT-padB)*(1-v/100); s+='<line x1="'+(padL+4)+'" y1="'+y.toFixed(1)+'" x2="'+(W-8)+'" y2="'+y.toFixed(1)+'" stroke="#EEF2F7" stroke-width="1"/>'; s+='<text x="2" y="'+(y+3).toFixed(1)+'" font-size="9" fill="#9AA7B5">'+v+'</text>'; });
+  var step=(W-padL-26)/Math.max(1,n-1),co=[];
+  for(i=0;i<n;i++){ var x=(n===1)?(W+padL)/2:(padL+14+i*step); var y=padT+(H-padT-padB)*(1-Math.max(0,Math.min(100,series[i].y))/100); co.push({x:x,y:y}); }
+  if(n>1){ var d='M '+co[0].x.toFixed(1)+' '+co[0].y.toFixed(1); for(i=1;i<n;i++) d+=' L '+co[i].x.toFixed(1)+' '+co[i].y.toFixed(1); s+='<path d="'+d+'" fill="none" stroke="#4C82E8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>'; }
+  for(i=0;i<n;i++){ s+='<circle cx="'+co[i].x.toFixed(1)+'" cy="'+co[i].y.toFixed(1)+'" r="4" fill="#fff" stroke="#4C82E8" stroke-width="2.5"/>'; s+='<text x="'+co[i].x.toFixed(1)+'" y="'+(H-7)+'" font-size="9" fill="#9AA7B5" text-anchor="middle">'+series[i].x+'</text>'; }
+  return s+'</svg>';
+}
+function aggTrend(mode){
+  var c=comp.filter(function(e){return typeof e.overallAccuracy==='number';});
+  if(!c.length) return [];
+  if(mode==='session') return c.slice(-10).map(function(e,i){return {x:String(i+1), y:Math.round(e.overallAccuracy*100)};});
+  var g={};
+  c.forEach(function(e){ var d=new Date(e.ts),key,label;
+    if(mode==='week'){ var m=monday(d); key=ymd(m); label=(m.getMonth()+1)+'/'+m.getDate(); }
+    else { key=d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2); label=(d.getMonth()+1)+'월'; }
+    if(!g[key])g[key]={s:0,n:0,l:label}; g[key].s+=e.overallAccuracy*100; g[key].n++; });
+  return Object.keys(g).sort().slice(-8).map(function(k){return {x:g[k].l, y:Math.round(g[k].s/g[k].n)};});
+}
+function renderTrend(m){ document.getElementById('trend').innerHTML=drawLine(aggTrend(m)); }
+var seg=document.getElementById('trendSeg');
+seg.addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b)return;
+  [].forEach.call(seg.querySelectorAll('button'),function(x){x.classList.remove('on');}); b.classList.add('on');
+  renderTrend(b.getAttribute('data-m')); });
+renderTrend('session');
+</script>
+</body>
+</html>

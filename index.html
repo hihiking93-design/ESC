@@ -6,11 +6,19 @@
 <title>ESC · 매일 5분 집중 여정</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="shared/esc.css?v=2">
+<link rel="stylesheet" href="shared/esc.css?v=3">
 <script src="shared/progress.js?v=2"></script>
 <style>
   .ob-cast{display:flex;gap:14px;justify-content:center}
   .pavatar{width:46px;height:46px;border-radius:50%;object-fit:cover;object-position:50% 24%}
+  .scenery{position:absolute;z-index:0;pointer-events:none;filter:drop-shadow(0 5px 7px rgba(35,43,54,.13))}
+  .unit-banner{position:absolute;left:0;width:100%;height:54px;border-radius:16px;background:var(--mc);
+    box-shadow:0 4px 0 var(--mcd);display:flex;align-items:center;justify-content:space-between;
+    padding:0 16px;color:#fff;z-index:2}
+  .unit-banner .ub-n{font-family:var(--f-display);font-size:15px;line-height:1.1}
+  .unit-banner .ub-t{font-size:11px;opacity:.93;margin-top:3px}
+  .unit-banner .ub-ic{font-size:20px;background:rgba(255,255,255,.22);width:40px;height:40px;border-radius:11px;display:grid;place-items:center;flex:none}
+  .atmo{position:absolute;z-index:-1;pointer-events:none;border-radius:50%}
 </style>
 </head>
 <body>
@@ -31,7 +39,7 @@
 <!-- ── 홈 (학습 여정 path) ───────────────────────── -->
 <div class="screen" id="home" style="display:none">
   <header style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px">
-    <button class="cbtn" id="profileBtn" aria-label="프로필"><img class="pavatar" src="assets/mascot/web/quokka_greet.png" alt=""></button>
+    <button class="cbtn" id="profileBtn" aria-label="프로필" onclick="location.href='profile.html'"><img class="pavatar" src="assets/mascot/web/quokka_greet.png" alt=""></button>
     <div class="wordmark"><span class="e">e</span><span class="s">s</span><span class="c">c</span></div>
     <div class="streak">🔥 <span id="streakN">0</span></div>
   </header>
@@ -53,11 +61,6 @@
 
   <!-- 징검다리 여정 -->
   <div class="path" id="path"></div>
-
-  <p class="muted" style="margin-top:14px">
-    학습·집중력을 키우는 연습 여정이에요. 의학적 진단·치료 도구가 아닙니다.<br>
-    기록은 이 기기에만 익명으로 저장됩니다.
-  </p>
 </div>
 
 <script>
@@ -65,32 +68,95 @@ var WEB = 'assets/mascot/web/';
 // 학습 여정 — 듣기→집중→속도→도전→끈기→진정 (돌마다 다른 캐릭터)
 var JOURNEY = [
   {id:'listening',label:'듣기',sub:'듣고 기억하기', face:'quokka_listen',  c:'--m-listen',   cd:'--m-listen-d',   href:'listening.html', active:true},
-  {id:'focus',    label:'집중',sub:'두 가지 동시에',face:'friend_owl',     c:'--m-focus',    cd:'--m-focus-d',    locked:true},
-  {id:'speed',    label:'속도',sub:'빠르게 판단',   face:'friend_rabbit',  c:'--m-speed',    cd:'--m-speed-d',    locked:true},
-  {id:'challenge',label:'도전',sub:'두려움 없이',   face:'friend_hedgehog',c:'--m-challenge',cd:'--m-challenge-d',locked:true},
+  {id:'focus',    label:'집중',sub:'집중·기억·청기백기',face:'friend_owl',  c:'--m-focus',    cd:'--m-focus-d',    href:'focus.html', games:['focus.html','nback.html','cheonggi.html']},
+  {id:'speed',    label:'속도',sub:'탐색·선택주의', face:'friend_rabbit',  c:'--m-speed',    cd:'--m-speed-d',    href:'schulte.html', games:['schulte.html','flanker.html']},
+  {id:'challenge',label:'도전',sub:'함정 이겨내기', face:'friend_hedgehog',c:'--m-challenge',cd:'--m-challenge-d',href:'stroop.html'},
   {id:'grit',     label:'끈기',sub:'끝까지 해내기', face:'friend_turtle',  c:'--m-grit',     cd:'--m-grit-d',     locked:true},
   {id:'calm',     label:'진정',sub:'숨 고르기',     face:'quokka_calm',    c:'--m-calm',     cd:'--m-calm-d',     locked:true},
 ];
-var ZZ = ['z-c','z-l','z-r','z-l','z-r','z-c'];
 var path = document.getElementById('path');
+var stoneEls = [];
 JOURNEY.forEach(function(s,i){
-  if(i>0){ var con=document.createElement('div'); con.className='connector'; con.classList.add('pop','d'+Math.min(i,6)); path.appendChild(con); }
   var el=document.createElement(s.locked?'div':'a');
-  el.className='stone pop d'+Math.min(i+1,6)+' '+ZZ[i]+(s.active?' active':'')+(s.locked?' locked':'');
-  if(!s.locked && s.href) el.href=s.href;
+  el.className='stone pop d'+Math.min(i+1,6)+(s.active?' active':'')+(s.locked?' locked':'');
+  if(!s.locked){ el.href = s.games ? s.games[0] : s.href;
+    if(s.games){ el.addEventListener('click',function(e){ e.preventDefault(); location.href=s.games[Math.floor(Math.random()*s.games.length)]; }); } }
   el.style.setProperty('--mc','var('+s.c+')');
   el.style.setProperty('--mcd','var('+s.cd+')');
   el.innerHTML =
     (s.active?'<div class="start-bubble">오늘 시작! ✨</div>':'')
     + '<div class="node"><img src="'+WEB+s.face+'.png" alt="">'+(s.locked?'<span class="lock">🔒</span>':'')+'</div>'
     + '<div class="label">'+s.label+'</div><div class="sub">'+s.sub+'</div>';
-  path.appendChild(el);
+  path.appendChild(el); stoneEls.push(el);
 });
+// 설치물 + 카메오 — near=기준 노드, dy=노드top 오프셋, x=중앙기준, s=크기, r=회전, flip=반전
+var DECOR=[
+  {src:'assets/props/web/cloud.png',            near:0, x:-110, dy:-22, s:64, r:0},
+  {src:'assets/props/web/signpost.png',         near:0, x:96,   dy:-16, s:80, r:-3},
+  {src:'assets/props/web/books.png',            near:1, x:86,   dy:-16, s:74, r:-7},
+  {src:'assets/props/web/pencil.png',           near:1, x:-104, dy:48,  s:46, r:-20},
+  {src:'assets/mascot/cutout/quokka_think.png', near:1, x:98,   dy:86,  s:76, r:0, flip:true},
+  {src:'assets/props/web/star.png',             near:2, x:-78,  dy:-20, s:52, r:9},
+  {src:'assets/props/web/plant.png',            near:3, x:88,   dy:-24, s:86, r:0},
+  {src:'assets/mascot/cutout/quokka_cheer.png', near:3, x:-100, dy:100, s:82, r:0},
+  {src:'assets/props/web/chest.png',            near:4, x:-84,  dy:-16, s:84, r:-4},
+  {src:'assets/props/web/headset.png',          near:5, x:-90,  dy:-6,  s:72, r:8},
+  {src:'assets/props/web/trophy.png',           near:5, x:100,  dy:-8,  s:66, r:0}
+];
+var decorEls=DECOR.map(function(d){ var im=document.createElement('img'); im.className='scenery'; im.src=d.src; im.alt=''; path.appendChild(im); return im; });
+
+// 유닛 헤더 (인지/마음 2단원)
+var UNITS=[
+  {before:0, c:'--m-listen',    cd:'--m-listen-d',    n:'1단원 · 인지 훈련', t:'듣고 · 집중하고 · 빠르게'},
+  {before:3, c:'--m-challenge', cd:'--m-challenge-d', n:'2단원 · 마음 훈련', t:'두려움 넘어 · 끝까지 · 차분히'}
+];
+var bannerEls=UNITS.map(function(u){
+  var b=document.createElement('div'); b.className='unit-banner';
+  b.style.setProperty('--mc','var('+u.c+')'); b.style.setProperty('--mcd','var('+u.cd+')');
+  b.innerHTML='<div><div class="ub-n">'+u.n+'</div><div class="ub-t">'+u.t+'</div></div><div class="ub-ic">📘</div>';
+  path.appendChild(b); return b;
+});
+
+// 배경 분위기 블롭
+var ATMO=[
+  {x:-150, y:150, s:250, c:'rgba(76,130,232,.10)'},
+  {x:175,  y:540, s:270, c:'rgba(124,108,224,.09)'},
+  {x:-160, y:900, s:250, c:'rgba(47,184,166,.10)'}
+];
+var atmoEls=ATMO.map(function(a){ var el=document.createElement('div'); el.className='atmo'; el.style.background='radial-gradient(circle,'+a.c+',transparent 70%)'; path.appendChild(el); return el; });
+
+var OFFS=[0,-58,58,-58,58,0], STEP=176, NODE=45, HALF=56, U_TOP=8, BAN_H=54, BAN_GAP=46, NS='http://www.w3.org/2000/svg';
+function _cx(i,W){ return Math.round(W/2 + OFFS[i%OFFS.length]); }
+
+function buildPath(){
+  var W=path.clientWidth; if(!W) return;
+  var n=JOURNEY.length, tops=[], bany=[], y=U_TOP, u=0, i;
+  for(i=0;i<n;i++){
+    if(u<UNITS.length && UNITS[u].before===i){ bany[u]=y; y+=BAN_H+BAN_GAP; u++; }
+    tops[i]=y; y+=STEP;
+  }
+  var H=y+34; path.style.height=H+'px';
+  stoneEls.forEach(function(el,k){ el.style.top=tops[k]+'px'; el.style.left=(_cx(k,W)-HALF)+'px'; });
+  bannerEls.forEach(function(b,k){ b.style.top=bany[k]+'px'; });
+  DECOR.forEach(function(d,k){ var im=decorEls[k]; im.style.width=d.s+'px'; im.style.left=(W/2+d.x-d.s/2)+'px'; im.style.top=(tops[d.near]+d.dy)+'px'; im.style.transform='rotate('+d.r+'deg)'+(d.flip?' scaleX(-1)':''); });
+  atmoEls.forEach(function(el,k){ var a=ATMO[k]; el.style.width=a.s+'px'; el.style.height=a.s+'px'; el.style.left=(W/2+a.x-a.s/2)+'px'; el.style.top=a.y+'px'; });
+  var svg=document.getElementById('pathTrail');
+  if(!svg){ svg=document.createElementNS(NS,'svg'); svg.id='pathTrail'; svg.setAttribute('preserveAspectRatio','none'); path.insertBefore(svg, path.firstChild); }
+  svg.setAttribute('width',W); svg.setAttribute('height',H);
+  var pd='M '+_cx(0,W)+' '+(tops[0]+NODE);
+  for(i=1;i<n;i++){ var y0=tops[i-1]+NODE, y1=tops[i]+NODE, my=(y0+y1)/2;
+    pd+=' C '+_cx(i-1,W)+' '+my+' '+_cx(i,W)+' '+my+' '+_cx(i,W)+' '+y1; }
+  var p=svg.querySelector('path'); if(!p){ p=document.createElementNS(NS,'path'); svg.appendChild(p); }
+  p.setAttribute('d',pd); p.setAttribute('fill','none'); p.setAttribute('stroke','#C5D0DD');
+  p.setAttribute('stroke-width','7'); p.setAttribute('stroke-linecap','round'); p.setAttribute('stroke-dasharray','0.5 19');
+}
+window.addEventListener('resize', buildPath);
 
 // ── 닉네임 / 스트릭 / 온보딩 ────────────────────────
 var NICK_KEY = 'esc_nick';
 function showHome(){
   document.getElementById('home').style.display = 'flex';
+  requestAnimationFrame(buildPath); setTimeout(buildPath, 280);
   var nick = localStorage.getItem(NICK_KEY);
   if (nick) document.getElementById('greet').innerHTML = '<b>'+nick+'</b>, 오늘도 한 걸음 가볼까? 🎧';
   try {

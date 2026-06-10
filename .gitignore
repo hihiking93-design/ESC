@@ -2,3 +2,6 @@
 scripts/output/
 scripts/simulation_results.json
 .vercel
+
+# dev voice samples (throwaway)
+assets/audio/_samples/
