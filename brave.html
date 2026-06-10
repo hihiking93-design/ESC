@@ -78,13 +78,19 @@ var card=document.getElementById('card'), cardBig=document.getElementById('cardB
 var REAPP=['두근거려도 괜찮아 — 그건 뇌가 집중 준비하는 신호!','어려워 보이는 건 겉모습일 뿐이야.','틀려도 괜찮아. 도전한 것 자체가 용기야.','한 발짝만 다가가 볼까?','겁나는 만큼 네가 자라는 중이야.'];
 var SCARY=['❓','🌀','🔢','🧩','⚡','🌪️'];
 // 막상 풀면 쉬운 문제들 (노출 = 다가가면 할 만함)
+var SUBJ=localStorage.getItem('esc_subject')||'math';
+var GRADE=parseInt(localStorage.getItem('esc_grade')||'3',10);
+var ENG_BASIC=[['apple','사과',['사과','바나나','포도']],['cat','고양이',['고양이','강아지','소']],['book','책',['책','연필','가방']],['water','물',['물','불','바람']],['happy','행복한',['행복한','슬픈','졸린']],['red','빨강',['빨강','파랑','노랑']],['dog','강아지',['강아지','고양이','토끼']],['sun','태양',['태양','달','별']],['friend','친구',['친구','선생님','가족']],['run','달리다',['달리다','자다','먹다']]];
+var ENG_MID=[['brave','용감한',['용감한','무서운','조용한']],['choose','고르다',['고르다','버리다','잊다']],['future','미래',['미래','과거','현재']],['effort','노력',['노력','행운','실수']],['improve','나아지다',['나아지다','사라지다','멈추다']],['challenge','도전',['도전','포기','휴식']],['believe','믿다',['믿다','의심하다','싫어하다']],['enough','충분한',['충분한','부족한','넘치는']]];
+function shuffleArr(a){ a=a.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t; } return a; }
 function makeQ(){
-  var t=Math.floor(Math.random()*3);
-  if(t===0){ var a=1+Math.floor(Math.random()*9), b=1+Math.floor(Math.random()*9); return {q:a+' + '+b+' = ?', ans:a+b, opts:shuffle([a+b, a+b+1, a+b-1>0?a+b-1:a+b+2])}; }
-  if(t===1){ var x=2+Math.floor(Math.random()*8), y=1+Math.floor(Math.random()*(x-1)); return {q:'더 큰 수는?', ans:x, opts:shuffle([x,y, y])}; }
-  var n=2+Math.floor(Math.random()*7); return {q:n+' 다음 수는?', ans:n+1, opts:shuffle([n+1,n,n+2])};
+  if(SUBJ==='eng'){ var pool=GRADE>=7?ENG_MID:ENG_BASIC; var it=pool[Math.floor(Math.random()*pool.length)];
+    return {q:it[0]+' = ?', ans:it[1], opts:shuffleArr(it[2])}; }
+  if(GRADE>=10){ var a=11+Math.floor(Math.random()*39), b=2+Math.floor(Math.random()*8), s=a+b; return {q:a+' + '+b+' = ?', ans:s, opts:shuffleArr([s,s+1,s-2])}; }
+  if(GRADE>=7){ var x=2+Math.floor(Math.random()*8), y=2+Math.floor(Math.random()*8), p=x*y; return {q:x+' × '+y+' = ?', ans:p, opts:shuffleArr([p,p+x,p-y])}; }
+  if(Math.random()<0.5){ var c=1+Math.floor(Math.random()*9), d=1+Math.floor(Math.random()*9), e=c+d; return {q:c+' + '+d+' = ?', ans:e, opts:shuffleArr([e,e+1,Math.max(1,e-1)])}; }
+  var n=2+Math.floor(Math.random()*7); return {q:n+' 다음 수는?', ans:n+1, opts:shuffleArr([n+1,n,n+2])};
 }
-function shuffle(a){ a=a.filter(function(v,i){return a.indexOf(v)===i;}); while(a.length<3){ a.push(a[a.length-1]+1); } for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t; } return a.slice(0,3); }
 var curQ=null;
 
 function newRound(){

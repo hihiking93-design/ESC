@@ -482,6 +482,7 @@ body {
   <div class="bubble" style="max-width:330px;font-size:16px"><b id="introNick">학생</b>, 듣기 모드 시작할까? <img class="ico" src="assets/icons/headset.png" alt=""></div>
   <div class="tipcard" id="introTip"></div>
   <button class="btn3d" id="introStart">시작하기 →</button>
+  <button class="btn3d ghost" id="introSkip" style="font-size:13px;padding:9px 18px" onclick="(function(){try{ESCT.log('session_completed',{game:'listening',mode:'listening',overallAccuracy:0.8,completed:true,skipped:true});ESCProgress.recordSession('listening',{overallAccuracy:0.8});}catch(e){}location.href='index.html';})()">⏭ 듣기 스킵 (임시 · 테스트용)</button>
 </div>
 
 <!-- 레벨 변경 플래시 -->

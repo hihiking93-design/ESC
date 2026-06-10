@@ -23,6 +23,13 @@
   .atmo{position:absolute;z-index:-1;pointer-events:none;border-radius:50%}
   .cband{position:absolute;left:0;width:100%;z-index:-3;pointer-events:none;transition:background .4s}
   .jwarn{background:#FFF3D6;border:2px solid #FBE0A2;color:#8A6A1E;border-radius:14px;padding:11px 14px;font-family:var(--f-display);font-size:13px;text-align:center;margin-bottom:10px}
+  .gradesel{width:100%;max-width:340px;text-align:center;margin-top:2px}
+  .gs-q{font-family:var(--f-display);font-size:14px;color:var(--ink-soft);margin-bottom:7px}
+  .gs-row{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-bottom:8px}
+  .gs-row.need{animation:obshake .4s}
+  @keyframes obshake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+  .gchip{border:2px solid var(--line);background:#fff;color:var(--ink-soft);border-radius:12px;padding:8px 13px;font-family:var(--f-display);font-size:14px;cursor:pointer;transition:transform .12s,background .12s}
+  .gchip.on{background:var(--m-focus);border-color:var(--m-focus);color:#fff;transform:scale(1.06)}
 </style>
 </head>
 <body>
@@ -37,6 +44,8 @@
     <span class="coin floaty" style="width:60px;animation-delay:.6s"><img src="assets/mascot/web/friend_rabbit.png" alt="토끼"></span>
   </div>
   <input class="nick" id="nickInput" placeholder="이름이 뭐야?" maxlength="12" autocomplete="off">
+  <div class="gradesel"><div class="gs-q">몇 학년이야?</div><div class="gs-row" id="gradeRow"></div></div>
+  <div class="gradesel"><div class="gs-q">어떤 게 더 떨려?</div><div class="gs-row" id="subjRow"><button class="gchip" data-subj="math">수학</button><button class="gchip" data-subj="eng">영어</button></div></div>
   <button class="btn3d" id="obStart">시작하기 →</button>
 </div>
 
@@ -101,6 +110,8 @@ var unlocked=pos+1;
 var _rec=allDone.slice(-3).map(function(e){return (typeof e.overallAccuracy==='number')?e.overallAccuracy:(e.accuracy||0);});
 var _ra=_rec.length?_rec.reduce(function(s,x){return s+x;},0)/_rec.length:1;
 var warnMsg = demoted ? '한 단계 내려왔어요 — 여기서 단단히 다지고 가요! 💪' : ((_rec.length>=2 && _ra<0.6) ? '최근 정확도가 흔들려요. 다음 학습은 천천히·정확하게! 🎯' : '');
+// 학년 → 난이도 기준선 (초1=0 … 고3=+22)
+var gOff=(function(){ var g=parseInt(localStorage.getItem('esc_grade')||'0',10); return g>0?(g-1)*2:0; })();
 var BANDS=['입문','기초','초급','초중급','중급','중상급','상급','고급','전문','심화','숙련','마스터'];
 var JOURNEY=[];
 for(var gi=0; gi<TOTAL_NODES; gi++){
@@ -116,7 +127,7 @@ var stoneEls = [];
 JOURNEY.forEach(function(s,i){
   var el=document.createElement(s.locked?'div':'a');
   el.className='stone pop d'+Math.min(i+1,6)+(s.active?' active':'')+(s.locked?' locked':'');
-  if(!s.locked){ var lv=(s.lv||0), q='?lv='+lv;
+  if(!s.locked){ var lv=Math.min(29,(s.lv||0)+gOff), q='?lv='+lv;
     el.href = (s.games ? s.games[0] : s.href) + q;
     if(s.games){ el.addEventListener('click',function(e){ e.preventDefault(); location.href=s.games[Math.floor(Math.random()*s.games.length)]+q; }); } }
   el.style.setProperty('--mc','var('+s.c+')');
@@ -236,9 +247,20 @@ if (localStorage.getItem(NICK_KEY)) {
 } else {
   var ob = document.getElementById('ob');
   ob.style.display = 'flex';
+  var selGrade=0, selSubj='math';
+  var GR=[['초',6],['중',3],['고',3]], gl=0, gradeRow=document.getElementById('gradeRow');
+  GR.forEach(function(grp){ for(var y=1;y<=grp[1];y++){ gl++; (function(lvl,txt){ var b=document.createElement('button'); b.className='gchip'; b.textContent=txt;
+    b.onclick=function(){ selGrade=lvl; [].forEach.call(gradeRow.children,function(c){c.classList.remove('on');}); b.classList.add('on'); }; gradeRow.appendChild(b); })(gl, grp[0]+y); } });
+  var subjRow=document.getElementById('subjRow');
+  [].forEach.call(subjRow.children, function(b){ b.onclick=function(){ selSubj=b.getAttribute('data-subj'); [].forEach.call(subjRow.children,function(c){c.classList.remove('on');}); b.classList.add('on'); }; });
+  subjRow.children[0].classList.add('on');
   function finishOb(){
     var v = document.getElementById('nickInput').value.trim();
-    if (v) localStorage.setItem(NICK_KEY, v);
+    if (!v){ document.getElementById('nickInput').focus(); return; }
+    if (!selGrade){ gradeRow.classList.add('need'); setTimeout(function(){ gradeRow.classList.remove('need'); }, 450); return; }
+    localStorage.setItem(NICK_KEY, v);
+    localStorage.setItem('esc_grade', String(selGrade));
+    localStorage.setItem('esc_subject', selSubj);
     ob.classList.add('hide');
     setTimeout(function(){ ob.style.display='none'; showHome(); }, 450);
   }
