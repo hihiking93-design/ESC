@@ -190,6 +190,21 @@ body{
 @keyframes ray-spin{to{transform:rotate(360deg)}}
 @keyframes celebrate-in{0%{transform:scale(.5) translateY(16px);opacity:0}60%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
 .celebrate-pop{animation:celebrate-in .55s cubic-bezier(.2,.9,.3,1.35) both}
+/* ── 오늘의 훈련(데일리) ── */
+.daily{background:#fff;border-radius:18px;box-shadow:0 4px 14px rgba(35,43,54,.08);overflow:hidden}
+.daily .dtop{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;color:#fff}
+.daily .dt-l{display:flex;align-items:center;gap:10px}
+.daily .dt-em{font-size:30px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.18))}
+.daily .dt-k{font-size:11px;opacity:.92;font-family:var(--f-body);font-weight:700}
+.daily .dt-n{font-family:var(--f-display);font-size:18px;line-height:1.1}
+.daily .dt-go{background:rgba(255,255,255,.96);color:var(--ink);font-family:var(--f-display);font-size:13px;padding:9px 14px;border-radius:12px;text-decoration:none;box-shadow:0 3px 0 rgba(0,0,0,.14);white-space:nowrap}
+.daily .dt-go:active{transform:translateY(3px);box-shadow:none}
+.daily .dquests{padding:10px 14px;display:flex;flex-direction:column;gap:8px}
+.daily .dq{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-soft);font-family:var(--f-body);font-weight:700}
+.daily .dq .ck{width:20px;height:20px;border-radius:50%;border:2px solid var(--line);flex:none;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff}
+.daily .dq.done{color:var(--ink)} .daily .dq.done .ck{background:var(--m-grit);border-color:var(--m-grit)}
+.daily .dq .cur{margin-left:auto;font-family:var(--f-num);font-weight:700;color:var(--ink-soft)}
+.daily .dall{padding:10px 14px;text-align:center;font-family:var(--f-display);font-size:13px;color:var(--m-grit-d);background:#EAF7EF}
 
 .muted{color:var(--ink-soft);font-size:12.5px;line-height:1.6;text-align:center}
 h2.sec{font-family:var(--f-display);font-size:15px;color:var(--ink-soft);margin:6px 2px 12px;letter-spacing:.4px}

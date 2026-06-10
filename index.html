@@ -8,6 +8,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="shared/esc.css?v=3">
 <script src="shared/progress.js?v=2"></script>
+<script src="shared/telemetry.js"></script>
+<script src="shared/daily.js?v=1"></script>
 <style>
   .ob-cast{display:flex;gap:14px;justify-content:center}
   .pavatar{width:46px;height:46px;border-radius:50%;object-fit:cover;object-position:50% 24%}
@@ -59,6 +61,9 @@
     <div id="greet" style="font-family:var(--f-display);font-size:15px;line-height:1.4">오늘도 한 걸음 가볼까? 🎧</div>
   </div>
 
+  <!-- 오늘의 훈련 -->
+  <div class="daily pop d2" id="dailyCard" style="margin-bottom:12px"></div>
+
   <!-- 징검다리 여정 -->
   <div class="path" id="path"></div>
 </div>
@@ -71,8 +76,8 @@ var JOURNEY = [
   {id:'focus',    label:'집중',sub:'집중·기억·청기백기',face:'friend_owl',  c:'--m-focus',    cd:'--m-focus-d',    href:'focus.html', games:['focus.html','nback.html','cheonggi.html']},
   {id:'speed',    label:'속도',sub:'탐색·선택주의', face:'friend_rabbit',  c:'--m-speed',    cd:'--m-speed-d',    href:'schulte.html', games:['schulte.html','flanker.html']},
   {id:'challenge',label:'도전',sub:'함정 이겨내기', face:'friend_hedgehog',c:'--m-challenge',cd:'--m-challenge-d',href:'stroop.html'},
-  {id:'grit',     label:'끈기',sub:'끝까지 해내기', face:'friend_turtle',  c:'--m-grit',     cd:'--m-grit-d',     locked:true},
-  {id:'calm',     label:'진정',sub:'숨 고르기',     face:'quokka_calm',    c:'--m-calm',     cd:'--m-calm-d',     locked:true},
+  {id:'grit',     label:'끈기',sub:'끝까지 버티기', face:'friend_turtle',  c:'--m-grit',     cd:'--m-grit-d',     href:'grit.html'},
+  {id:'calm',     label:'진정',sub:'숨 고르기',     face:'quokka_calm',    c:'--m-calm',     cd:'--m-calm-d',     href:'calm.html'},
 ];
 var path = document.getElementById('path');
 var stoneEls = [];
@@ -171,6 +176,17 @@ function showHome(){
     else if(w.met){ ql.textContent='이번 주 달성! ✅'; ql.className='ql met'; }
     else { ql.textContent='이번 주 '+w.done+'/'+w.quota+' · '+(w.quota-w.done)+'번 더'; ql.className='ql'; }
   } catch(e){}
+  renderDaily();
+}
+function renderDaily(){
+  var el=document.getElementById('dailyCard'); if(!el||!window.ESCDaily) return;
+  var p=ESCDaily.todayPillar(), qs=ESCDaily.quests(), allDone=ESCDaily.allDone();
+  var html='<div class="dtop" style="background:linear-gradient(135deg,var('+p.c+'),var('+p.c+'-d))">'
+    +'<div class="dt-l"><span class="dt-em">'+p.emoji+'</span><div><div class="dt-k">오늘의 영역</div><div class="dt-n">'+p.name+'의 날</div></div></div>'
+    +'<a class="dt-go" href="'+p.href+'">지금 하기</a></div><div class="dquests">';
+  qs.forEach(function(q){ html+='<div class="dq'+(q.done?' done':'')+'"><span class="ck">'+(q.done?'✓':'')+'</span>'+q.label+'<span class="cur">'+q.cur+'/'+q.target+'</span></div>'; });
+  html+='</div>'+(allDone?'<div class="dall">오늘 퀘스트 완료! 🎉 잘했어요</div>':'');
+  el.innerHTML=html;
 }
 if (localStorage.getItem(NICK_KEY)) {
   showHome();
