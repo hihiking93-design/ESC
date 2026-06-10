@@ -94,12 +94,24 @@ function monday(d){var x=new Date(d.getFullYear(),d.getMonth(),d.getDate());var 
 var p = ESCProgress.get();
 var wk = ESCProgress.week();
 document.getElementById('nick').textContent = localStorage.getItem('esc_nick') || '학생';
-document.getElementById('meta').textContent = 'ESC와 함께 · 총 ' + (p.totalSessions||0) + '판';
+document.getElementById('meta').textContent = 'ESC와 함께 · 총 ' + (p.totalSessions||0) + '회 학습';
 
 // 스탯 카드
 var srow=document.getElementById('srow');
-[['<img class="ico" src="assets/icons/flame.png" alt="">','연속',(p.streak||0)+'일'],['<img class="ico" src="assets/icons/star.png" alt="">','총 별',(p.stars||0)],['<img class="ico" src="assets/icons/target.png" alt="">','총 판수',(p.totalSessions||0)],['<img class="ico" src="assets/icons/calendar.png" alt="">','이번 주',wk.done+'/'+wk.quota]]
+[['<img class="ico" src="assets/icons/flame.png" alt="">','연속',(p.streak||0)+'일'],['<img class="ico" src="assets/icons/star.png" alt="">','총 별',(p.stars||0)],['<img class="ico" src="assets/icons/target.png" alt="">','학습 횟수',(p.totalSessions||0)],['<img class="ico" src="assets/icons/calendar.png" alt="">','이번 주',wk.done+'/'+wk.quota]]
 .forEach(function(s){var d=document.createElement('div');d.className='scard';d.innerHTML='<div class="ic">'+s[0]+'</div><div><div class="k">'+s[1]+'</div><div class="v">'+s[2]+'</div></div>';srow.appendChild(d);});
+
+// 상위 N% (Supabase 집계 RPC — 개인행 비노출)
+var rb=document.createElement('div');
+rb.style.cssText='background:linear-gradient(135deg,#FFF6D8,#FFE7B0);border-radius:18px;padding:15px;text-align:center;margin-bottom:18px;box-shadow:0 4px 12px rgba(35,43,54,.08)';
+rb.innerHTML='<div style="font-size:12px;color:#8A6A1E">내 순위 불러오는 중…</div>';
+srow.parentNode.insertBefore(rb, srow.nextSibling);
+(function(){ try{ var c=ESCT.cfg; if(!c){rb.style.display='none';return;}
+  fetch(c.url+'/rest/v1/rpc/esc_top_percent',{method:'POST',headers:{'apikey':c.anon,'Authorization':'Bearer '+c.anon,'Content-Type':'application/json'},body:JSON.stringify({p_anon:ESCT.anonId(),p_game:null})})
+   .then(function(r){return r.json();}).then(function(v){
+     rb.innerHTML=(v!=null)?'<div style="font-family:Jua,sans-serif;font-size:27px;color:#B8791E">상위 '+v+'%</div><div style="font-size:12px;color:#8A6A1E;margin-top:2px">전체 친구들 중 · 정확도 기준</div>':'<div style="font-size:13px;color:#8A6A1E">친구들이 더 모이면 순위가 나와요 ⭐</div>';
+   }).catch(function(){ rb.style.display='none'; });
+}catch(e){ rb.style.display='none'; } })();
 
 // 이번 주 7일
 var days=['월','화','수','목','금','토','일'], mon=monday(new Date()), todayStr=ymd(new Date());
@@ -128,7 +140,7 @@ var pc=document.getElementById('pillars');
 PILLARS.forEach(function(pl){
   var el=document.createElement('div');el.className='pill'+(pl.ready?'':' lock');el.style.setProperty('--mc','var('+pl.c+')');
   var fill,st;
-  if(pl.ready){fill=listen.bestLv?Math.round(listen.bestLv/3*100):10;st=listen.n+'판 · 도달 '+(listen.bestLv?lvName[listen.bestLv]:'-')+(listen.avgAcc!=null?' · 평균 '+listen.avgAcc+'%':'');}
+  if(pl.ready){fill=listen.bestLv?Math.round(listen.bestLv/3*100):10;st=listen.n+'회 · 도달 '+(listen.bestLv?lvName[listen.bestLv]:'-')+(listen.avgAcc!=null?' · 평균 '+listen.avgAcc+'%':'');}
   else{fill=0;st='준비중';}
   el.innerHTML='<div class="face"><img src="assets/mascot/web/'+pl.face+'.png" alt=""></div><div class="body"><div class="nm">'+pl.nm+'</div><div class="bar"><div class="fill" style="width:'+fill+'%"></div></div><div class="st">'+st+'</div></div>';
   pc.appendChild(el);

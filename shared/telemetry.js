@@ -56,5 +56,5 @@
   function dump() { try { return JSON.parse(localStorage.getItem(BUF_KEY) || '[]'); } catch (e) { return []; } }
   function clear() { localStorage.removeItem(BUF_KEY); }
 
-  global.ESCT = { anonId: anonId, log: log, dump: dump, clear: clear };
+  global.ESCT = { anonId: anonId, log: log, dump: dump, clear: clear, cfg: { url: SB_URL, anon: SB_ANON } };
 })(window);

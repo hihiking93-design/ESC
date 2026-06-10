@@ -30,8 +30,8 @@
   function quests() {
     var s = stats();
     return [
-      { id:'count',   label:'오늘 2판 완료',      cur: Math.min(s.plays, 2),   target:2, done: s.plays >= 2 },
-      { id:'variety', label:'서로 다른 게임 2개', cur: Math.min(s.variety, 2), target:2, done: s.variety >= 2 }
+      { id:'count',   label:'오늘 2번 학습',      cur: Math.min(s.plays, 2),   target:2, done: s.plays >= 2 },
+      { id:'variety', label:'서로 다른 학습 2가지', cur: Math.min(s.variety, 2), target:2, done: s.variety >= 2 }
     ];
   }
   function allDone() { return quests().every(function (q) { return q.done; }); }

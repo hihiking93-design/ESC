@@ -22,6 +22,7 @@
   .unit-banner .ub-ic{font-size:20px;background:rgba(255,255,255,.22);width:40px;height:40px;border-radius:11px;display:grid;place-items:center;flex:none}
   .atmo{position:absolute;z-index:-1;pointer-events:none;border-radius:50%}
   .cband{position:absolute;left:0;width:100%;z-index:-3;pointer-events:none;transition:background .4s}
+  .jwarn{background:#FFF3D6;border:2px solid #FBE0A2;color:#8A6A1E;border-radius:14px;padding:11px 14px;font-family:var(--f-display);font-size:13px;text-align:center;margin-bottom:10px}
 </style>
 </head>
 <body>
@@ -62,6 +63,8 @@
     <div id="greet" style="font-family:var(--f-display);font-size:15px;line-height:1.4">오늘도 한 걸음 가볼까? <img class="ico" src="assets/icons/headset.png" alt=""></div>
   </div>
 
+  <div id="journeyWarn" class="jwarn" style="display:none"></div>
+
   <!-- 오늘의 훈련 -->
   <div class="daily pop d2" id="dailyCard" style="margin-bottom:12px"></div>
 
@@ -88,8 +91,16 @@ var POOL = [
   {id:'calm',     label:'진정',face:'quokka_calm',    c:'--m-calm',     cd:'--m-calm-d',     href:'calm.html'}
 ];
 var CHAPTERS=30, PER=3, TOTAL_NODES=CHAPTERS*PER;
-var doneCount=0; try{ doneCount=(ESCT.dump()||[]).filter(function(e){return e.event==='session_completed';}).length; }catch(e){}
-var unlocked=Math.max(1, doneCount+1);  // 완료할수록 다음 노드 열림
+// 성과 기반 진행 — 잘하면 전진, 못하면 정체/강등
+var allDone=[]; try{ allDone=(ESCT.dump()||[]).filter(function(e){return e.event==='session_completed';}); }catch(e){}
+var pos=parseInt(localStorage.getItem('esc_pos')||'0',10), proc=parseInt(localStorage.getItem('esc_proc')||'0',10), demoted=false;
+for(var pj=proc; pj<allDone.length; pj++){ var aa=allDone[pj].overallAccuracy; if(typeof aa!=='number') aa=allDone[pj].accuracy;
+  if(typeof aa==='number'){ if(aa>=0.7) pos=Math.min(TOTAL_NODES-1,pos+1); else if(aa<0.5 && pos>0){ pos--; demoted=true; } } }
+localStorage.setItem('esc_pos',String(pos)); localStorage.setItem('esc_proc',String(allDone.length));
+var unlocked=pos+1;
+var _rec=allDone.slice(-3).map(function(e){return (typeof e.overallAccuracy==='number')?e.overallAccuracy:(e.accuracy||0);});
+var _ra=_rec.length?_rec.reduce(function(s,x){return s+x;},0)/_rec.length:1;
+var warnMsg = demoted ? '한 단계 내려왔어요 — 여기서 단단히 다지고 가요! 💪' : ((_rec.length>=2 && _ra<0.6) ? '최근 정확도가 흔들려요. 다음 학습은 천천히·정확하게! 🎯' : '');
 var BANDS=['입문','기초','초급','초중급','중급','중상급','상급','고급','전문','심화','숙련','마스터'];
 var JOURNEY=[];
 for(var gi=0; gi<TOTAL_NODES; gi++){
@@ -207,6 +218,7 @@ function showHome(){
     else if(w.met){ ql.textContent='이번 주 달성! <img class="ico" src="assets/icons/check.png" alt="">'; ql.className='ql met'; }
     else { ql.textContent='이번 주 '+w.done+'/'+w.quota+' · '+(w.quota-w.done)+'번 더'; ql.className='ql'; }
   } catch(e){}
+  var jw=document.getElementById('journeyWarn'); if(jw){ if(warnMsg){ jw.innerHTML=warnMsg; jw.style.display='block'; } else jw.style.display='none'; }
   renderDaily();
 }
 function renderDaily(){
