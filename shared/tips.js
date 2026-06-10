@@ -43,7 +43,7 @@
       {t:'fact',   h:'근전이는 실재', s:'훈련한 능력은 분명히 늘어요. 매일 조금씩이 쌓입니다.'},
     ],
   };
-  var ICON = {effect:'📈', fact:'💡', tip:'✏️'};
+  var ICON = {effect:'<img class="ico" src="assets/icons/chart.png" alt="">', fact:'<img class="ico" src="assets/icons/bulb.png" alt="">', tip:'<img class="ico" src="assets/icons/pencil.png" alt="">'};
   var TAG  = {effect:'효과', fact:'알아두기', tip:'팁'};
 
   var ALL = [];

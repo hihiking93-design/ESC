@@ -38,7 +38,7 @@
 
 <div class="ob" id="intro" style="z-index:80;gap:16px">
   <div class="eco bob" style="width:138px"><img src="assets/mascot/web/friend_hedgehog.png" alt="고슴도치"></div>
-  <div class="bubble" style="max-width:330px;font-size:16px"><b id="introNick" style="color:var(--m-challenge)">학생</b>, 글자 말고 <b style="color:var(--m-challenge)">색</b>에 반응! 🎨</div>
+  <div class="bubble" style="max-width:330px;font-size:16px"><b id="introNick" style="color:var(--m-challenge)">학생</b>, 글자 말고 <b style="color:var(--m-challenge)">색</b>에 반응! <img class="ico" src="assets/icons/palette.png" alt=""></div>
   <div class="tipcard" id="introTip" style="border-left-color:var(--m-challenge)"></div>
   <button class="btn3d" id="introStart" style="--btn:var(--m-challenge);--btnd:var(--m-challenge-d)">시작하기 →</button>
 </div>
@@ -86,18 +86,15 @@ function nextTrial(){
     setOptions(COLORS.map(function(c){return {bg:c.h,value:'c:'+c.n};}));
   } else if(v==='count'){
     askEl.innerHTML='<b>몇 개</b>인가요? (숫자 말고 개수!)';
-    var ct=rnd([2,3,4,5]), dg; do{ dg=rnd([2,3,4,5]); }while(dg===ct);
-    wordEl.style.fontSize='52px'; wordEl.style.color='#28303B'; wordEl.textContent=Array(ct+1).join(dg+' ').trim();
-    var NUMW={2:'둘',3:'셋',4:'넷',5:'다섯'};
-    curCorrect='n:'+ct; curCong=false; setOptions([2,3,4,5].map(function(n){return {label:NUMW[n],value:'n:'+n};}));
+    var ct=rnd([3,4,5,6]), dg; do{ dg=rnd([3,4,5,6]); }while(dg===ct);
+    wordEl.style.fontSize='48px'; wordEl.style.color='#28303B'; wordEl.textContent=Array(ct+1).join(dg+' ').trim();
+    var NUMW={3:'셋',4:'넷',5:'다섯',6:'여섯'};
+    curCorrect='n:'+ct; curCong=false; setOptions([3,4,5,6].map(function(n){return {label:NUMW[n],value:'n:'+n};}));
   } else if(v==='direction'){
-    askEl.innerHTML='<b>가운데</b> 화살표 방향은? (양옆은 함정!)';
-    var DMAP={L:DIRS[0],R:DIRS[1],U:DIRS[2],D:DIRS[3]};
-    var pair=Math.random()<0.5?['L','R']:['U','D'];
-    var dv=pair[Math.floor(Math.random()*2)], wv=(dv===pair[0]?pair[1]:pair[0]);
-    var d=DMAP[dv], wd=DMAP[wv];
-    wordEl.style.fontSize='44px'; wordEl.style.letterSpacing='3px'; wordEl.textContent=wd.g+wd.g+d.g+wd.g+wd.g;
-    curCorrect='d:'+d.v; curCong=false;
+    askEl.innerHTML='화살표 <b>반대쪽</b>을 누르세요!';
+    var d=rnd(DIRS), OPP={L:'R',R:'L',U:'D',D:'U'};
+    wordEl.style.fontSize='84px'; wordEl.textContent=d.g;
+    curCorrect='d:'+OPP[d.v]; curCong=false;
     setOptions(DIRS.map(function(x){return {label:x.g,value:'d:'+x.v};}));
   } else {
     askEl.innerHTML='글자가 <b>실제로</b> 큰가요, 작은가요?';
@@ -138,12 +135,12 @@ function endGame(){
   if(acc<65){ fb='글자한테 속기 쉬웠지? 천천히 "진짜만 보자" 하면 돼 — 하다 보면 안 속아! 💪'; }
   else if(interf!==null && interf>200){ fb='함정 글자가 나오면 살짝 헷갈렸어 — 답하기 전 "진짜가 뭐지?" 딱 한 번 생각하면 더 잘 참아!'; }
   else { fb='글자가 헷갈리게 했는데 안 속았어! 꾹 참는 집중력이 좋아지고 있어 <img class="ico" src="assets/icons/target.png" alt="">'; }
-  if(prevA!==null && acc>prevA) fb+=' 지난번보다 더 잘했어! 📈';
+  if(prevA!==null && acc>prevA) fb+=' 지난번보다 더 잘했어! <img class="ico" src="assets/icons/chart.png" alt="">';
   var r=document.getElementById('result'); r.style.display='flex'; if(window.FX)FX.confetti();
   r.innerHTML=
     '<div style="display:flex;flex-direction:column;align-items:center;gap:8px;margin:22px 0 16px">'
     +'<div class="celebrate celebrate-pop"><div class="eco bob" style="width:122px"><img src="assets/mascot/web/friend_hedgehog.png" alt=""></div></div>'
-    +'<div class="celebrate-pop" style="font-family:Jua,sans-serif;font-size:25px">억제 완료! 🎉</div></div>'
+    +'<div class="celebrate-pop" style="font-family:Jua,sans-serif;font-size:25px">억제 완료! <img class="ico" src="assets/icons/party.png" alt=""></div></div>'
     +'<div class="statgrid">'
     +'<div class="stat-tile blue"><div class="k"><img class="ico" src="assets/icons/target.png" alt=""> 정확도</div><div class="v">'+acc+'%</div></div>'
     +'<div class="stat-tile green"><div class="k"><img class="ico" src="assets/icons/bolt.png" alt=""> 반응</div><div class="v">'+(avgRt||'-')+(avgRt?'ms':'')+'</div></div>'
@@ -151,7 +148,7 @@ function endGame(){
     +'</div>'
     +'<div class="bubble" style="margin:6px 0 14px">'+correct+'/'+TOTAL+' 정답 · '+fb+'</div>'
     +'<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">'
-    +'<a class="btn3d" style="--btn:var(--m-challenge);--btnd:var(--m-challenge-d)" href="stroop.html">다시 🔄</a>'
+    +'<a class="btn3d" style="--btn:var(--m-challenge);--btnd:var(--m-challenge-d)" href="stroop.html">다시 <img class="ico" src="assets/icons/refresh.png" alt=""></a>'
     +'<a class="btn3d ghost" href="index.html">홈으로</a></div>';
 }
 

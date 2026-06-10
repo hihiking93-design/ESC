@@ -162,7 +162,7 @@ function showResult(focusPct, gng, overall, rw){
   document.getElementById('game').style.display='none';
   var gained=rw&&rw.gained?rw.gained:0;
   var fb;
-  if(focusPct>=75 && gng>=75){ fb='두 가지를 한 번에 잘 챙겼어! 집중을 나눠 쓰는 힘이 좋아 ✨'; }
+  if(focusPct>=75 && gng>=75){ fb='두 가지를 한 번에 잘 챙겼어! 집중을 나눠 쓰는 힘이 좋아 <img class="ico" src="assets/icons/sparkle.png" alt="">'; }
   else if(focusPct-gng>=25){ fb='길은 잘 따라갔는데 신호를 몇 번 놓쳤어 — 신호 뜨면 손만 톡!'; }
   else if(gng-focusPct>=25){ fb='신호는 잘 챙겼는데 길에서 살짝 벗어났어 — 눈은 길에 딱 두기!'; }
   else { fb='한 번에 둘 다는 어렵지? 먼저 길 따라가기에 익숙해진 뒤 신호를 더하자!'; }
@@ -170,7 +170,7 @@ function showResult(focusPct, gng, overall, rw){
   r.innerHTML=
     '<div style="display:flex;flex-direction:column;align-items:center;gap:8px;margin:22px 0 16px">'
     +'<div class="celebrate celebrate-pop"><div class="eco bob" style="width:124px"><img src="assets/mascot/web/friend_owl.png" alt=""></div></div>'
-    +'<div class="celebrate-pop" style="font-family:Jua,sans-serif;font-size:25px">집중 완료! 🎉</div></div>'
+    +'<div class="celebrate-pop" style="font-family:Jua,sans-serif;font-size:25px">집중 완료! <img class="ico" src="assets/icons/party.png" alt=""></div></div>'
     +'<div class="statgrid">'
     +'<div class="stat-tile blue"><div class="k"><img class="ico" src="assets/icons/target.png" alt=""> 집중도</div><div class="v">'+focusPct+'%</div></div>'
     +'<div class="stat-tile green"><div class="k"><img class="ico" src="assets/icons/bolt.png" alt=""> 반응</div><div class="v">'+gng+'%</div></div>'
@@ -178,7 +178,7 @@ function showResult(focusPct, gng, overall, rw){
     +'</div>'
     +'<div class="bubble" style="margin:6px 0 14px">'+fb+'</div>'
     +'<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">'
-    +'<a class="btn3d" style="--btn:var(--m-focus);--btnd:var(--m-focus-d)" href="focus.html">다시 🔄</a>'
+    +'<a class="btn3d" style="--btn:var(--m-focus);--btnd:var(--m-focus-d)" href="focus.html">다시 <img class="ico" src="assets/icons/refresh.png" alt=""></a>'
     +'<a class="btn3d ghost" href="index.html">홈으로</a></div>';
 }
 

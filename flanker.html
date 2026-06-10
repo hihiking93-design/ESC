@@ -38,7 +38,7 @@
 
 <div class="ob" id="intro" style="z-index:80;gap:16px">
   <div class="eco bob" style="width:138px"><img src="assets/mascot/web/friend_rabbit.png" alt="토끼"></div>
-  <div class="bubble" style="max-width:330px;font-size:16px"><b id="introNick" style="color:var(--m-speed)">학생</b>, <b style="color:var(--m-speed)">가운데</b> 화살표만! ➡️</div>
+  <div class="bubble" style="max-width:330px;font-size:16px"><b id="introNick" style="color:var(--m-speed)">학생</b>, <b style="color:var(--m-speed)">가운데</b> 화살표만! <img class="ico" src="assets/icons/arrow.png" alt=""></div>
   <div class="tipcard" id="introTip" style="border-left-color:var(--m-speed)"></div>
   <button class="btn3d" id="introStart" style="--btn:var(--m-speed);--btnd:var(--m-speed-d)">시작하기 →</button>
 </div>
@@ -108,12 +108,12 @@ function endGame(){
   if(acc<70){ fb='옆 화살표가 자꾸 눈길을 끌었지? 괜찮아 — 딱 가운데 하나만 보는 거야. 다시 하면 늘어! 💪'; }
   else if(interf!==null && interf>140){ fb='헷갈리게 하는 게 옆에 있으면 살짝 흔들렸어 — "가운데만 보자" 한 번 더 마음먹으면 집중이 더 단단해져!'; }
   else { fb='옆에 방해가 있어도 안 흔들렸어! 집중을 딱 붙잡는 힘이 좋아지고 있어 <img class="ico" src="assets/icons/target.png" alt="">'; }
-  if(prevA!==null && acc>prevA) fb+=' 지난번보다 더 잘했어! 📈';
+  if(prevA!==null && acc>prevA) fb+=' 지난번보다 더 잘했어! <img class="ico" src="assets/icons/chart.png" alt="">';
   var r=document.getElementById('result'); r.style.display='flex'; if(window.FX)FX.confetti();
   r.innerHTML=
     '<div style="display:flex;flex-direction:column;align-items:center;gap:8px;margin:22px 0 16px">'
     +'<div class="celebrate celebrate-pop"><div class="eco bob" style="width:124px"><img src="assets/mascot/web/friend_rabbit.png" alt=""></div></div>'
-    +'<div class="celebrate-pop" style="font-family:Jua,sans-serif;font-size:25px">집중 완료! ➡️</div></div>'
+    +'<div class="celebrate-pop" style="font-family:Jua,sans-serif;font-size:25px">집중 완료! <img class="ico" src="assets/icons/arrow.png" alt=""></div></div>'
     +'<div class="statgrid">'
     +'<div class="stat-tile blue"><div class="k"><img class="ico" src="assets/icons/target.png" alt=""> 정확도</div><div class="v">'+acc+'%</div></div>'
     +'<div class="stat-tile green"><div class="k"><img class="ico" src="assets/icons/bolt.png" alt=""> 반응</div><div class="v">'+(avgRt||'-')+(avgRt?'ms':'')+'</div></div>'
@@ -121,7 +121,7 @@ function endGame(){
     +'</div>'
     +'<div class="bubble" style="margin:6px 0 14px">'+correct+'/'+TOTAL+' 정답 · '+fb+'</div>'
     +'<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">'
-    +'<a class="btn3d" style="--btn:var(--m-speed);--btnd:var(--m-speed-d)" href="flanker.html">다시 🔄</a>'
+    +'<a class="btn3d" style="--btn:var(--m-speed);--btnd:var(--m-speed-d)" href="flanker.html">다시 <img class="ico" src="assets/icons/refresh.png" alt=""></a>'
     +'<a class="btn3d ghost" href="index.html">홈으로</a></div>';
 }
 

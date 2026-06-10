@@ -479,7 +479,7 @@ body {
 <!-- ESC 인트로/로딩 (쿨 디자인 + 학습 팁) -->
 <div class="ob" id="escIntro" style="z-index:80;gap:16px">
   <div class="eco bob" style="width:148px"><img src="assets/mascot/web/quokka_listen.png" alt="에코"></div>
-  <div class="bubble" style="max-width:330px;font-size:16px"><b id="introNick">학생</b>, 듣기 모드 시작할까? 🎧</div>
+  <div class="bubble" style="max-width:330px;font-size:16px"><b id="introNick">학생</b>, 듣기 모드 시작할까? <img class="ico" src="assets/icons/headset.png" alt=""></div>
   <div class="tipcard" id="introTip"></div>
   <button class="btn3d" id="introStart">시작하기 →</button>
 </div>
@@ -1154,7 +1154,7 @@ function submitAnswer() {
   const fb = document.getElementById('feedbackBar');
   fb.hidden = false;
   fb.className = 'feedback-bar ' + (correct ? 'correct' : 'wrong');
-  document.getElementById('fbMsg').textContent = correct ? '정답이에요! 🎉' : ('아쉬워요 · 정답은 「' + window._correctText + '」');
+  document.getElementById('fbMsg').textContent = correct ? '정답이에요! <img class="ico" src="assets/icons/party.png" alt="">' : ('아쉬워요 · 정답은 「' + window._correctText + '」');
 }
 
 // 계속 → 다음 문항/세트/결과
@@ -1222,7 +1222,7 @@ function _injectShellActions(info) {
   cel.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:6px;margin:2px 0 12px';
   cel.innerHTML =
     '<div class="celebrate celebrate-pop"><div class="eco bob" style="width:122px"><img src="assets/mascot/web/quokka_celebrate.png" alt="에코"></div></div>'
-    + '<div class="celebrate-pop" style="font-family:Jua,sans-serif;font-size:24px;color:#28303B">잘했어! 🎉</div>';
+    + '<div class="celebrate-pop" style="font-family:Jua,sans-serif;font-size:24px;color:#28303B">잘했어! <img class="ico" src="assets/icons/party.png" alt=""></div>';
   rs.insertBefore(cel, rs.firstChild);
   const sg = document.createElement('div');
   sg.className = 'statgrid';
