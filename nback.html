@@ -31,6 +31,12 @@
   .matchbtn:active{transform:translateY(7px);box-shadow:0 0 0 var(--m-focus-d)}
   .matchbtn.flash{background:var(--m-grit);box-shadow:0 7px 0 var(--m-grit-d)}
   .ghint{text-align:center;color:var(--ink-soft);font-size:12px;margin-top:8px}
+  .stage{position:relative}
+  .nb-badge{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.5);opacity:0;pointer-events:none;font-family:var(--f-display);font-size:20px;padding:13px 22px;border-radius:18px;color:#fff;z-index:5;transition:transform .14s,opacity .14s;box-shadow:0 8px 20px rgba(35,43,54,.22)}
+  .nb-badge.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+  .nb-badge.good{background:#4FB477} .nb-badge.bad{background:#E5634D} .nb-badge.miss{background:#9AA7B6;font-size:16px}
+  .prac-bar{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;background:#FFF3D6;border:2px solid #FBE0A2;color:#8A6A1E;border-radius:14px;padding:9px 12px;font-family:var(--f-display);font-size:13px;margin-bottom:8px}
+  .prac-bar button{background:var(--m-focus);color:#fff;border:none;border-radius:11px;padding:7px 13px;font-family:var(--f-display);font-size:13px;cursor:pointer}
 </style>
 </head>
 <body class="gbg">
@@ -48,8 +54,9 @@
     <div class="prog"><div class="fill" id="prog"></div></div>
     <div class="pn" id="pn">0/24</div>
   </div>
+  <div class="prac-bar" id="pracBar" style="display:none">연습이에요 — 편하게 익혀봐 ✨ <button id="pracSkip">건너뛰고 시작 →</button></div>
   <div class="nb-ask">지금 칸이 <b>2칸 전</b>과 같으면 "같음!"</div>
-  <div class="stage"><div class="ngrid" id="ngrid"></div></div>
+  <div class="stage"><div class="ngrid" id="ngrid"></div><div class="nb-badge" id="nbBadge"></div></div>
   <button class="matchbtn" id="matchBtn">같음! (2칸 전)</button>
   <div class="ghint">머릿속으로 마지막 두 칸을 계속 되뇌어요 — 작업기억 훈련</div>
 </div>
@@ -60,38 +67,57 @@
 var LV=Math.min(29,+((new URLSearchParams(location.search)).get('lv')||0));
 var N=2+Math.floor(LV/8), STEPS=24, STIM=Math.max(900,1700-LV*25), GAP=550, MATCH=Math.min(0.4,0.32+LV*0.003);
 var seq=[], step=-1, hits=0,miss=0,fa=0,cr=0, tapped=false, curMatch=false, cells=[];
+var practice=false, PRAC=N+5;
 var ngrid=document.getElementById('ngrid'), prog=document.getElementById('prog'), pn=document.getElementById('pn'),
-    matchBtn=document.getElementById('matchBtn');
+    matchBtn=document.getElementById('matchBtn'), nbBadge=document.getElementById('nbBadge'), pracBar=document.getElementById('pracBar');
 matchBtn.textContent='같음! ('+N+'칸 전)'; (function(){ var a=document.querySelector('.nb-ask'); if(a) a.innerHTML='지금 칸이 <b>'+N+'칸 전</b>과 같으면 "같음!"'; })();
 
 function buildGrid(){ ngrid.innerHTML=''; cells=[]; for(var i=0;i<9;i++){ var c=document.createElement('div'); c.className='ncell'; ngrid.appendChild(c); cells.push(c); } }
-function tap(){ if(tapped||step<0)return; tapped=true; if(window.SFX)SFX.play('select'); matchBtn.classList.add('flash'); setTimeout(function(){matchBtn.classList.remove('flash');},160); }
+var badgeT=null;
+function showBadge(type,txt){ nbBadge.className='nb-badge '+type; nbBadge.textContent=txt; void nbBadge.offsetWidth; nbBadge.classList.add('show'); clearTimeout(badgeT); badgeT=setTimeout(function(){ nbBadge.classList.remove('show'); },600); }
+function tap(){
+  if(tapped||step<0) return; tapped=true;
+  if(curMatch){ showBadge('good','정답! ✓'); if(window.SFX)SFX.play('correct'); }
+  else { showBadge('bad','땡! ✗'); if(window.SFX)SFX.play('wrong'); matchBtn.classList.add('flash'); setTimeout(function(){matchBtn.classList.remove('flash');},180); }
+}
 matchBtn.addEventListener('pointerdown',function(e){ e.preventDefault(); tap(); });
 document.addEventListener('keydown',function(e){ if(e.code==='Space'){ e.preventDefault(); tap(); } });
 
 function nextStep(){
   step++;
-  if(step>=STEPS){ endGame(); return; }
+  var limit = practice?PRAC:STEPS;
+  if(step>=limit){ if(practice){ beginReal(); } else { endGame(); } return; }
+  var stim = practice?2000:STIM;
   var pos;
   if(step>=N && Math.random()<MATCH){ pos=seq[step-N]; }
   else { pos=Math.floor(Math.random()*9); }
   curMatch=(step>=N && pos===seq[step-N]);
   seq[step]=pos; tapped=false;
-  pn.textContent=(step+1)+'/'+STEPS; prog.style.width=Math.round(step/STEPS*100)+'%';
+  pn.textContent = practice ? '연습 '+(step+1)+'/'+PRAC : (step+1)+'/'+STEPS;
+  prog.style.width=Math.round(step/limit*100)+'%';
   cells[pos].classList.add('lit');
   setTimeout(function(){
     cells[pos].classList.remove('lit');
-    if(step>=N){ if(curMatch){ tapped?hits++:miss++; } else { tapped?fa++:cr++; } }
+    if(curMatch && !tapped){ showBadge('miss','놓침'); }
+    if(!practice && step>=N){ if(curMatch){ tapped?hits++:miss++; } else { tapped?fa++:cr++; } }
     setTimeout(nextStep, GAP);
-  }, STIM);
+  }, stim);
 }
+function beginReal(){
+  practice=false; pracBar.style.display='none';
+  seq=[]; step=-1; hits=miss=fa=cr=0;
+  pn.textContent='0/'+STEPS; prog.style.width='0%';
+  ESCT.log('session_started',{mode:'focus',game:'nback'});
+  setTimeout(nextStep,450);
+}
+document.getElementById('pracSkip').onclick=beginReal;
 function startGame(){
   document.getElementById('intro').classList.add('hide');
   setTimeout(function(){ document.getElementById('intro').style.display='none'; },420);
   document.getElementById('game').style.display='flex';
-  buildGrid(); seq=[]; step=-1; hits=miss=fa=cr=0;
-  ESCT.log('session_started',{mode:'focus',game:'nback'});
-  setTimeout(nextStep, 500);
+  pracBar.style.display='flex';
+  buildGrid(); seq=[]; step=-1; practice=true;
+  setTimeout(nextStep,500);
 }
 function endGame(){
   prog.style.width='100%';

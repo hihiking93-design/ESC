@@ -117,8 +117,10 @@ var JOURNEY=[];
 for(var gi=0; gi<TOTAL_NODES; gi++){
   var pp=POOL[gi%POOL.length], chapter=Math.floor(gi/PER);
   var band=Math.min(BANDS.length-1, Math.floor(chapter*BANDS.length/CHAPTERS));
+  // 집중: 챕터1(인덱스0)은 청기백기만, 챕터2부터 N-back 추가
+  var ng = (pp.id==='focus' && chapter>=1) ? ['cheonggi.html','nback.html'] : pp.games;
   var it={id:pp.id+'-'+gi, label:pp.label, face:pp.face, c:pp.c, cd:pp.cd,
-          sub:BANDS[band], href:pp.href, games:pp.games, lv:chapter};
+          sub:BANDS[band], href:pp.href, games:ng, lv:chapter};
   if(gi>=unlocked) it.locked=true; else if(gi===unlocked-1) it.active=true;
   JOURNEY.push(it);
 }
