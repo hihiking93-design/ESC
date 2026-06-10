@@ -35,7 +35,7 @@
 
 <div class="ob" id="intro" style="z-index:80;gap:16px">
   <div class="eco bob" style="width:138px"><img src="assets/mascot/web/friend_owl.png" alt="부엉이"></div>
-  <div class="bubble" style="max-width:330px;font-size:16px"><b id="introNick" style="color:var(--m-speed)">학생</b>, 시각탐색 훈련! 👀</div>
+  <div class="bubble" style="max-width:330px;font-size:16px"><b id="introNick" style="color:var(--m-speed)">학생</b>, 시각탐색 훈련! <img class="ico" src="assets/icons/search.png" alt=""></div>
   <div class="tipcard" id="introTip" style="border-left-color:var(--m-speed)"></div>
   <button class="btn3d" id="introStart" style="--btn:var(--m-speed);--btnd:var(--m-speed-d)">시작하기 →</button>
 </div>
@@ -105,8 +105,8 @@ function showResult(sec, acc, rw){
   document.getElementById('game').style.display='none';
   var gained=rw&&rw.gained?rw.gained:0;
   var fb;
-  if(errors>=4){ fb='급하게 찾다가 몇 번 헷갈렸지? 가운데 보면서 천천히 훑으면 실수가 줄어 — 다시 해보자! 👀'; }
-  else if(sec<=28){ fb='숫자를 휙휙 잘 찾았어! 눈이랑 집중이 빨라지고 있어 👀'; }
+  if(errors>=4){ fb='급하게 찾다가 몇 번 헷갈렸지? 가운데 보면서 천천히 훑으면 실수가 줄어 — 다시 해보자! <img class="ico" src="assets/icons/search.png" alt="">'; }
+  else if(sec<=28){ fb='숫자를 휙휙 잘 찾았어! 눈이랑 집중이 빨라지고 있어 <img class="ico" src="assets/icons/search.png" alt="">'; }
   else { fb='끝까지 다 찾았어! 한 칸씩 말고 "전체를 한눈에" 보는 느낌으로 하면 더 빨라져.'; }
   var r=document.getElementById('result'); r.style.display='flex'; if(window.FX)FX.confetti();
   r.innerHTML=
@@ -115,8 +115,8 @@ function showResult(sec, acc, rw){
     +'<div class="celebrate-pop" style="font-family:Jua,sans-serif;font-size:25px">탐색 완료! 🎉</div></div>'
     +'<div class="statgrid">'
     +'<div class="stat-tile blue"><div class="k">⏱ 시간</div><div class="v">'+sec.toFixed(1)+'s</div></div>'
-    +'<div class="stat-tile green"><div class="k">🎯 정확도</div><div class="v">'+acc+'%</div></div>'
-    +'<div class="stat-tile gold"><div class="k">⭐ 획득</div><div class="v">+'+gained+'</div></div>'
+    +'<div class="stat-tile green"><div class="k"><img class="ico" src="assets/icons/target.png" alt=""> 정확도</div><div class="v">'+acc+'%</div></div>'
+    +'<div class="stat-tile gold"><div class="k"><img class="ico" src="assets/icons/star.png" alt=""> 획득</div><div class="v">+'+gained+'</div></div>'
     +'</div>'
     +'<div class="bubble" style="margin:6px 0 14px">실수 '+errors+'번 · '+fb+'</div>'
     +'<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">'

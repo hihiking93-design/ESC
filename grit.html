@@ -98,7 +98,7 @@ function endGame(){
   ESCT.log('session_completed',{mode:'grit',rounds:survived,best:best,overallAccuracy:Math.min(1,survived/20),completed:true});
   var rw=null; try{ rw=ESCProgress.recordSession('grit'); }catch(e){}
   if(window.SFX)SFX.play('complete');
-  var fb = isBest ? '최고기록 갱신! 끈기가 빛났어요 🔥' : (survived>=12 ? '대단해요! 끝까지 버티는 힘이 좋아요.' : '포기 안 한 게 제일 중요해요. 한 번 더 도전!');
+  var fb = isBest ? '최고기록 갱신! 끈기가 빛났어요 <img class="ico" src="assets/icons/flame.png" alt="">' : (survived>=12 ? '대단해요! 끝까지 버티는 힘이 좋아요.' : '포기 안 한 게 제일 중요해요. 한 번 더 도전!');
   document.getElementById('game').style.display='none';
   var gained=rw&&rw.gained?rw.gained:0;
   var r=document.getElementById('result'); r.style.display='flex'; if(window.FX)FX.confetti(survived>=10?100:50);
@@ -108,8 +108,8 @@ function endGame(){
     +'<div class="celebrate-pop" style="font-family:Jua,sans-serif;font-size:24px">'+survived+'라운드 버텼어요! 🐢</div></div>'
     +'<div class="statgrid">'
     +'<div class="stat-tile green"><div class="k">🐢 라운드</div><div class="v">'+survived+'</div></div>'
-    +'<div class="stat-tile blue"><div class="k">🏆 최고</div><div class="v">'+best+'</div></div>'
-    +'<div class="stat-tile gold"><div class="k">⭐ 획득</div><div class="v">+'+gained+'</div></div>'
+    +'<div class="stat-tile blue"><div class="k"><img class="ico" src="assets/icons/trophy.png" alt=""> 최고</div><div class="v">'+best+'</div></div>'
+    +'<div class="stat-tile gold"><div class="k"><img class="ico" src="assets/icons/star.png" alt=""> 획득</div><div class="v">+'+gained+'</div></div>'
     +'</div>'
     +'<div class="bubble" style="margin:6px 0 14px">'+fb+'</div>'
     +'<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">'

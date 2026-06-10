@@ -137,7 +137,7 @@ function endGame(){
   var fb;
   if(acc<65){ fb='글자한테 속기 쉬웠지? 천천히 "진짜만 보자" 하면 돼 — 하다 보면 안 속아! 💪'; }
   else if(interf!==null && interf>200){ fb='함정 글자가 나오면 살짝 헷갈렸어 — 답하기 전 "진짜가 뭐지?" 딱 한 번 생각하면 더 잘 참아!'; }
-  else { fb='글자가 헷갈리게 했는데 안 속았어! 꾹 참는 집중력이 좋아지고 있어 🎯'; }
+  else { fb='글자가 헷갈리게 했는데 안 속았어! 꾹 참는 집중력이 좋아지고 있어 <img class="ico" src="assets/icons/target.png" alt="">'; }
   if(prevA!==null && acc>prevA) fb+=' 지난번보다 더 잘했어! 📈';
   var r=document.getElementById('result'); r.style.display='flex'; if(window.FX)FX.confetti();
   r.innerHTML=
@@ -145,9 +145,9 @@ function endGame(){
     +'<div class="celebrate celebrate-pop"><div class="eco bob" style="width:122px"><img src="assets/mascot/web/friend_hedgehog.png" alt=""></div></div>'
     +'<div class="celebrate-pop" style="font-family:Jua,sans-serif;font-size:25px">억제 완료! 🎉</div></div>'
     +'<div class="statgrid">'
-    +'<div class="stat-tile blue"><div class="k">🎯 정확도</div><div class="v">'+acc+'%</div></div>'
-    +'<div class="stat-tile green"><div class="k">⚡ 반응</div><div class="v">'+(avgRt||'-')+(avgRt?'ms':'')+'</div></div>'
-    +'<div class="stat-tile gold"><div class="k">⭐ 획득</div><div class="v">+'+gained+'</div></div>'
+    +'<div class="stat-tile blue"><div class="k"><img class="ico" src="assets/icons/target.png" alt=""> 정확도</div><div class="v">'+acc+'%</div></div>'
+    +'<div class="stat-tile green"><div class="k"><img class="ico" src="assets/icons/bolt.png" alt=""> 반응</div><div class="v">'+(avgRt||'-')+(avgRt?'ms':'')+'</div></div>'
+    +'<div class="stat-tile gold"><div class="k"><img class="ico" src="assets/icons/star.png" alt=""> 획득</div><div class="v">+'+gained+'</div></div>'
     +'</div>'
     +'<div class="bubble" style="margin:6px 0 14px">'+correct+'/'+TOTAL+' 정답 · '+fb+'</div>'
     +'<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">'

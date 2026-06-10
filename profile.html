@@ -98,7 +98,7 @@ document.getElementById('meta').textContent = 'ESC와 함께 · 총 ' + (p.total
 
 // 스탯 카드
 var srow=document.getElementById('srow');
-[['🔥','연속',(p.streak||0)+'일'],['⭐','총 별',(p.stars||0)],['🎯','총 판수',(p.totalSessions||0)],['📅','이번 주',wk.done+'/'+wk.quota]]
+[['<img class="ico" src="assets/icons/flame.png" alt="">','연속',(p.streak||0)+'일'],['<img class="ico" src="assets/icons/star.png" alt="">','총 별',(p.stars||0)],['<img class="ico" src="assets/icons/target.png" alt="">','총 판수',(p.totalSessions||0)],['<img class="ico" src="assets/icons/calendar.png" alt="">','이번 주',wk.done+'/'+wk.quota]]
 .forEach(function(s){var d=document.createElement('div');d.className='scard';d.innerHTML='<div class="ic">'+s[0]+'</div><div><div class="k">'+s[1]+'</div><div class="v">'+s[2]+'</div></div>';srow.appendChild(d);});
 
 // 이번 주 7일
@@ -135,7 +135,7 @@ PILLARS.forEach(function(pl){
 });
 
 // 뱃지
-var BADGES={'first-listening':['🎧','첫 듣기'],'streak-3':['🔥','3일 연속'],'streak-7':['🔥','7일 연속'],'week-quota':['🏆','주간 달성']};
+var BADGES={'first-listening':['🎧','첫 듣기'],'streak-3':['<img class="ico" src="assets/icons/flame.png" alt="">','3일 연속'],'streak-7':['<img class="ico" src="assets/icons/flame.png" alt="">','7일 연속'],'week-quota':['<img class="ico" src="assets/icons/trophy.png" alt="">','주간 달성']};
 var earned=p.badges||[], bg=document.getElementById('badges');
 Object.keys(BADGES).forEach(function(id){var b=BADGES[id],on=earned.indexOf(id)>-1;
   var el=document.createElement('div');el.className='badge'+(on?'':' off');el.innerHTML='<div class="bi">'+b[0]+'</div><div class="bl">'+b[1]+'</div>';bg.appendChild(el);});

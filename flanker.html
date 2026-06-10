@@ -107,7 +107,7 @@ function endGame(){
   var fb;
   if(acc<70){ fb='옆 화살표가 자꾸 눈길을 끌었지? 괜찮아 — 딱 가운데 하나만 보는 거야. 다시 하면 늘어! 💪'; }
   else if(interf!==null && interf>140){ fb='헷갈리게 하는 게 옆에 있으면 살짝 흔들렸어 — "가운데만 보자" 한 번 더 마음먹으면 집중이 더 단단해져!'; }
-  else { fb='옆에 방해가 있어도 안 흔들렸어! 집중을 딱 붙잡는 힘이 좋아지고 있어 🎯'; }
+  else { fb='옆에 방해가 있어도 안 흔들렸어! 집중을 딱 붙잡는 힘이 좋아지고 있어 <img class="ico" src="assets/icons/target.png" alt="">'; }
   if(prevA!==null && acc>prevA) fb+=' 지난번보다 더 잘했어! 📈';
   var r=document.getElementById('result'); r.style.display='flex'; if(window.FX)FX.confetti();
   r.innerHTML=
@@ -115,9 +115,9 @@ function endGame(){
     +'<div class="celebrate celebrate-pop"><div class="eco bob" style="width:124px"><img src="assets/mascot/web/friend_rabbit.png" alt=""></div></div>'
     +'<div class="celebrate-pop" style="font-family:Jua,sans-serif;font-size:25px">집중 완료! ➡️</div></div>'
     +'<div class="statgrid">'
-    +'<div class="stat-tile blue"><div class="k">🎯 정확도</div><div class="v">'+acc+'%</div></div>'
-    +'<div class="stat-tile green"><div class="k">⚡ 반응</div><div class="v">'+(avgRt||'-')+(avgRt?'ms':'')+'</div></div>'
-    +'<div class="stat-tile gold"><div class="k">⭐ 획득</div><div class="v">+'+gained+'</div></div>'
+    +'<div class="stat-tile blue"><div class="k"><img class="ico" src="assets/icons/target.png" alt=""> 정확도</div><div class="v">'+acc+'%</div></div>'
+    +'<div class="stat-tile green"><div class="k"><img class="ico" src="assets/icons/bolt.png" alt=""> 반응</div><div class="v">'+(avgRt||'-')+(avgRt?'ms':'')+'</div></div>'
+    +'<div class="stat-tile gold"><div class="k"><img class="ico" src="assets/icons/star.png" alt=""> 획득</div><div class="v">+'+gained+'</div></div>'
     +'</div>'
     +'<div class="bubble" style="margin:6px 0 14px">'+correct+'/'+TOTAL+' 정답 · '+fb+'</div>'
     +'<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">'

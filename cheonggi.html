@@ -46,7 +46,7 @@
 
 <div class="ob" id="intro" style="z-index:80;gap:16px">
   <div class="eco bob" style="width:138px"><img src="assets/mascot/web/quokka_greet.png" alt="에코"></div>
-  <div class="bubble" style="max-width:330px;font-size:16px"><b id="introNick" style="color:var(--m-listen)">학생</b>, 청기백기! 잘 듣고 빠르게 🚩</div>
+  <div class="bubble" style="max-width:330px;font-size:16px"><b id="introNick" style="color:var(--m-listen)">학생</b>, 청기백기! 잘 듣고 빠르게 <img class="ico" src="assets/icons/flag.png" alt=""></div>
   <div class="tipcard" id="introTip" style="border-left-color:var(--m-listen)"></div>
   <button class="btn3d" id="introStart">시작하기 →</button>
 </div>
@@ -135,18 +135,18 @@ function endGame(){
   ESCT.log('session_completed',{mode:'focus',game:'cheonggi',overallAccuracy:acc/100,correct:correct,completed:true});
   var rw=null; try{ rw=ESCProgress.recordSession('focus'); }catch(e){}
   if(window.SFX)SFX.play('complete');
-  var fb = acc>=85 ? '함정("…지마")에 안 속고 잘 따라왔어! 듣고 참는 집중이 멋져 🚩' : acc>=55 ? '"…지마"가 나오면 손을 딱 멈추는 게 포인트야!' : '끝까지 듣고 움직이면 안 속아 — 다시 해보자!';
+  var fb = acc>=85 ? '함정("…지마")에 안 속고 잘 따라왔어! 듣고 참는 집중이 멋져 <img class="ico" src="assets/icons/flag.png" alt="">' : acc>=55 ? '"…지마"가 나오면 손을 딱 멈추는 게 포인트야!' : '끝까지 듣고 움직이면 안 속아 — 다시 해보자!';
   document.getElementById('game').style.display='none';
   var gained=rw&&rw.gained?rw.gained:0;
   var r=document.getElementById('result'); r.style.display='flex'; if(window.FX)FX.confetti();
   r.innerHTML=
     '<div style="display:flex;flex-direction:column;align-items:center;gap:8px;margin:22px 0 16px">'
     +'<div class="celebrate celebrate-pop"><div class="eco bob" style="width:152px"><img src="assets/mascot/cheonggi/both_up.png" alt=""></div></div>'
-    +'<div class="celebrate-pop" style="font-family:Jua,sans-serif;font-size:25px">청기백기 완료! 🚩</div></div>'
+    +'<div class="celebrate-pop" style="font-family:Jua,sans-serif;font-size:25px">청기백기 완료! <img class="ico" src="assets/icons/flag.png" alt=""></div></div>'
     +'<div class="statgrid">'
-    +'<div class="stat-tile blue"><div class="k">🎯 정확도</div><div class="v">'+acc+'%</div></div>'
-    +'<div class="stat-tile green"><div class="k">✅ 정답</div><div class="v">'+correct+'</div></div>'
-    +'<div class="stat-tile gold"><div class="k">⭐ 획득</div><div class="v">+'+gained+'</div></div>'
+    +'<div class="stat-tile blue"><div class="k"><img class="ico" src="assets/icons/target.png" alt=""> 정확도</div><div class="v">'+acc+'%</div></div>'
+    +'<div class="stat-tile green"><div class="k"><img class="ico" src="assets/icons/check.png" alt=""> 정답</div><div class="v">'+correct+'</div></div>'
+    +'<div class="stat-tile gold"><div class="k"><img class="ico" src="assets/icons/star.png" alt=""> 획득</div><div class="v">+'+gained+'</div></div>'
     +'</div>'
     +'<div class="bubble" style="margin:6px 0 14px">'+correct+'/'+TOTAL+' · '+fb+'</div>'
     +'<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">'

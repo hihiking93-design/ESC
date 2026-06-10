@@ -43,12 +43,12 @@
   <header style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px">
     <button class="cbtn" id="profileBtn" aria-label="프로필" onclick="location.href='profile.html'"><img class="pavatar" src="assets/mascot/web/quokka_greet.png" alt=""></button>
     <div class="wordmark"><span class="e">e</span><span class="s">s</span><span class="c">c</span></div>
-    <div class="streak">🔥 <span id="streakN">0</span></div>
+    <div class="streak"><img class="ico" src="assets/icons/flame.png" alt=""> <span id="streakN">0</span></div>
   </header>
 
   <!-- 주간 할당량 -->
   <div class="weekbar pop d1" id="weekbar" style="margin-bottom:8px">
-    <div class="stat">⭐ <span id="starN">0</span></div>
+    <div class="stat"><img class="ico" src="assets/icons/star.png" alt=""> <span id="starN">0</span></div>
     <div class="wk">
       <div class="dots" id="qdots"></div>
       <div class="ql" id="qlabel">이번 주 0/3</div>
@@ -118,7 +118,7 @@ var UNITS=[
 var bannerEls=UNITS.map(function(u){
   var b=document.createElement('div'); b.className='unit-banner';
   b.style.setProperty('--mc','var('+u.c+')'); b.style.setProperty('--mcd','var('+u.cd+')');
-  b.innerHTML='<div><div class="ub-n">'+u.n+'</div><div class="ub-t">'+u.t+'</div></div><div class="ub-ic">📘</div>';
+  b.innerHTML='<div><div class="ub-n">'+u.n+'</div><div class="ub-t">'+u.t+'</div></div><div class="ub-ic"><img class="ico" src="assets/icons/book.png" alt=""></div>';
   path.appendChild(b); return b;
 });
 
@@ -172,8 +172,8 @@ function showHome(){
     for(var j=0;j<w.over;j++){ dots+='<i class="over"></i>'; }
     document.getElementById('qdots').innerHTML=dots;
     var ql=document.getElementById('qlabel');
-    if(w.over>0){ ql.textContent='할당량 +'+w.over+' 초과! 🔥'; ql.className='ql met'; }
-    else if(w.met){ ql.textContent='이번 주 달성! ✅'; ql.className='ql met'; }
+    if(w.over>0){ ql.textContent='할당량 +'+w.over+' 초과! <img class="ico" src="assets/icons/flame.png" alt="">'; ql.className='ql met'; }
+    else if(w.met){ ql.textContent='이번 주 달성! <img class="ico" src="assets/icons/check.png" alt="">'; ql.className='ql met'; }
     else { ql.textContent='이번 주 '+w.done+'/'+w.quota+' · '+(w.quota-w.done)+'번 더'; ql.className='ql'; }
   } catch(e){}
   renderDaily();

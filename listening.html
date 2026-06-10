@@ -1227,8 +1227,8 @@ function _injectShellActions(info) {
   const sg = document.createElement('div');
   sg.className = 'statgrid';
   sg.innerHTML =
-    '<div class="stat-tile gold"><div class="k">⭐ 획득</div><div class="v">+' + gained + '</div></div>'
-    + '<div class="stat-tile blue"><div class="k">🎯 정답률</div><div class="v">' + (acc != null ? acc + '%' : '-') + '</div></div>'
+    '<div class="stat-tile gold"><div class="k"><img class="ico" src="assets/icons/star.png" alt=""> 획득</div><div class="v">+' + gained + '</div></div>'
+    + '<div class="stat-tile blue"><div class="k"><img class="ico" src="assets/icons/target.png" alt=""> 정답률</div><div class="v">' + (acc != null ? acc + '%' : '-') + '</div></div>'
     + '<div class="stat-tile green"><div class="k">📊 도달</div><div class="v" style="font-family:Jua,sans-serif;font-size:17px">' + level + '</div></div>';
   cel.insertAdjacentElement('afterend', sg);
   var _ds = rs.querySelector('.dark-section'); if (_ds) _ds.style.marginTop = '6px';
@@ -1236,7 +1236,7 @@ function _injectShellActions(info) {
   bar.id = 'escShellActions';
   bar.style.cssText = 'display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:16px 0 6px';
   const calm = document.createElement('a');
-  calm.className = 'btn3d'; calm.textContent = '🫧 숨 고르고 홈으로'; calm.style.cursor = 'pointer';
+  calm.className = 'btn3d'; calm.textContent = '<img class="ico" src="assets/icons/bubble.png" alt=""> 숨 고르고 홈으로'; calm.style.cursor = 'pointer';
   calm.onclick = () => Interlude.run(() => location.href = 'index.html');
   const home = document.createElement('a');
   home.className = 'btn3d ghost'; home.textContent = '홈으로'; home.style.cursor = 'pointer';
@@ -1570,7 +1570,7 @@ document.addEventListener('keydown', e => {
     if (DEV.on && currentAudio) currentAudio.playbackRate = 16;
     else if (currentAudio) currentAudio.playbackRate = parseFloat(document.getElementById('speedSlider').value);
     highlightAnswer();
-    devToast(DEV.on ? '⚡ dev ON' : '⚡ dev OFF');
+    devToast(DEV.on ? '<img class="ico" src="assets/icons/bolt.png" alt=""> dev ON' : '<img class="ico" src="assets/icons/bolt.png" alt=""> dev OFF');
   }
 });
 
@@ -1598,7 +1598,7 @@ document.addEventListener('click', e => {
     if (DEV.on && currentAudio) currentAudio.playbackRate = 16;
     else if (currentAudio) currentAudio.playbackRate = parseFloat(document.getElementById('speedSlider').value);
     highlightAnswer();
-    devToast(DEV.on ? '⚡ dev ON' : '⚡ dev OFF');
+    devToast(DEV.on ? '<img class="ico" src="assets/icons/bolt.png" alt=""> dev ON' : '<img class="ico" src="assets/icons/bolt.png" alt=""> dev OFF');
     _tapBuf = []; clearTimeout(_tapTimer);
   }
 }, true);

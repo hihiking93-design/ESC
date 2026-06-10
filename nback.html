@@ -37,7 +37,7 @@
 
 <div class="ob" id="intro" style="z-index:80;gap:16px">
   <div class="eco bob" style="width:138px"><img src="assets/mascot/web/friend_owl.png" alt="부엉이"></div>
-  <div class="bubble" style="max-width:330px;font-size:16px"><b id="introNick" style="color:var(--m-focus)">학생</b>, 2칸 전을 기억해! 🧠</div>
+  <div class="bubble" style="max-width:330px;font-size:16px"><b id="introNick" style="color:var(--m-focus)">학생</b>, 2칸 전을 기억해! <img class="ico" src="assets/icons/brain.png" alt=""></div>
   <div class="tipcard" id="introTip" style="border-left-color:var(--m-focus)"></div>
   <button class="btn3d" id="introStart" style="--btn:var(--m-focus);--btnd:var(--m-focus-d)">시작하기 →</button>
 </div>
@@ -100,19 +100,19 @@ function endGame(){
   document.getElementById('game').style.display='none';
   var gained=rw&&rw.gained?rw.gained:0;
   var fb;
-  if(acc<55){ fb='기억하기 어려웠지? 칸을 마음속으로 말하며 따라가면 덜 놓쳐 — 다시 해보자! 🧠'; }
+  if(acc<55){ fb='기억하기 어려웠지? 칸을 마음속으로 말하며 따라가면 덜 놓쳐 — 다시 해보자! <img class="ico" src="assets/icons/brain.png" alt="">'; }
   else if(fa>miss && fa>=2){ fb='헷갈려서 그냥 누른 게 좀 있었어 — "확실할 때만" 누르면 더 잘 맞아!'; }
   else if(miss>fa && miss>=2){ fb='기억이 살짝 새어나갔네 — 칸을 마음속으로 말하며 따라가면 안 놓쳐!'; }
-  else { fb='몇 칸 전 걸 잘 기억했어! 머릿속에 담아두는 집중력이 커지고 있어 🧠'; }
+  else { fb='몇 칸 전 걸 잘 기억했어! 머릿속에 담아두는 집중력이 커지고 있어 <img class="ico" src="assets/icons/brain.png" alt="">'; }
   var r=document.getElementById('result'); r.style.display='flex'; if(window.FX)FX.confetti();
   r.innerHTML=
     '<div style="display:flex;flex-direction:column;align-items:center;gap:8px;margin:22px 0 16px">'
     +'<div class="celebrate celebrate-pop"><div class="eco bob" style="width:124px"><img src="assets/mascot/web/friend_owl.png" alt=""></div></div>'
-    +'<div class="celebrate-pop" style="font-family:Jua,sans-serif;font-size:25px">기억 완료! 🧠</div></div>'
+    +'<div class="celebrate-pop" style="font-family:Jua,sans-serif;font-size:25px">기억 완료! <img class="ico" src="assets/icons/brain.png" alt=""></div></div>'
     +'<div class="statgrid">'
-    +'<div class="stat-tile blue"><div class="k">🎯 정확도</div><div class="v">'+acc+'%</div></div>'
-    +'<div class="stat-tile green"><div class="k">✅ 적중</div><div class="v">'+hits+'</div></div>'
-    +'<div class="stat-tile gold"><div class="k">⭐ 획득</div><div class="v">+'+gained+'</div></div>'
+    +'<div class="stat-tile blue"><div class="k"><img class="ico" src="assets/icons/target.png" alt=""> 정확도</div><div class="v">'+acc+'%</div></div>'
+    +'<div class="stat-tile green"><div class="k"><img class="ico" src="assets/icons/check.png" alt=""> 적중</div><div class="v">'+hits+'</div></div>'
+    +'<div class="stat-tile gold"><div class="k"><img class="ico" src="assets/icons/star.png" alt=""> 획득</div><div class="v">+'+gained+'</div></div>'
     +'</div>'
     +'<div class="bubble" style="margin:6px 0 14px">적중 '+hits+' · '+fb+'</div>'
     +'<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">'
