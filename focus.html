@@ -161,7 +161,11 @@ function endGame(){
 function showResult(focusPct, gng, overall, rw){
   document.getElementById('game').style.display='none';
   var gained=rw&&rw.gained?rw.gained:0;
-  var fb = overall>=80 ? '두 가지를 잘 잡았어요! 간섭을 이겨내는 힘이 늘고 있어요.' : overall>=55 ? '칸을 따라가며 신호엔 손만 빠르게 반응해봐요.' : '한 번에 둘 다 어렵죠. 칸 따라가기에 익숙해진 뒤 탭을 더해봐요.';
+  var fb;
+  if(focusPct>=75 && gng>=75){ fb='추적('+focusPct+'%)·반응('+gng+'%) 둘 다 높아요 — 간섭을 이겨내는 분할주의가 좋습니다.'; }
+  else if(focusPct-gng>=25){ fb='추적은 잘했지만('+focusPct+'%) 신호 반응이 약해요('+gng+'%) — 눈은 칸에, 손은 신호에 따로 두는 연습을.'; }
+  else if(gng-focusPct>=25){ fb='신호 반응은 좋은데('+gng+'%) 칸 추적이 흔들려요('+focusPct+'%) — 칸 따라가기에 비중을 더.'; }
+  else { fb='한 번에 둘 다는 어렵죠 — 칸 추적에 익숙해진 뒤 신호 반응을 더해보세요.'; }
   var r=document.getElementById('result'); r.style.display='flex'; if(window.FX)FX.confetti();
   r.innerHTML=
     '<div style="display:flex;flex-direction:column;align-items:center;gap:8px;margin:22px 0 16px">'

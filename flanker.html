@@ -34,7 +34,7 @@
   .ghint{text-align:center;color:var(--ink-soft);font-size:12px;margin-top:8px}
 </style>
 </head>
-<body>
+<body class="gbg">
 
 <div class="ob" id="intro" style="z-index:80;gap:16px">
   <div class="eco bob" style="width:138px"><img src="assets/mascot/web/friend_rabbit.png" alt="토끼"></div>
@@ -61,7 +61,7 @@
 <div class="screen" id="result" style="display:none"></div>
 
 <script>
-var TOTAL=30, trial=0, correct=0, rtSum=0, tStart=0, curDir=null;
+var TOTAL=30, trial=0, correct=0, rtSum=0, tStart=0, curDir=null, curIncong=false, congRT=[], incongRT=[];
 var stage=document.getElementById('stage'), arrows=document.getElementById('arrows'),
     prog=document.getElementById('prog'), pn=document.getElementById('pn');
 function arr(d){ return d==='L'?'←':'→'; }
@@ -69,14 +69,14 @@ function nextTrial(){
   if(trial>=TOTAL){ endGame(); return; }
   trial++; pn.textContent=trial+'/'+TOTAL; prog.style.width=Math.round((trial-1)/TOTAL*100)+'%';
   var center=Math.random()<0.5?'L':'R';
-  var incong=Math.random()<0.55;
+  var incong=Math.random()<0.55; curIncong=incong;
   var fl=incong?(center==='L'?'R':'L'):center;
   arrows.innerHTML=arr(fl)+arr(fl)+'<span class="mid">'+arr(center)+'</span>'+arr(fl)+arr(fl);
   curDir=center; tStart=performance.now();
 }
 function answer(d){
   var ok=(d===curDir);
-  if(ok){ correct++; rtSum+=(performance.now()-tStart); stage.className='stage good'; if(window.SFX)SFX.play('correct'); }
+  if(ok){ correct++; var rt=performance.now()-tStart; rtSum+=rt; (curIncong?incongRT:congRT).push(rt); stage.className='stage good'; if(window.SFX)SFX.play('correct'); }
   else { stage.className='stage bad'; if(window.SFX)SFX.play('wrong'); }
   setTimeout(function(){ stage.className='stage'; nextTrial(); }, ok?160:400);
 }
@@ -99,7 +99,16 @@ function endGame(){
   if(window.SFX)SFX.play('complete');
   document.getElementById('game').style.display='none';
   var gained=rw&&rw.gained?rw.gained:0;
-  var fb = acc>=85 ? '옆 화살표에 안 휘둘렸어요! 선택적 주의가 좋아요.' : acc>=60 ? '가운데 한 점만 보세요. 시선을 고정하면 더 빨라져요.' : '양옆을 흐릿하게 두고 가운데에만 초점을 맞춰봐요.';
+  function mean(a){ return a.length? a.reduce(function(s,x){return s+x;},0)/a.length : 0; }
+  var interf = (congRT.length&&incongRT.length) ? Math.round(mean(incongRT)-mean(congRT)) : null;
+  var prevA=null; try{ var ps=ESCT.dump().filter(function(e){return e.event==='session_completed'&&e.game==='flanker';}); if(ps.length>=2) prevA=Math.round(ps[ps.length-2].overallAccuracy*100); }catch(e){}
+  var trend = prevA!==null ? (acc>prevA?' · 지난판 +'+(acc-prevA)+'%p↑':acc<prevA?' · 지난판 '+(acc-prevA)+'%p':'') : '';
+  var fb;
+  if(acc<70){ fb='정확도 우선 — 가운데 화살표에 시선을 고정하고 반박자 늦게 반응해봐요.'; }
+  else if(interf!==null && interf>120){ fb='불일치(양옆 반대)에서 평균 +'+interf+'ms 느려졌어요 — 방해자극 억제에 부하가 걸린 신호. 시선을 가운데 한 점에 고정하면 좁혀집니다.'; }
+  else if(interf!==null && interf>40){ fb='간섭 효과 +'+interf+'ms로 안정적 — 옆 화살표를 잘 걸러내고 있어요.'; }
+  else { fb='간섭이 거의 없어요'+(interf!==null?' (+'+interf+'ms)':'')+' — 선택적 주의가 탄탄해요. 속도를 더 올려보세요.'; }
+  fb+=trend;
   var r=document.getElementById('result'); r.style.display='flex'; if(window.FX)FX.confetti();
   r.innerHTML=
     '<div style="display:flex;flex-direction:column;align-items:center;gap:8px;margin:22px 0 16px">'

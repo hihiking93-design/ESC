@@ -205,6 +205,12 @@ body{
 .daily .dq.done{color:var(--ink)} .daily .dq.done .ck{background:var(--m-grit);border-color:var(--m-grit)}
 .daily .dq .cur{margin-left:auto;font-family:var(--f-num);font-weight:700;color:var(--ink-soft)}
 .daily .dall{padding:10px 14px;text-align:center;font-family:var(--f-display);font-size:13px;color:var(--m-grit-d);background:#EAF7EF}
+/* ── 게임 배경 생동감(블롭) ── */
+body.gbg::before,body.gbg::after{content:'';position:fixed;border-radius:50%;filter:blur(50px);z-index:-1;opacity:.5;pointer-events:none}
+body.gbg::before{width:300px;height:300px;background:rgba(76,130,232,.16);top:-70px;left:-90px;animation:gbgf1 9s ease-in-out infinite}
+body.gbg::after{width:260px;height:260px;background:rgba(47,184,166,.15);bottom:-50px;right:-80px;animation:gbgf2 11s ease-in-out infinite}
+@keyframes gbgf1{50%{transform:translate(34px,46px)}}
+@keyframes gbgf2{50%{transform:translate(-34px,-32px)}}
 
 .muted{color:var(--ink-soft);font-size:12.5px;line-height:1.6;text-align:center}
 h2.sec{font-family:var(--f-display);font-size:15px;color:var(--ink-soft);margin:6px 2px 12px;letter-spacing:.4px}
