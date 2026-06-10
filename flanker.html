@@ -61,6 +61,7 @@
 <div class="screen" id="result" style="display:none"></div>
 
 <script>
+var LV=Math.min(29,+((new URLSearchParams(location.search)).get('lv')||0));
 var TOTAL=30, trial=0, correct=0, rtSum=0, tStart=0, curDir=null, curIncong=false, congRT=[], incongRT=[], locked=false;
 var stage=document.getElementById('stage'), arrows=document.getElementById('arrows'),
     prog=document.getElementById('prog'), pn=document.getElementById('pn');
@@ -70,7 +71,7 @@ function nextTrial(){
   trial++; pn.textContent=trial+'/'+TOTAL; prog.style.width=Math.round((trial-1)/TOTAL*100)+'%';
   locked=false;
   var center=Math.random()<0.5?'L':'R';
-  var incong=Math.random()<0.55; curIncong=incong;
+  var incong=Math.random()<Math.min(0.82,0.55+LV*0.01); curIncong=incong;
   var fl=incong?(center==='L'?'R':'L'):center;
   arrows.innerHTML=arr(fl)+arr(fl)+'<span class="mid">'+arr(center)+'</span>'+arr(fl)+arr(fl);
   curDir=center; tStart=performance.now();

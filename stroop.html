@@ -62,6 +62,7 @@
 <script>
 var COLORS=[{n:'빨강',h:'#E5634D'},{n:'파랑',h:'#4C82E8'},{n:'초록',h:'#4FB477'},{n:'노랑',h:'#E8A11E'}];
 var DIRS=[{n:'왼쪽',g:'←',v:'L'},{n:'오른쪽',g:'→',v:'R'},{n:'위',g:'↑',v:'U'},{n:'아래',g:'↓',v:'D'}];
+var LV=Math.min(29,+((new URLSearchParams(location.search)).get('lv')||0));
 var TOTAL=30, trial=0, correct=0, rtSum=0, tStart=0, curCorrect=null, curCong=false, congRT=[], incongRT=[], locked=false;
 var stage=document.getElementById('stage'), wordEl=document.getElementById('word'), askEl=document.getElementById('ask'),
     sw=document.getElementById('swatches'), prog=document.getElementById('prog'), pn=document.getElementById('pn');
@@ -109,7 +110,7 @@ function answer(val){
   var ok=(val===curCorrect);
   if(ok){ correct++; var rt=performance.now()-tStart; rtSum+=rt; (curCong?congRT:incongRT).push(rt); stage.className='stage good'; if(window.SFX)SFX.play('correct'); }
   else { stage.className='stage bad'; if(window.SFX)SFX.play('wrong'); }
-  setTimeout(function(){ stage.className='stage'; nextTrial(); }, ok?180:430);
+  setTimeout(function(){ stage.className='stage'; nextTrial(); }, ok?Math.max(120,180-LV*4):Math.max(280,430-LV*5));
 }
 function startGame(){
   document.getElementById('intro').classList.add('hide');

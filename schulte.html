@@ -53,7 +53,8 @@
 <div class="screen" id="result" style="display:none"></div>
 
 <script>
-var N=25, grid=document.getElementById('grid'), nextEl=document.getElementById('nextN'), timerEl=document.getElementById('timer');
+var LV=Math.min(29,+((new URLSearchParams(location.search)).get('lv')||0));
+var N=25+(LV>=10?5:0)+(LV>=20?5:0), grid=document.getElementById('grid'), nextEl=document.getElementById('nextN'), timerEl=document.getElementById('timer');
 var next=1, errors=0, t0=0, running=false, raf=0;
 
 function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t; } return a; }

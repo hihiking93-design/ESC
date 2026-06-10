@@ -52,6 +52,7 @@
 <div class="screen" id="result" style="display:none"></div>
 
 <script>
+var LV=Math.min(29,+((new URLSearchParams(location.search)).get('lv')||0));
 var round=0, lives=3, missT=null, alive=false;
 var play=document.getElementById('play'), tgt=document.getElementById('tgt'), closer=document.getElementById('closer'),
     livesEl=document.getElementById('lives'), rndEl=document.getElementById('rnd');
@@ -61,10 +62,10 @@ function showTgt(){ tgt.classList.remove('show'); void tgt.offsetWidth; tgt.clas
 function loseLife(){ lives--; livesEl.textContent='❤️'.repeat(Math.max(0,lives))+'🖤'.repeat(3-lives); if(window.SFX)SFX.play('wrong'); }
 function spawn(){
   round++; rndEl.textContent=round;
-  var win=Math.max(560, 1600-round*44);
+  var win=Math.max(440, 1600-round*44-LV*14);
   var r=play.getBoundingClientRect();
   tgt.style.left=(60+Math.random()*(r.width-120))+'px'; tgt.style.top=(60+Math.random()*(r.height-120))+'px';
-  curIsTarget = (round<=3) ? true : (Math.random()<0.62);
+  curIsTarget = (round<=3) ? true : (Math.random()<Math.max(0.4,0.62-LV*0.008));
   tgtImg.src='assets/mascot/web/'+(curIsTarget?'friend_turtle':ANIMALS[Math.floor(Math.random()*ANIMALS.length)])+'.png';
   showTgt();
   closer.style.transition='none'; closer.style.transform='scale(2.1)'; closer.style.opacity='.85';

@@ -71,7 +71,8 @@
 <div class="screen" id="result" style="display:none"></div>
 
 <script>
-var GAME_MS=45000, CUE_WIN=1100;
+var LV=Math.min(29,+((new URLSearchParams(location.search)).get('lv')||0));
+var GAME_MS=45000, CUE_WIN=Math.max(750,1100-LV*14);
 var play=document.getElementById('play'), lane=document.getElementById('lane'),
     avatar=document.getElementById('avatar'), cue=document.getElementById('cue'),
     gauge=document.getElementById('gauge'), timer=document.getElementById('timer'),
@@ -113,7 +114,7 @@ function loop(now){
   if(!running) return;
   var dt=Math.min(50, now-last); last=now; var elapsed=now-t0;
   // 난이도 램프 (점점 빠르게) + 테마 전환
-  var prog=elapsed/GAME_MS; period=1400-prog*520;
+  var prog=elapsed/GAME_MS; period=(1400-LV*14)-prog*520;
   var ti=prog<0.4?0:(prog<0.72?1:2); if(ti!==curTheme){ curTheme=ti; play.style.background=THEMES[ti].bg; }
   // 추적
   avatarX += (pointerX-avatarX)*Math.min(1, dt/110);

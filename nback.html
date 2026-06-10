@@ -57,10 +57,12 @@
 <div class="screen" id="result" style="display:none"></div>
 
 <script>
-var N=2, STEPS=24, STIM=1700, GAP=550, MATCH=0.32;
+var LV=Math.min(29,+((new URLSearchParams(location.search)).get('lv')||0));
+var N=2+Math.floor(LV/8), STEPS=24, STIM=Math.max(900,1700-LV*25), GAP=550, MATCH=Math.min(0.4,0.32+LV*0.003);
 var seq=[], step=-1, hits=0,miss=0,fa=0,cr=0, tapped=false, curMatch=false, cells=[];
 var ngrid=document.getElementById('ngrid'), prog=document.getElementById('prog'), pn=document.getElementById('pn'),
     matchBtn=document.getElementById('matchBtn');
+matchBtn.textContent='같음! ('+N+'칸 전)'; (function(){ var a=document.querySelector('.nb-ask'); if(a) a.innerHTML='지금 칸이 <b>'+N+'칸 전</b>과 같으면 "같음!"'; })();
 
 function buildGrid(){ ngrid.innerHTML=''; cells=[]; for(var i=0;i<9;i++){ var c=document.createElement('div'); c.className='ncell'; ngrid.appendChild(c); cells.push(c); } }
 function tap(){ if(tapped||step<0)return; tapped=true; if(window.SFX)SFX.play('select'); matchBtn.classList.add('flash'); setTimeout(function(){matchBtn.classList.remove('flash');},160); }

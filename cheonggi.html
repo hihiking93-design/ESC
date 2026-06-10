@@ -71,6 +71,7 @@
 <div class="screen" id="result" style="display:none"></div>
 
 <script>
+var LV=Math.min(29,+((new URLSearchParams(location.search)).get('lv')||0));
 var TOTAL=24, cmdN=0, correct=0, blueUp=false, whiteUp=false, curCmd=null, active=false, winTimer=null;
 var cmdEl=document.getElementById('cmd'), prog=document.getElementById('prog'), pn=document.getElementById('pn'),
     sprite=document.getElementById('ecoSprite');
@@ -87,7 +88,7 @@ function speak(c){ if(window.SFX&&SFX.muted())return; try{
   var a=VOICES[k]; if(a){ a.pause(); a.currentTime=0; a.play().catch(function(){}); }
 }catch(e){} }
 function gen(){
-  var neg=Math.random()<0.35;
+  var neg=Math.random()<Math.min(0.5,0.35+LV*0.005);
   var flag=Math.random()<0.5?'blue':'white';
   var up=(flag==='blue')?blueUp:whiteUp;
   var dir=up?'down':'up';                 // 상태를 바꾸는 방향(반사 유발)
@@ -100,7 +101,7 @@ function next(){
   if(cmdN>TOTAL){ endGame(); return; }
   pn.textContent=cmdN+'/'+TOTAL; prog.style.width=Math.round((cmdN-1)/TOTAL*100)+'%';
   curCmd=gen(); cmdEl.textContent=curCmd.text; cmdEl.className='cmd'; active=true; speak(curCmd);
-  var win=Math.max(950, 1750-(cmdN*32));
+  var win=Math.max(820, 1750-(cmdN*32)-LV*14);
   winTimer=setTimeout(function(){
     if(!active) return; active=false;
     if(curCmd.neg){ correct++; cmdEl.className='cmd go'; if(window.SFX)SFX.play('correct'); }  // 잘 참음
