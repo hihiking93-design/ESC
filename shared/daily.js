@@ -2,7 +2,7 @@
 (function (global) {
   var PILLARS = [
     { id:'listening', name:'듣기', face:'quokka_listen',   c:'--m-listen',    href:'listening.html', emoji:'🎧' },
-    { id:'focus',     name:'집중', face:'friend_owl',      c:'--m-focus',     href:'focus.html',     emoji:'🦉' },
+    { id:'focus',     name:'집중', face:'friend_owl',      c:'--m-focus',     href:'nback.html',     emoji:'🦉' },
     { id:'speed',     name:'속도', face:'friend_rabbit',   c:'--m-speed',     href:'schulte.html',   emoji:'🐰' },
     { id:'challenge', name:'도전', face:'friend_hedgehog', c:'--m-challenge', href:'stroop.html',    emoji:'🦔' },
     { id:'grit',      name:'끈기', face:'friend_turtle',   c:'--m-grit',      href:'grit.html',      emoji:'🐢' },
