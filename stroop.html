@@ -71,13 +71,13 @@ function setOptions(opts){
   sw.innerHTML=''; sw.style.gridTemplateColumns='repeat(2,1fr)';
   opts.forEach(function(o){ var b=document.createElement('button'); b.className='sw';
     if(o.bg){ b.style.background=o.bg; b.style.boxShadow='0 5px 0 '+shade(o.bg); }
-    else { b.classList.add('sw-txt'); b.textContent=o.label; }
+    else { b.classList.add('sw-txt'); b.textContent=o.label; if(o.fs) b.style.fontSize=o.fs; }
     b.onclick=function(){ answer(o.value); }; sw.appendChild(b); });
 }
 function nextTrial(){
   if(trial>=TOTAL){ endGame(); return; }
   trial++; pn.textContent=trial+'/'+TOTAL; prog.style.width=Math.round((trial-1)/TOTAL*100)+'%';
-  wordEl.style.fontSize=''; wordEl.style.color=''; wordEl.innerHTML='';
+  wordEl.style.fontSize=''; wordEl.style.color=''; wordEl.style.letterSpacing=''; wordEl.innerHTML='';
   locked=false; var v=rnd(['color','count','direction','size']);
   if(v==='color'){
     askEl.innerHTML='글자의 <b>색</b>을 고르세요';
@@ -85,20 +85,21 @@ function nextTrial(){
     wordEl.textContent=w.n; wordEl.style.color=ink.h; curCorrect='c:'+ink.n; curCong=(w===ink);
     setOptions(COLORS.map(function(c){return {bg:c.h,value:'c:'+c.n};}));
   } else if(v==='count'){
-    askEl.innerHTML='<b>몇 개</b>인가요?';
-    var dg=rnd([2,3,4,5,6,7,8,9]), ct=rnd([2,3,4,5]);
-    wordEl.style.fontSize='46px'; wordEl.style.color='#28303B'; wordEl.textContent=Array(ct+1).join(dg+' ').trim();
-    curCorrect='n:'+ct; curCong=(dg===ct); setOptions([2,3,4,5].map(function(n){return {label:String(n),value:'n:'+n};}));
+    askEl.innerHTML='<b>몇 개</b>인가요? (숫자 말고 개수!)';
+    var ct=rnd([2,3,4,5]), dg; do{ dg=rnd([2,3,4,5]); }while(dg===ct);
+    wordEl.style.fontSize='52px'; wordEl.style.color='#28303B'; wordEl.textContent=Array(ct+1).join(dg+' ').trim();
+    curCorrect='n:'+ct; curCong=false; setOptions([2,3,4,5].map(function(n){return {label:String(n),value:'n:'+n};}));
   } else if(v==='direction'){
-    askEl.innerHTML='<b>화살표</b> 방향을 고르세요';
-    var d=rnd(DIRS), wd=d; if(Math.random()<0.65){ do{wd=rnd(DIRS);}while(wd===d); }
-    wordEl.innerHTML=d.g+'<div style="font-size:.32em;color:var(--ink-soft);margin-top:2px">'+wd.n+'</div>'; curCorrect='d:'+d.v; curCong=(d===wd);
+    askEl.innerHTML='<b>가운데</b> 화살표 방향은? (양옆은 함정!)';
+    var d=rnd(DIRS), wd=d; do{ wd=rnd(DIRS); }while(wd===d);
+    wordEl.style.fontSize='42px'; wordEl.style.letterSpacing='6px'; wordEl.textContent=wd.g+wd.g+d.g+wd.g+wd.g;
+    curCorrect='d:'+d.v; curCong=false;
     setOptions(DIRS.map(function(x){return {label:x.g,value:'d:'+x.v};}));
   } else {
-    askEl.innerHTML='글자 <b>크기</b>를 고르세요';
+    askEl.innerHTML='글자가 <b>실제로</b> 큰가요, 작은가요?';
     var big=Math.random()<0.5, txt=Math.random()<0.5?'큰':'작은';
-    wordEl.textContent=txt; wordEl.style.color='#28303B'; wordEl.style.fontSize=big?'84px':'32px';
-    curCorrect='s:'+(big?'big':'small'); curCong=((txt==='큰')===big); setOptions([{label:'큰 글자',value:'s:big'},{label:'작은 글자',value:'s:small'}]);
+    wordEl.textContent=txt; wordEl.style.color='#28303B'; wordEl.style.fontSize=big?'96px':'26px';
+    curCorrect='s:'+(big?'big':'small'); curCong=((txt==='큰')===big); setOptions([{label:'크다',value:'s:big',fs:'32px'},{label:'작다',value:'s:small',fs:'13px'}]);
   }
   tStart=performance.now();
 }

@@ -32,7 +32,7 @@
 
 <div class="ob" id="intro" style="z-index:80;gap:16px">
   <div class="eco bob" style="width:138px"><img src="assets/mascot/web/friend_turtle.png" alt="거북이"></div>
-  <div class="bubble" style="max-width:330px;font-size:16px"><b id="introNick" style="color:var(--m-grit-d)">학생</b>, 점점 빨라져도 끝까지! 🐢</div>
+  <div class="bubble" style="max-width:330px;font-size:16px"><b id="introNick" style="color:var(--m-grit-d)">학생</b>, 점점 빨라지고 다른 친구도 나와! 거북이만 콕 🐢</div>
   <div class="tipcard" id="introTip" style="border-left-color:var(--m-grit)"></div>
   <button class="btn3d" id="introStart" style="--btn:var(--m-grit);--btnd:var(--m-grit-d)">시작하기 →</button>
 </div>
@@ -46,7 +46,7 @@
   <div class="play" id="play">
     <div class="tgt" id="tgt"><div class="closer" id="closer"></div><img src="assets/mascot/web/friend_turtle.png" alt=""></div>
   </div>
-  <div class="ghint">나타나는 거북이를 시간 안에 탭! 점점 빨라져요 — 포기하지 말고 최고기록 갱신 🐢</div>
+  <div class="ghint"><b style="color:var(--m-grit-d)">거북이🐢만</b> 시간 안에 탭! 다른 친구가 나오면 <b>가만히</b> — 점점 빨라져요</div>
 </div>
 
 <div class="screen" id="result" style="display:none"></div>
@@ -56,29 +56,30 @@ var round=0, lives=3, missT=null, alive=false;
 var play=document.getElementById('play'), tgt=document.getElementById('tgt'), closer=document.getElementById('closer'),
     livesEl=document.getElementById('lives'), rndEl=document.getElementById('rnd');
 
+var ANIMALS=['friend_rabbit','friend_owl','friend_hedgehog'], curIsTarget=true, tgtImg=tgt.querySelector('img');
+function showTgt(){ tgt.classList.remove('show'); void tgt.offsetWidth; tgt.classList.add('show'); }
+function loseLife(){ lives--; livesEl.textContent='❤️'.repeat(Math.max(0,lives))+'🖤'.repeat(3-lives); if(window.SFX)SFX.play('wrong'); }
 function spawn(){
   round++; rndEl.textContent=round;
   var win=Math.max(560, 1600-round*44);
   var r=play.getBoundingClientRect();
-  var x=60+Math.random()*(r.width-120), y=60+Math.random()*(r.height-120);
-  tgt.style.left=x+'px'; tgt.style.top=y+'px';
-  tgt.classList.remove('show'); void tgt.offsetWidth; tgt.classList.add('show');
+  tgt.style.left=(60+Math.random()*(r.width-120))+'px'; tgt.style.top=(60+Math.random()*(r.height-120))+'px';
+  curIsTarget = (round<=3) ? true : (Math.random()<0.62);
+  tgtImg.src='assets/mascot/web/'+(curIsTarget?'friend_turtle':ANIMALS[Math.floor(Math.random()*ANIMALS.length)])+'.png';
+  showTgt();
   closer.style.transition='none'; closer.style.transform='scale(2.1)'; closer.style.opacity='.85';
   requestAnimationFrame(function(){ closer.style.transition='transform '+win+'ms linear, opacity '+win+'ms'; closer.style.transform='scale(1)'; });
-  alive=true; missT=setTimeout(miss, win);
+  alive=true; missT=setTimeout(timeUp, win);
 }
 function hit(){
-  if(!alive) return; alive=false; clearTimeout(missT);
-  if(window.SFX)SFX.play('correct');
-  tgt.classList.remove('show');
-  setTimeout(spawn, 160);
+  if(!alive) return; alive=false; clearTimeout(missT); tgt.classList.remove('show');
+  if(curIsTarget){ if(window.SFX)SFX.play('correct'); setTimeout(spawn, 150); }
+  else { loseLife(); if(lives<=0){ setTimeout(endGame, 400); return; } setTimeout(spawn, 300); }   // 방해 동물 탭=벌점
 }
-function miss(){
-  if(!alive) return; alive=false;
-  lives--; livesEl.textContent='❤️'.repeat(lives)+'🖤'.repeat(3-lives);
-  if(window.SFX)SFX.play('wrong'); tgt.classList.remove('show');
-  if(lives<=0){ setTimeout(endGame, 400); return; }
-  setTimeout(spawn, 350);
+function timeUp(){
+  if(!alive) return; alive=false; tgt.classList.remove('show');
+  if(curIsTarget){ loseLife(); if(lives<=0){ setTimeout(endGame, 400); return; } setTimeout(spawn, 320); }  // 거북이 놓침
+  else { setTimeout(spawn, 180); }   // 방해 동물 잘 참음
 }
 tgt.addEventListener('pointerdown',function(e){ e.preventDefault(); hit(); });
 
