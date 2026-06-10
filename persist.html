@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ESC · 끝까지 (포기 안 하기)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="shared/esc.css?v=3">
+<script src="shared/telemetry.js"></script>
+<script src="shared/progress.js?v=2"></script>
+<script src="shared/tips.js?v=1"></script>
+<script src="shared/sfx.js?v=1"></script>
+<script src="shared/fx.js?v=1"></script>
+<style>
+  body{overflow:hidden}
+  .gwrap{max-width:460px;margin:0 auto;height:100vh;display:flex;flex-direction:column;padding:14px 16px}
+  .ghud{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+  .ghud .x{width:42px;height:42px;border-radius:50%;background:#fff;border:none;box-shadow:0 4px 10px rgba(35,43,54,.14);font-size:18px;cursor:pointer;flex:none}
+  .prog{flex:1;height:14px;border-radius:999px;background:rgba(40,48,59,.12);overflow:hidden}
+  .prog .fill{height:100%;border-radius:999px;background:var(--m-grit);width:0;transition:width .25s}
+  .pn{font-family:var(--f-num);font-weight:700;font-size:15px;color:var(--ink-soft);min-width:54px;text-align:right}
+  .stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px}
+  .clue{font-family:var(--f-display);font-size:26px;color:var(--m-grit-d);min-height:34px;text-align:center;transition:transform .06s}
+  .clue.up{transform:translateY(-4px)} .clue.down{transform:translateY(4px)}
+  .guessrow{display:flex;align-items:center;gap:14px}
+  .gnum{font-family:var(--f-num);font-weight:800;font-size:58px;color:var(--ink);min-width:96px;text-align:center}
+  .pm{width:60px;height:60px;border-radius:18px;border:none;background:#fff;font-size:30px;color:var(--m-grit-d);box-shadow:0 5px 0 var(--line);cursor:pointer}
+  .pm:active{transform:translateY(5px);box-shadow:none}
+  .rng{width:100%;max-width:320px}
+  .go{font-family:var(--f-display);font-size:20px;color:#fff;background:var(--m-grit);border:none;border-radius:18px;padding:15px 40px;box-shadow:0 6px 0 var(--m-grit-d);cursor:pointer}
+  .go:active{transform:translateY(6px);box-shadow:none}
+  .encourage{min-height:22px;font-size:14px;color:var(--ink-soft);text-align:center}
+  .ghint{text-align:center;color:var(--ink-soft);font-size:12px;margin-top:8px}
+</style>
+</head>
+<body class="gbg">
+
+<div class="ob" id="intro" style="z-index:80;gap:16px">
+  <div class="eco bob" style="width:138px"><img src="assets/mascot/web/friend_turtle.png" alt="거북이"></div>
+  <div class="bubble" style="max-width:330px;font-size:16px"><b id="introNick" style="color:var(--m-grit-d)">학생</b>, 단서를 모아 끝까지! 포기 노노 🐢</div>
+  <div class="tipcard" id="introTip" style="border-left-color:var(--m-grit)"></div>
+  <button class="btn3d" id="introStart" style="--btn:var(--m-grit);--btnd:var(--m-grit-d)">시작하기 →</button>
+</div>
+
+<div class="gwrap" id="game" style="display:none">
+  <div class="ghud">
+    <button class="x" onclick="location.href='index.html'" aria-label="나가기">✕</button>
+    <div class="prog"><div class="fill" id="prog"></div></div>
+    <div class="pn"><span id="pn">1/3</span></div>
+  </div>
+  <div class="stage">
+    <div class="clue" id="clue">1 ~ 50 사이 숨은 수를 찾아!</div>
+    <div class="guessrow">
+      <button class="pm" id="minus">−</button>
+      <div class="gnum" id="gnum">25</div>
+      <button class="pm" id="plus">+</button>
+    </div>
+    <input class="rng" id="rng" type="range" min="1" max="50" value="25">
+    <button class="go" id="goBtn">이거다! 🔍</button>
+    <div class="encourage" id="enc"></div>
+  </div>
+  <div class="ghint">정답이 아니어도 <b style="color:var(--m-grit-d)">단서</b>가 나와요. 끝까지 좁혀가면 반드시 찾아요!</div>
+</div>
+
+<div class="screen" id="result" style="display:none"></div>
+
+<script>
+var ROUNDS=3, round=0, secret=0, guesses=0, totalGuesses=0, lo=1, hi=50;
+var rng=document.getElementById('rng'), gnum=document.getElementById('gnum'), clue=document.getElementById('clue'),
+    enc=document.getElementById('enc'), prog=document.getElementById('prog'), pn=document.getElementById('pn');
+function rint(a,b){ return a+Math.floor(Math.random()*(b-a+1)); }
+function setG(v){ v=Math.max(1,Math.min(50,v)); rng.value=v; gnum.textContent=v; }
+rng.addEventListener('input',function(){ gnum.textContent=rng.value; });
+document.getElementById('minus').onclick=function(){ setG(+rng.value-1); };
+document.getElementById('plus').onclick=function(){ setG(+rng.value+1); };
+
+function newRound(){
+  round++; if(round>ROUNDS){ endGame(); return; }
+  secret=rint(1,50); guesses=0; lo=1; hi=50; setG(25);
+  pn.textContent=round+'/'+ROUNDS; prog.style.width=Math.round((round-1)/ROUNDS*100)+'%';
+  clue.textContent='1 ~ 50 사이 숨은 수를 찾아!'; clue.className='clue'; enc.textContent='';
+}
+function guess(){
+  var g=+rng.value; guesses++; totalGuesses++;
+  if(g===secret){
+    if(window.SFX)SFX.play('correct');
+    clue.textContent='찾았다! '+secret+' 🎉'; clue.className='clue';
+    enc.textContent=guesses>=5?(guesses+'번 만에! 포기 안 하고 단서를 모은 결과야 🔥'):'좋아! 다음 단서도 끝까지!';
+    setTimeout(newRound, 1100);
+  } else {
+    if(window.SFX)SFX.play('select');
+    if(g<secret){ clue.textContent='더 큰 수예요 ⬆️'; clue.className='clue up'; lo=Math.max(lo,g+1); }
+    else { clue.textContent='더 작은 수예요 ⬇️'; clue.className='clue down'; hi=Math.min(hi,g-1); }
+    var span=hi-lo;
+    enc.textContent = span<=3 ? '거의 다 왔어! 조금만 더 🔍' : (guesses>=4 ? '단서가 쌓이고 있어 — 포기 노노!' : '좋아, 범위가 좁아졌어!');
+    setTimeout(function(){ setG(Math.round((lo+hi)/2)); }, 250);
+  }
+}
+document.getElementById('goBtn').onclick=guess;
+
+function startGame(){
+  document.getElementById('intro').classList.add('hide');
+  setTimeout(function(){ document.getElementById('intro').style.display='none'; },420);
+  document.getElementById('game').style.display='flex';
+  round=0; totalGuesses=0;
+  ESCT.log('session_started',{mode:'grit',game:'persist'});
+  newRound();
+}
+function endGame(){
+  prog.style.width='100%';
+  // 끈기 점수: 다 찾으면 높게(포기 안 함이 핵심), 효율은 보너스
+  var avg=totalGuesses/ROUNDS;
+  var acc=Math.max(0.6, Math.min(1, 1-(avg-6)*0.05)); // 평균 추측수로 약간 가감, 완주=기본 높음
+  var fb = avg<=6 ? '단서를 똑똑하게 모았어! 끈기랑 머리 둘 다 좋아 🧠' : '몇 번 헤매도 포기 안 하고 결국 다 찾았어 — 그게 진짜 실력이야 🔥';
+  ESCT.log('session_completed',{mode:'grit',game:'persist',rounds:ROUNDS,totalGuesses:totalGuesses,overallAccuracy:acc,completed:true});
+  var rw=null; try{ rw=ESCProgress.recordSession('grit'); }catch(e){}
+  if(window.SFX)SFX.play('complete');
+  document.getElementById('game').style.display='none';
+  var gained=rw&&rw.gained?rw.gained:0;
+  var r=document.getElementById('result'); r.style.display='flex'; if(window.FX)FX.confetti();
+  r.innerHTML=
+    '<div style="display:flex;flex-direction:column;align-items:center;gap:8px;margin:22px 0 16px">'
+    +'<div class="celebrate celebrate-pop"><div class="eco bob" style="width:124px"><img src="assets/mascot/web/friend_turtle.png" alt=""></div></div>'
+    +'<div class="celebrate-pop" style="font-family:Jua,sans-serif;font-size:24px">포기 안 하고 다 찾았어! 🐢</div></div>'
+    +'<div class="statgrid">'
+    +'<div class="stat-tile green"><div class="k">🐢 완주</div><div class="v">'+ROUNDS+'/'+ROUNDS+'</div></div>'
+    +'<div class="stat-tile blue"><div class="k">🔍 총 시도</div><div class="v">'+totalGuesses+'</div></div>'
+    +'<div class="stat-tile gold"><div class="k">⭐ 획득</div><div class="v">+'+gained+'</div></div>'
+    +'</div>'
+    +'<div class="bubble" style="margin:6px 0 14px">'+fb+'</div>'
+    +'<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">'
+    +'<a class="btn3d" style="--btn:var(--m-grit);--btnd:var(--m-grit-d)" href="persist.html">다시 🔄</a>'
+    +'<a class="btn3d ghost" href="index.html">홈으로</a></div>';
+}
+
+(function(){
+  document.getElementById('introNick').textContent=(localStorage.getItem('esc_nick')||'학생');
+  try{ var tip=ESCTips.pickAny();
+    document.getElementById('introTip').innerHTML='<div class="tag" style="color:var(--m-grit-d)">'+ESCTips.icon[tip.t]+' '+ESCTips.tag[tip.t]+'</div><div class="h">'+tip.h+'</div><div class="s">'+tip.s+'</div>';
+  }catch(e){}
+  document.getElementById('introStart').onclick=startGame;
+})();
+</script>
+</body>
+</html>
