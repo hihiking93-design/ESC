@@ -7,7 +7,7 @@ import random, json
 from collections import defaultdict
 
 # ── 알고리즘 상수 (JS와 동일) ──────────────────────────────────────────
-MAX_SETS   = 10
+MAX_SETS   = 5    # prod(index.html)과 동일
 MIN_SETS   = 3
 SPEED_MIN  = 0.6
 SPEED_MAX  = 1.5
@@ -189,8 +189,22 @@ def analyze(result_data, set_history):
         if set_history[i]['난이도'] != set_history[i-1]['난이도']:
             transitions += 1
 
+    set_rates = [s['정답률'] for s in set_history]
+    steady = round(sum(set_rates[-2:]) / len(set_rates[-2:])) if set_rates else None
+
+    def _band(r):
+        if r >= 100: return '만점'
+        if r >= 75:  return '우수(75-99)'
+        if r >= 50:  return '보통(50-74)'
+        return '미흡(<50)'
+    bands = {}
+    for r in set_rates:
+        b = _band(r); bands[b] = bands.get(b, 0) + 1
+
     return {
         '총문항': total,
+        '최근2세트정답률': steady,
+        '세트밴드': bands,
         '총정답률': round(correct/total*100),
         '세트수': n_sets,
         '최종레벨': final_level,
@@ -225,6 +239,7 @@ print('ESC Listening Test 시뮬레이션 결과')
 print('=' * 70)
 
 all_results = {}
+GLOBAL_RUNS = []
 
 for name, profile in PROFILES.items():
     runs_analysis = []
@@ -236,6 +251,8 @@ for name, profile in PROFILES.items():
         runs_analysis.append(a)
         if i == 0:
             sample_history = sh
+
+    GLOBAL_RUNS.extend(runs_analysis)
 
     # N_RUNS 평균
     def avg(key):
@@ -256,6 +273,7 @@ for name, profile in PROFILES.items():
     print(f'  프로파일: 초보={profile["base_acc"]["초보"]:.0%}  중수={profile["base_acc"]["중수"]:.0%}  고수={profile["base_acc"]["고수"]:.0%}  decay={profile["decay"]}  noise={profile["noise"]}')
     print(f'  평균 세트수: {avg("세트수")}  /  평균 총정답률: {avg("총정답률")}%  /  최종레벨(최빈): {most_common("최종레벨")}  /  평균 최종속도: {avg("최종속도")/10:.1f}x' if avg("최종속도") else '')
     print(f'  레벨별 정답률: {avg_dict("레벨별정답률")}')
+    print(f'  ★수렴(최근2세트): {avg("최근2세트정답률")}%   세트밴드(평균건수): {avg_dict("세트밴드")}')
     print(f'  문항순서별(출제순): {avg_dict("문항순서별정답률")}')
     print(f'  문항지문위치별:    {avg_dict("문항지문위치별정답률")}')
     shuf = avg('셔플정답률'); noshuf = avg('비셔플정답률')
@@ -282,8 +300,33 @@ for name, profile in PROFILES.items():
         }
     }
 
+# ── 수렴 가정 검증 (Phase 3) ────────────────────────────────────────────
+steadies = [r['최근2세트정답률'] for r in GLOBAL_RUNS if r.get('최근2세트정답률') is not None]
+agg_bands = {}
+for r in GLOBAL_RUNS:
+    for b, c in r.get('세트밴드', {}).items():
+        agg_bands[b] = agg_bands.get(b, 0) + c
+total_sets  = sum(agg_bands.values())
+mean_steady = round(sum(steadies)/len(steadies), 1) if steadies else None
+
+print('\n' + '=' * 70)
+print('수렴 가정 검증 (Phase 1 가정: 기존 규칙이 ~80% 정답률로 수렴하는가?)')
+print('=' * 70)
+print(f'  전체 시뮬 세트수: {total_sets}  (프로파일 {len(PROFILES)} × {N_RUNS}회)')
+print(f'  평균 수렴 정확도(최근 2세트): {mean_steady}%')
+print(f'  세트 정확도 밴드 분포:')
+for b in ['만점', '우수(75-99)', '보통(50-74)', '미흡(<50)']:
+    c = agg_bands.get(b, 0)
+    pct = round(c/total_sets*100) if total_sets else 0
+    print(f'    {b:12s} {c:5d}  ({pct}%)')
+comfort = agg_bands.get('우수(75-99)', 0) + agg_bands.get('보통(50-74)', 0)
+frust   = agg_bands.get('미흡(<50)', 0)
+bored   = agg_bands.get('만점', 0)
+print(f'  편안(50-99%): {round(comfort/total_sets*100)}%   |   좌절(<50%): {round(frust/total_sets*100)}%   |   지루(만점): {round(bored/total_sets*100)}%')
+
 # JSON 저장
-out_path = '/Users/mac/ESC_Listening_Test/scripts/simulation_results.json'
+import os
+out_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'simulation_results.json')
 with open(out_path, 'w', encoding='utf-8') as f:
     json.dump(all_results, f, ensure_ascii=False, indent=2)
-print(f'\n\n결과 저장 → {out_path}')
+print(f'\n결과 저장 → {out_path}')

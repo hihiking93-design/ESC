@@ -1,0 +1,166 @@
+/* ESC 디자인 시스템 — Duolingo 레퍼런스 / 중·고등 쿨 스터디 톤 (2026-06-10)
+   쿨 슬레이트 베이스 · 톤온톤 6색(속도만 웜 보색) · 청키 3D 버튼 · 징검다리 path
+   · 캐릭터(에코+캐스트) 중심. 캐릭터 크림카드는 쿨 배경 위 따뜻한 스팟라이트. */
+@import url('https://fonts.googleapis.com/css2?family=Jua&family=Fredoka:wght@500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap');
+
+:root{
+  --f-display:'Jua','Noto Sans KR',sans-serif;
+  --f-body:'Noto Sans KR',sans-serif;
+  --f-num:'Fredoka','Jua',sans-serif;
+  /* 잉크 — 차분한 슬레이트(쿨) */
+  --ink:#28303B;  --ink-soft:#6B7685;  --line:#E3E8EF;
+  --cream:#F4F7FA; --card:#FFFFFF;
+  /* 모드 6색 — 쿨 톤온톤 주얼 + 속도만 웜 보색 (base / shelf) */
+  --m-listen:#4C82E8;    --m-listen-d:#3A66C4;
+  --m-focus:#2FB8A6;     --m-focus-d:#229383;
+  --m-speed:#E68A4E;     --m-speed-d:#C96E34;
+  --m-challenge:#7C6CE0; --m-challenge-d:#5F4FC4;
+  --m-grit:#4FB477;      --m-grit-d:#3A9460;
+  --m-calm:#46AEC9;      --m-calm-d:#2F8DA8;
+  --btn:var(--m-listen); --btnd:var(--m-listen-d);
+  --r-lg:26px; --r-md:18px; --r-pill:999px;
+  --shadow-soft:0 10px 26px rgba(35,43,54,.12);
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:var(--f-body);color:var(--ink);
+  -webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;
+  background:
+    radial-gradient(240px 140px at 16% 15%, rgba(255,255,255,.6), transparent 70%),
+    radial-gradient(280px 160px at 84% 24%, rgba(206,222,242,.55), transparent 72%),
+    linear-gradient(180deg,#E7ECF3 0%,#EFF3F8 42%,#F8FAFC 100%);
+  background-attachment:fixed;min-height:100vh;
+}
+.screen{max-width:460px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;
+  padding:18px 18px calc(22px + env(safe-area-inset-bottom));position:relative}
+
+/* ── 워드마크 ───────────────────────────────────────── */
+.wordmark{font-family:var(--f-display);font-size:30px;letter-spacing:1px;line-height:1;user-select:none}
+.wordmark .e{color:var(--m-listen)} .wordmark .s{color:var(--m-focus)} .wordmark .c{color:var(--m-speed)}
+.wordmark.big{font-size:54px}
+
+/* ── 원형 아이콘 버튼 ───────────────────────────────── */
+.cbtn{width:52px;height:52px;border-radius:50%;background:#fff;border:none;display:grid;
+  place-items:center;font-size:23px;cursor:pointer;position:relative;overflow:hidden;
+  box-shadow:0 4px 10px rgba(35,43,54,.16);transition:transform .08s}
+.cbtn:active{transform:scale(.92)}
+.cbtn .dot{position:absolute;top:5px;right:5px;width:12px;height:12px;border-radius:50%;
+  background:var(--m-speed);border:2px solid #fff}
+
+/* ── 시그니처 3D 버튼 ───────────────────────────────── */
+.btn3d{font-family:var(--f-display);font-size:19px;color:#fff;text-decoration:none;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  background:var(--btn);border:none;border-radius:var(--r-md);
+  padding:16px 26px;letter-spacing:.5px;cursor:pointer;
+  box-shadow:0 6px 0 var(--btnd),0 11px 18px rgba(35,43,54,.18);
+  transition:transform .07s ease,box-shadow .07s ease}
+.btn3d:active{transform:translateY(6px);box-shadow:0 0 0 var(--btnd),0 3px 8px rgba(35,43,54,.14)}
+.btn3d.block{display:flex;width:100%}
+.btn3d.ghost{background:#fff;color:var(--ink);box-shadow:0 6px 0 var(--line),0 11px 18px rgba(35,43,54,.12)}
+.btn3d.ghost:active{box-shadow:0 0 0 var(--line)}
+
+/* ── 학습 여정 path (징검다리) ──────────────────────── */
+.path{display:flex;flex-direction:column;align-items:center;padding:6px 0 4px}
+.connector{width:0;height:30px;border-left:5px dotted #C7D2DF}
+.stone{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;
+  text-decoration:none;color:var(--ink);padding:4px 0}
+.stone.z-l{transform:translateX(-56px)} .stone.z-r{transform:translateX(56px)}
+.stone .node{width:90px;height:90px;border-radius:50%;position:relative;overflow:hidden;
+  border:5px solid #fff;background:var(--mc,var(--m-listen));
+  box-shadow:0 8px 0 var(--mcd,var(--m-listen-d)),0 14px 22px rgba(35,43,54,.18)}
+.stone .node img{position:absolute;inset:0;width:120%;height:120%;left:-10%;top:-4%;object-fit:cover;object-position:50% 22%}
+.stone .label{font-family:var(--f-display);font-size:15.5px;line-height:1}
+.stone .sub{font-size:11px;color:var(--ink-soft);margin-top:-2px}
+.stone.locked .node{box-shadow:0 8px 0 var(--mcd),0 10px 16px rgba(35,43,54,.12);filter:saturate(.82)}
+.stone.locked .node img{filter:grayscale(.25) opacity(.92)}
+.stone.locked .node::after{content:'';position:absolute;inset:0;background:linear-gradient(rgba(120,132,148,.14),rgba(120,132,148,.34))}
+.stone.locked .label{color:var(--ink-soft)}
+.stone .lock{position:absolute;top:46px;left:50%;transform:translate(-50%,-50%);font-size:25px;z-index:2;
+  filter:drop-shadow(0 2px 3px rgba(35,43,54,.35))}
+.stone.active .node{animation:stone-bounce 1.7s ease-in-out infinite}
+@keyframes stone-bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+.start-bubble{font-family:var(--f-display);background:#fff;color:var(--ink);border-radius:13px;
+  padding:6px 13px;font-size:13px;box-shadow:0 7px 16px rgba(35,43,54,.18);position:relative;margin-bottom:3px}
+.start-bubble::after{content:'';position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);
+  border:8px solid transparent;border-top-color:#fff;border-bottom:0}
+
+/* ── 가이드(에코) 헤더 ──────────────────────────────── */
+.guide{display:flex;align-items:center;gap:11px;background:#fff;border-radius:var(--r-md);
+  padding:11px 14px;box-shadow:0 6px 16px rgba(35,43,54,.10)}
+
+/* ── 주간 할당량 바 ─────────────────────────────────── */
+.weekbar{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#fff;
+  border-radius:var(--r-md);padding:12px 15px;box-shadow:0 6px 16px rgba(35,43,54,.10)}
+.weekbar .stat{display:flex;align-items:center;gap:5px;font-family:var(--f-num);font-weight:700;font-size:16px;color:var(--ink)}
+.weekbar .wk{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.weekbar .dots{display:flex;gap:5px}
+.weekbar .dots i{width:14px;height:14px;border-radius:50%;background:#DCE3EC}
+.weekbar .dots i.on{background:var(--m-grit);box-shadow:0 2px 0 var(--m-grit-d)}
+.weekbar .dots i.over{background:var(--m-speed);box-shadow:0 2px 0 var(--m-speed-d)}
+.weekbar .ql{font-family:var(--f-display);font-size:11.5px;color:var(--ink-soft)}
+.weekbar .ql.met{color:var(--m-grit)} .weekbar .ql.miss{color:var(--m-speed)}
+
+/* ── 카드/타일(재사용) ──────────────────────────────── */
+.tile{background:#fff;border-radius:var(--r-md);padding:15px;text-decoration:none;color:var(--ink);
+  display:flex;flex-direction:column;gap:9px;position:relative;border:3px solid #fff;
+  box-shadow:0 5px 0 rgba(35,43,54,.05),0 9px 18px rgba(35,43,54,.09);transition:transform .12s ease}
+.tile.ready:active{transform:translateY(3px)}
+.tile .ttl{font-family:var(--f-display);font-size:17px}
+.tile .pil{font-size:11.5px;color:var(--ink-soft);margin-top:auto}
+.tile.soon{opacity:.62}
+.tile .soon-badge{position:absolute;top:11px;right:11px;font-size:10.5px;font-weight:700;
+  color:var(--ink-soft);background:#EDF1F6;border-radius:999px;padding:3px 9px}
+.tile .face{width:58px;height:58px;border-radius:16px;overflow:hidden;border:3px solid var(--mc);background:#FBEBD3;box-shadow:0 3px 0 var(--mcd)}
+.tile .face img{width:100%;height:100%;object-fit:cover;object-position:50% 28%}
+
+/* ── 알약 진행바 ────────────────────────────────────── */
+.pbar{display:flex;align-items:center;gap:10px}
+.pbar .track{flex:1;height:16px;border-radius:999px;background:rgba(40,48,59,.12);overflow:hidden}
+.pbar .fill{height:100%;border-radius:999px;background:var(--m-grit);width:0;transition:width .45s cubic-bezier(.2,.8,.2,1)}
+.pbar .count{font-family:var(--f-num);font-weight:600;font-size:15px;color:var(--ink-soft)}
+
+/* ── 스트릭 칩 (불꽃=웜 액센트 유지) ────────────────── */
+.streak{display:inline-flex;align-items:center;gap:6px;background:#fff;border-radius:999px;
+  padding:8px 14px;box-shadow:0 4px 10px rgba(35,43,54,.16);
+  font-family:var(--f-num);font-weight:700;color:#F0892A;font-size:17px}
+
+/* ── 말풍선 ─────────────────────────────────────────── */
+.bubble{background:#fff;border-radius:var(--r-md);padding:13px 17px;box-shadow:var(--shadow-soft);
+  font-family:var(--f-display);font-size:16px;line-height:1.5;position:relative;text-align:center}
+.bubble.point::after{content:'';position:absolute;bottom:-11px;left:50%;transform:translateX(-50%);
+  border:11px solid transparent;border-top-color:#fff;border-bottom:0}
+
+/* ── 마스코트(에코)·캐스트 ──────────────────────────── */
+@keyframes eco-bob{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-12px) rotate(1deg)}}
+@keyframes float2{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.eco{border-radius:30px;overflow:hidden;background:radial-gradient(120% 120% at 50% 36%,#FEF5E6,#FBE7CE 82%);box-shadow:0 12px 26px rgba(35,43,54,.16)}
+.eco img,.coin img{display:block;width:100%;height:auto}
+.eco.bob{animation:eco-bob 3s ease-in-out infinite}
+.coin{border-radius:50%;overflow:hidden;background:radial-gradient(120% 120% at 50% 30%,#FEF6E8,#FAE6CC 88%);box-shadow:0 5px 12px rgba(35,43,54,.18)}
+.floaty{animation:float2 3.4s ease-in-out infinite}
+
+/* ── 등장 모션 ──────────────────────────────────────── */
+@keyframes pop-in{0%{opacity:0;transform:translateY(18px) scale(.96)}100%{opacity:1;transform:none}}
+.pop{animation:pop-in .5s cubic-bezier(.2,.85,.25,1.15) both}
+.d1{animation-delay:.05s}.d2{animation-delay:.13s}.d3{animation-delay:.21s}
+.d4{animation-delay:.29s}.d5{animation-delay:.37s}.d6{animation-delay:.45s}
+
+/* ── 온보딩 (쿨 캄 그라데) ──────────────────────────── */
+.ob{position:fixed;inset:0;z-index:60;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:22px;padding:30px;text-align:center;
+  background:radial-gradient(340px 220px at 50% 24%,rgba(255,255,255,.55),transparent 72%),
+    linear-gradient(180deg,#DEE7F3,#CFDCEC 55%,#BCCFE6);transition:opacity .45s ease}
+.ob.hide{opacity:0;pointer-events:none}
+.ob .nick{font-family:var(--f-display);font-size:21px;text-align:center;border:3px solid #fff;
+  border-radius:16px;padding:14px 18px;width:min(320px,82vw);background:rgba(255,255,255,.92);
+  color:var(--ink);outline:none}
+.ob .nick::placeholder{color:#9AA7B5}
+
+/* ── 컨페티 ─────────────────────────────────────────── */
+.confetti{position:fixed;top:-12px;width:11px;height:16px;border-radius:2px;z-index:70;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(540deg);opacity:.9}}
+
+.muted{color:var(--ink-soft);font-size:12.5px;line-height:1.6;text-align:center}
+h2.sec{font-family:var(--f-display);font-size:15px;color:var(--ink-soft);margin:6px 2px 12px;letter-spacing:.4px}
