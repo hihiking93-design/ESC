@@ -88,11 +88,15 @@ function nextTrial(){
     askEl.innerHTML='<b>몇 개</b>인가요? (숫자 말고 개수!)';
     var ct=rnd([2,3,4,5]), dg; do{ dg=rnd([2,3,4,5]); }while(dg===ct);
     wordEl.style.fontSize='52px'; wordEl.style.color='#28303B'; wordEl.textContent=Array(ct+1).join(dg+' ').trim();
-    curCorrect='n:'+ct; curCong=false; setOptions([2,3,4,5].map(function(n){return {label:String(n),value:'n:'+n};}));
+    var NUMW={2:'둘',3:'셋',4:'넷',5:'다섯'};
+    curCorrect='n:'+ct; curCong=false; setOptions([2,3,4,5].map(function(n){return {label:NUMW[n],value:'n:'+n};}));
   } else if(v==='direction'){
     askEl.innerHTML='<b>가운데</b> 화살표 방향은? (양옆은 함정!)';
-    var d=rnd(DIRS), wd=d; do{ wd=rnd(DIRS); }while(wd===d);
-    wordEl.style.fontSize='42px'; wordEl.style.letterSpacing='6px'; wordEl.textContent=wd.g+wd.g+d.g+wd.g+wd.g;
+    var DMAP={L:DIRS[0],R:DIRS[1],U:DIRS[2],D:DIRS[3]};
+    var pair=Math.random()<0.5?['L','R']:['U','D'];
+    var dv=pair[Math.floor(Math.random()*2)], wv=(dv===pair[0]?pair[1]:pair[0]);
+    var d=DMAP[dv], wd=DMAP[wv];
+    wordEl.style.fontSize='44px'; wordEl.style.letterSpacing='3px'; wordEl.textContent=wd.g+wd.g+d.g+wd.g+wd.g;
     curCorrect='d:'+d.v; curCong=false;
     setOptions(DIRS.map(function(x){return {label:x.g,value:'d:'+x.v};}));
   } else {
