@@ -66,26 +66,45 @@
 
   <!-- 징검다리 여정 -->
   <div class="path" id="path"></div>
+
+  <div class="chapter-more">
+    <div class="cm-dots">• • •</div>
+    <div class="cm-t">CHAPTER 3 · 곧 만나요</div>
+    <div class="cm-s">더 깊은 훈련이 준비 중이에요 ✨</div>
+  </div>
 </div>
 
 <script>
 var WEB = 'assets/mascot/web/';
 // 학습 여정 — 듣기→집중→속도→도전→끈기→진정 (돌마다 다른 캐릭터)
-var JOURNEY = [
-  {id:'listening',label:'듣기',sub:'듣고 기억하기', face:'quokka_listen',  c:'--m-listen',   cd:'--m-listen-d',   href:'listening.html', active:true},
-  {id:'focus',    label:'집중',sub:'집중·기억·청기백기',face:'friend_owl',  c:'--m-focus',    cd:'--m-focus-d',    href:'focus.html', games:['focus.html','nback.html','cheonggi.html']},
-  {id:'speed',    label:'속도',sub:'탐색·선택주의', face:'friend_rabbit',  c:'--m-speed',    cd:'--m-speed-d',    href:'schulte.html', games:['schulte.html','flanker.html']},
-  {id:'challenge',label:'도전',sub:'함정 이겨내기', face:'friend_hedgehog',c:'--m-challenge',cd:'--m-challenge-d',href:'stroop.html'},
-  {id:'grit',     label:'끈기',sub:'끝까지 버티기', face:'friend_turtle',  c:'--m-grit',     cd:'--m-grit-d',     href:'grit.html'},
-  {id:'calm',     label:'진정',sub:'숨 고르기',     face:'quokka_calm',    c:'--m-calm',     cd:'--m-calm-d',     href:'calm.html'},
+// 6기둥 풀 — 30챕터(≈90노드) 여정으로 사이클
+var POOL = [
+  {id:'listening',label:'듣기',face:'quokka_listen',  c:'--m-listen',   cd:'--m-listen-d',   href:'listening.html'},
+  {id:'focus',    label:'집중',face:'friend_owl',     c:'--m-focus',    cd:'--m-focus-d',    games:['focus.html','nback.html','cheonggi.html']},
+  {id:'speed',    label:'속도',face:'friend_rabbit',  c:'--m-speed',    cd:'--m-speed-d',    games:['schulte.html','flanker.html']},
+  {id:'challenge',label:'도전',face:'friend_hedgehog',c:'--m-challenge',cd:'--m-challenge-d',href:'stroop.html'},
+  {id:'grit',     label:'끈기',face:'friend_turtle',  c:'--m-grit',     cd:'--m-grit-d',     href:'grit.html'},
+  {id:'calm',     label:'진정',face:'quokka_calm',    c:'--m-calm',     cd:'--m-calm-d',     href:'calm.html'}
 ];
+var CHAPTERS=30, PER=3, TOTAL_NODES=CHAPTERS*PER;
+var doneCount=0; try{ doneCount=(ESCT.dump()||[]).filter(function(e){return e.event==='session_completed';}).length; }catch(e){}
+var unlocked=Math.max(1, doneCount+1);  // 완료할수록 다음 노드 열림
+var JOURNEY=[];
+for(var gi=0; gi<TOTAL_NODES; gi++){
+  var pp=POOL[gi%POOL.length], tier=Math.floor(gi/POOL.length);
+  var it={id:pp.id+'-'+gi, label:pp.label, face:pp.face, c:pp.c, cd:pp.cd,
+          sub:(tier===0?'기초':'심화 '+tier), href:pp.href, games:pp.games};
+  if(gi>=unlocked) it.locked=true; else if(gi===unlocked-1) it.active=true;
+  JOURNEY.push(it);
+}
 var path = document.getElementById('path');
 var stoneEls = [];
 JOURNEY.forEach(function(s,i){
   var el=document.createElement(s.locked?'div':'a');
   el.className='stone pop d'+Math.min(i+1,6)+(s.active?' active':'')+(s.locked?' locked':'');
-  if(!s.locked){ el.href = s.games ? s.games[0] : s.href;
-    if(s.games){ el.addEventListener('click',function(e){ e.preventDefault(); location.href=s.games[Math.floor(Math.random()*s.games.length)]; }); } }
+  if(!s.locked){ var lv=Math.floor(i/POOL.length), q='?lv='+lv;
+    el.href = (s.games ? s.games[0] : s.href) + q;
+    if(s.games){ el.addEventListener('click',function(e){ e.preventDefault(); location.href=s.games[Math.floor(Math.random()*s.games.length)]+q; }); } }
   el.style.setProperty('--mc','var('+s.c+')');
   el.style.setProperty('--mcd','var('+s.cd+')');
   el.innerHTML =
@@ -95,39 +114,31 @@ JOURNEY.forEach(function(s,i){
   path.appendChild(el); stoneEls.push(el);
 });
 // 설치물 + 카메오 — near=기준 노드, dy=노드top 오프셋, x=중앙기준, s=크기, r=회전, flip=반전
-var DECOR=[
-  {src:'assets/props/web/cloud.png',            near:0, x:-110, dy:-22, s:64, r:0},
-  {src:'assets/props/web/signpost.png',         near:0, x:96,   dy:-16, s:80, r:-3},
-  {src:'assets/props/web/books.png',            near:1, x:86,   dy:-16, s:74, r:-7},
-  {src:'assets/props/web/pencil.png',           near:1, x:-104, dy:48,  s:46, r:-20},
-  {src:'assets/mascot/cutout/quokka_think.png', near:1, x:98,   dy:86,  s:76, r:0, flip:true},
-  {src:'assets/props/web/star.png',             near:2, x:-78,  dy:-20, s:52, r:9},
-  {src:'assets/props/web/plant.png',            near:3, x:88,   dy:-24, s:86, r:0},
-  {src:'assets/mascot/cutout/quokka_cheer.png', near:3, x:-100, dy:100, s:82, r:0},
-  {src:'assets/props/web/chest.png',            near:4, x:-84,  dy:-16, s:84, r:-4},
-  {src:'assets/props/web/headset.png',          near:5, x:-90,  dy:-6,  s:72, r:8},
-  {src:'assets/props/web/trophy.png',           near:5, x:100,  dy:-8,  s:66, r:0}
-];
+var PROPS=['cloud','signpost','books','star','plant','chest','headset','trophy','pencil'];
+var DECOR=[];
+for(var di=1; di<TOTAL_NODES; di+=2){
+  DECOR.push({src:'assets/props/web/'+PROPS[Math.floor(di/2)%PROPS.length]+'.png', near:di, x:((di%4<2)?-1:1)*112, dy:-8, s:54, r:0});
+}
 var decorEls=DECOR.map(function(d){ var im=document.createElement('img'); im.className='scenery'; im.src=d.src; im.alt=''; path.appendChild(im); return im; });
 
-// 유닛 헤더 (인지/마음 2단원)
-var UNITS=[
-  {before:0, c:'--m-listen',    cd:'--m-listen-d',    n:'CHAPTER 1 · 인지 훈련', t:'듣고 · 집중하고 · 빠르게'},
-  {before:3, c:'--m-challenge', cd:'--m-challenge-d', n:'CHAPTER 2 · 마음 훈련', t:'두려움 넘어 · 끝까지 · 차분히'}
-];
-var bannerEls=UNITS.map(function(u){
+// 챕터 헤더 — 30개 자동 생성
+var CH_TH=[{n:'인지 훈련',t:'듣고 · 집중하고 · 빠르게'},{n:'마음 훈련',t:'도전 · 끈기 · 차분히'}];
+var UNITS=[];
+for(var ch=0; ch<CHAPTERS; ch++){
+  var th=CH_TH[ch%2], cp=POOL[(ch*PER)%POOL.length];
+  UNITS.push({before:ch*PER, c:cp.c, cd:cp.cd, n:'CHAPTER '+(ch+1)+' · '+th.n, t:th.t});
+}
+var CH_ICONS=['book','brain','target','star','bolt','flag','search','trophy'];
+var bannerEls=UNITS.map(function(u,k){
   var b=document.createElement('div'); b.className='unit-banner';
   b.style.setProperty('--mc','var('+u.c+')'); b.style.setProperty('--mcd','var('+u.cd+')');
-  b.innerHTML='<div><div class="ub-n">'+u.n+'</div><div class="ub-t">'+u.t+'</div></div><div class="ub-ic"><img class="ico" src="assets/icons/book.png" alt=""></div>';
+  b.innerHTML='<div><div class="ub-n">'+u.n+'</div><div class="ub-t">'+u.t+'</div></div><div class="ub-ic"><img class="ico" src="assets/icons/'+CH_ICONS[k%CH_ICONS.length]+'.png" alt=""></div>';
   path.appendChild(b); return b;
 });
 
 // 배경 분위기 블롭
-var ATMO=[
-  {x:-150, y:150, s:250, c:'rgba(76,130,232,.10)'},
-  {x:175,  y:540, s:270, c:'rgba(124,108,224,.09)'},
-  {x:-160, y:900, s:250, c:'rgba(47,184,166,.10)'}
-];
+var ATMO_C=['rgba(76,130,232,.10)','rgba(124,108,224,.09)','rgba(47,184,166,.10)','rgba(230,138,78,.08)'];
+var ATMO=[]; for(var ay=140, ai=0; ay<TOTAL_NODES*186; ay+=820, ai++){ ATMO.push({x:(ai%2?170:-160), y:ay, s:260, c:ATMO_C[ai%ATMO_C.length]}); }
 var atmoEls=ATMO.map(function(a){ var el=document.createElement('div'); el.className='atmo'; el.style.background='radial-gradient(circle,'+a.c+',transparent 70%)'; path.appendChild(el); return el; });
 
 var OFFS=[0,-58,58,-58,58,0], STEP=176, NODE=45, HALF=56, U_TOP=8, BAN_H=54, BAN_GAP=46, NS='http://www.w3.org/2000/svg';
@@ -146,14 +157,22 @@ function buildPath(){
   DECOR.forEach(function(d,k){ var im=decorEls[k]; im.style.width=d.s+'px'; im.style.left=(W/2+d.x-d.s/2)+'px'; im.style.top=(tops[d.near]+d.dy)+'px'; im.style.transform='rotate('+d.r+'deg)'+(d.flip?' scaleX(-1)':''); });
   atmoEls.forEach(function(el,k){ var a=ATMO[k]; el.style.width=a.s+'px'; el.style.height=a.s+'px'; el.style.left=(W/2+a.x-a.s/2)+'px'; el.style.top=a.y+'px'; });
   var svg=document.getElementById('pathTrail');
-  if(!svg){ svg=document.createElementNS(NS,'svg'); svg.id='pathTrail'; svg.setAttribute('preserveAspectRatio','none'); path.insertBefore(svg, path.firstChild); }
+  if(!svg){ svg=document.createElementNS(NS,'svg'); svg.id='pathTrail'; svg.setAttribute('preserveAspectRatio','none'); path.insertBefore(svg, path.firstChild);
+    svg.innerHTML='<defs><radialGradient id="goldGrad" cx="34%" cy="26%" r="80%"><stop offset="0%" stop-color="#FFFDF0"/><stop offset="20%" stop-color="#FFE38A"/><stop offset="60%" stop-color="#F4B63E"/><stop offset="100%" stop-color="#B8791E"/></radialGradient><radialGradient id="grayGrad" cx="34%" cy="26%" r="80%"><stop offset="0%" stop-color="#EDF1F6"/><stop offset="55%" stop-color="#C7D1DD"/><stop offset="100%" stop-color="#9DAAB9"/></radialGradient></defs><g class="dots"></g>';
+  }
   svg.setAttribute('width',W); svg.setAttribute('height',H);
-  var pd='M '+_cx(0,W)+' '+(tops[0]+NODE);
-  for(i=1;i<n;i++){ var y0=tops[i-1]+NODE, y1=tops[i]+NODE, my=(y0+y1)/2;
-    pd+=' C '+_cx(i-1,W)+' '+my+' '+_cx(i,W)+' '+my+' '+_cx(i,W)+' '+y1; }
-  var p=svg.querySelector('path'); if(!p){ p=document.createElementNS(NS,'path'); svg.appendChild(p); }
-  p.setAttribute('d',pd); p.setAttribute('fill','none'); p.setAttribute('stroke','#C5D0DD');
-  p.setAttribute('stroke-width','7'); p.setAttribute('stroke-linecap','round'); p.setAttribute('stroke-dasharray','0.5 19');
+  var gEnd=Math.max(0,(typeof unlocked!=='undefined'?unlocked:1)-1);
+  var dg=svg.querySelector('.dots'); while(dg.firstChild) dg.removeChild(dg.firstChild);
+  for(i=1;i<n;i++){
+    var P0x=_cx(i-1,W), P0y=tops[i-1]+NODE, P3x=_cx(i,W), P3y=tops[i]+NODE, my=(P0y+P3y)/2, gold=(i<=gEnd);
+    [0.16,0.32,0.5,0.68,0.84].forEach(function(t){
+      var mt=1-t, bx=mt*mt*mt*P0x+3*mt*mt*t*P0x+3*mt*t*t*P3x+t*t*t*P3x,
+          by=mt*mt*mt*P0y+3*mt*mt*t*my+3*mt*t*t*my+t*t*t*P3y;
+      var c=document.createElementNS(NS,'circle'); c.setAttribute('cx',bx.toFixed(1)); c.setAttribute('cy',by.toFixed(1));
+      c.setAttribute('r', gold?'6.5':'4.5'); c.setAttribute('fill', gold?'url(#goldGrad)':'url(#grayGrad)');
+      dg.appendChild(c);
+    });
+  }
 }
 window.addEventListener('resize', buildPath);
 
@@ -161,7 +180,7 @@ window.addEventListener('resize', buildPath);
 var NICK_KEY = 'esc_nick';
 function showHome(){
   document.getElementById('home').style.display = 'flex';
-  requestAnimationFrame(buildPath); setTimeout(buildPath, 280);
+  requestAnimationFrame(buildPath); setTimeout(function(){ buildPath(); var a=document.querySelector('.stone.active'); if(a) a.scrollIntoView({block:'center'}); }, 300);
   var nick = localStorage.getItem(NICK_KEY);
   if (nick) document.getElementById('greet').innerHTML = '<b>'+nick+'</b>, 오늘도 한 걸음 가볼까? 🎧';
   try {

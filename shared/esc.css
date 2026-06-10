@@ -214,6 +214,17 @@ body.gbg::after{width:260px;height:260px;background:rgba(47,184,166,.15);bottom:
 /* ── 3D 아이콘 (이모지 대체) ── */
 .ico{width:1.15em;height:1.15em;object-fit:contain;vertical-align:-0.22em;display:inline-block;flex:none;filter:drop-shadow(0 1px 1px rgba(35,43,54,.16))}
 .ico.lg{width:1.5em;height:1.5em;vertical-align:-0.32em}
+/* ── 챕터 "곧 계속" 티저 ── */
+.chapter-more{margin:16px auto 34px;max-width:300px;text-align:center;padding:18px 20px;border-radius:18px;background:rgba(255,255,255,.55);border:2px dashed var(--line);color:var(--ink-soft)}
+.chapter-more .cm-dots{font-size:20px;letter-spacing:5px;color:#C2CCD8;margin-bottom:5px}
+.chapter-more .cm-t{font-family:var(--f-display);font-size:16px;color:var(--ink)}
+.chapter-more .cm-s{font-size:12px;margin-top:3px}
+/* ── 여정: 잠금=회색, 현재=색 복원되며 살아남(듀오링고식) ── */
+.stone.locked .node{filter:grayscale(.92) opacity(.5)}
+.stone.locked .label,.stone.locked .sub{opacity:.45}
+.stone.active .node{animation:nodeBorn .6s cubic-bezier(.2,.9,.3,1.45) both, nodeAlive 2.4s ease-in-out .6s infinite}
+@keyframes nodeBorn{0%{filter:grayscale(1) brightness(1.08);transform:scale(.72)}60%{transform:scale(1.14)}100%{filter:grayscale(0);transform:scale(1)}}
+@keyframes nodeAlive{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 
 .muted{color:var(--ink-soft);font-size:12.5px;line-height:1.6;text-align:center}
 h2.sec{font-family:var(--f-display);font-size:15px;color:var(--ink-soft);margin:6px 2px 12px;letter-spacing:.4px}
