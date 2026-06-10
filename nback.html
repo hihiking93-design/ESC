@@ -100,10 +100,10 @@ function endGame(){
   document.getElementById('game').style.display='none';
   var gained=rw&&rw.gained?rw.gained:0;
   var fb;
-  if(acc<55){ fb='아직 어려운 단계예요 — 마지막 두 칸을 소리내듯 계속 되뇌어 보세요.'; }
-  else if(fa>miss && fa>=2){ fb='헛탭('+fa+'회)이 놓침('+miss+'회)보다 많아요 — "확실할 때만" 누르면 정확도가 올라가요(충동 억제).'; }
-  else if(miss>fa && miss>=2){ fb='일치를 '+miss+'번 놓쳤어요 — 매 칸을 되뇌면 기억 유지가 좋아져요.'; }
-  else { fb='적중·오답 균형이 좋아요 — 작업기억이 안정적입니다.'; }
+  if(acc<55){ fb='기억하기 어려웠지? 칸을 마음속으로 말하며 따라가면 덜 놓쳐 — 다시 해보자! 🧠'; }
+  else if(fa>miss && fa>=2){ fb='헷갈려서 그냥 누른 게 좀 있었어 — "확실할 때만" 누르면 더 잘 맞아!'; }
+  else if(miss>fa && miss>=2){ fb='기억이 살짝 새어나갔네 — 칸을 마음속으로 말하며 따라가면 안 놓쳐!'; }
+  else { fb='몇 칸 전 걸 잘 기억했어! 머릿속에 담아두는 집중력이 커지고 있어 🧠'; }
   var r=document.getElementById('result'); r.style.display='flex'; if(window.FX)FX.confetti();
   r.innerHTML=
     '<div style="display:flex;flex-direction:column;align-items:center;gap:8px;margin:22px 0 16px">'

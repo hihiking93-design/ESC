@@ -104,11 +104,10 @@ function endGame(){
 function showResult(sec, acc, rw){
   document.getElementById('game').style.display='none';
   var gained=rw&&rw.gained?rw.gained:0;
-  var perCell=(sec/25).toFixed(1);
   var fb;
-  if(errors>=4){ fb='칸당 '+perCell+'초 · 실수 '+errors+'회 — 급하게 찍기보다 시선을 중앙에 두고 주변시야로 훑으면 실수가 줄어요.'; }
-  else if(sec<=28){ fb='칸당 '+perCell+'초로 빨라요 — 주변시야 탐색이 잘 됩니다(읽기 속도와 연결돼요).'; }
-  else { fb='칸당 '+perCell+'초 — 한 칸씩 보기보다 5×5 전체를 한 장면처럼 두고 훑으면 단축돼요.'; }
+  if(errors>=4){ fb='급하게 찾다가 몇 번 헷갈렸지? 가운데 보면서 천천히 훑으면 실수가 줄어 — 다시 해보자! 👀'; }
+  else if(sec<=28){ fb='숫자를 휙휙 잘 찾았어! 눈이랑 집중이 빨라지고 있어 👀'; }
+  else { fb='끝까지 다 찾았어! 한 칸씩 말고 "전체를 한눈에" 보는 느낌으로 하면 더 빨라져.'; }
   var r=document.getElementById('result'); r.style.display='flex'; if(window.FX)FX.confetti();
   r.innerHTML=
     '<div style="display:flex;flex-direction:column;align-items:center;gap:8px;margin:22px 0 16px">'

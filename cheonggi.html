@@ -109,13 +109,14 @@ function next(){
   }, win);
 }
 function tapFlag(flag){
-  if(!active) return; active=false; clearTimeout(winTimer);
-  if(flag==='blue') blueUp=!blueUp; else whiteUp=!whiteUp; render();
+  if(flag==='blue') blueUp=!blueUp; else whiteUp=!whiteUp; render();   // 항상 즉시 반응(반응성)
+  if(!active){ if(window.SFX)SFX.play('select'); return; }              // 점수는 활성 윈도우에서만
+  active=false; clearTimeout(winTimer);
   var dir=((flag==='blue')?blueUp:whiteUp)?'up':'down';
   var ok=(curCmd.correct===(flag+':'+dir));   // 부정 명령(correct='none')이면 어떤 탭도 오답
   if(ok){ correct++; cmdEl.className='cmd go'; if(window.SFX)SFX.play('correct'); }
   else { cmdEl.className='cmd bad'; if(window.SFX)SFX.play('wrong'); }
-  setTimeout(next, ok?170:380);
+  setTimeout(next, ok?150:320);
 }
 document.getElementById('blueBtn').addEventListener('pointerdown',function(e){ e.preventDefault(); tapFlag('blue'); });
 document.getElementById('whiteBtn').addEventListener('pointerdown',function(e){ e.preventDefault(); tapFlag('white'); });
@@ -130,11 +131,11 @@ function startGame(){
 }
 function endGame(){
   prog.style.width='100%';
-  var acc=Math.round(correct/TOTAL*100);
+  var acc=Math.min(100,Math.round(correct/TOTAL*100));
   ESCT.log('session_completed',{mode:'focus',game:'cheonggi',overallAccuracy:acc/100,correct:correct,completed:true});
   var rw=null; try{ rw=ESCProgress.recordSession('focus'); }catch(e){}
   if(window.SFX)SFX.play('complete');
-  var fb = acc>=85 ? '함정에 안 속고 잘 따라왔어요! 듣기·억제력이 좋아요.' : acc>=55 ? '"…지마"가 나오면 손을 멈추는 연습을 해봐요.' : '천천히 — 끝까지 듣고 "지마"인지 확인한 뒤 움직여요.';
+  var fb = acc>=85 ? '함정("…지마")에 안 속고 잘 따라왔어! 듣고 참는 집중이 멋져 🚩' : acc>=55 ? '"…지마"가 나오면 손을 딱 멈추는 게 포인트야!' : '끝까지 듣고 움직이면 안 속아 — 다시 해보자!';
   document.getElementById('game').style.display='none';
   var gained=rw&&rw.gained?rw.gained:0;
   var r=document.getElementById('result'); r.style.display='flex'; if(window.FX)FX.confetti();

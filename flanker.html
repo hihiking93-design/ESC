@@ -61,13 +61,14 @@
 <div class="screen" id="result" style="display:none"></div>
 
 <script>
-var TOTAL=30, trial=0, correct=0, rtSum=0, tStart=0, curDir=null, curIncong=false, congRT=[], incongRT=[];
+var TOTAL=30, trial=0, correct=0, rtSum=0, tStart=0, curDir=null, curIncong=false, congRT=[], incongRT=[], locked=false;
 var stage=document.getElementById('stage'), arrows=document.getElementById('arrows'),
     prog=document.getElementById('prog'), pn=document.getElementById('pn');
 function arr(d){ return d==='L'?'←':'→'; }
 function nextTrial(){
   if(trial>=TOTAL){ endGame(); return; }
   trial++; pn.textContent=trial+'/'+TOTAL; prog.style.width=Math.round((trial-1)/TOTAL*100)+'%';
+  locked=false;
   var center=Math.random()<0.5?'L':'R';
   var incong=Math.random()<0.55; curIncong=incong;
   var fl=incong?(center==='L'?'R':'L'):center;
@@ -75,6 +76,7 @@ function nextTrial(){
   curDir=center; tStart=performance.now();
 }
 function answer(d){
+  if(locked) return; locked=true;
   var ok=(d===curDir);
   if(ok){ correct++; var rt=performance.now()-tStart; rtSum+=rt; (curIncong?incongRT:congRT).push(rt); stage.className='stage good'; if(window.SFX)SFX.play('correct'); }
   else { stage.className='stage bad'; if(window.SFX)SFX.play('wrong'); }
@@ -93,7 +95,7 @@ function startGame(){
 }
 function endGame(){
   prog.style.width='100%';
-  var acc=Math.round(correct/TOTAL*100), avgRt=correct?Math.round(rtSum/correct):0;
+  var acc=Math.min(100,Math.round(correct/TOTAL*100)), avgRt=correct?Math.round(rtSum/correct):0;
   ESCT.log('session_completed',{mode:'speed',game:'flanker',overallAccuracy:acc/100,avgRt:avgRt,correct:correct,completed:true});
   var rw=null; try{ rw=ESCProgress.recordSession('speed'); }catch(e){}
   if(window.SFX)SFX.play('complete');
@@ -102,13 +104,11 @@ function endGame(){
   function mean(a){ return a.length? a.reduce(function(s,x){return s+x;},0)/a.length : 0; }
   var interf = (congRT.length&&incongRT.length) ? Math.round(mean(incongRT)-mean(congRT)) : null;
   var prevA=null; try{ var ps=ESCT.dump().filter(function(e){return e.event==='session_completed'&&e.game==='flanker';}); if(ps.length>=2) prevA=Math.round(ps[ps.length-2].overallAccuracy*100); }catch(e){}
-  var trend = prevA!==null ? (acc>prevA?' · 지난판 +'+(acc-prevA)+'%p↑':acc<prevA?' · 지난판 '+(acc-prevA)+'%p':'') : '';
   var fb;
-  if(acc<70){ fb='정확도 우선 — 가운데 화살표에 시선을 고정하고 반박자 늦게 반응해봐요.'; }
-  else if(interf!==null && interf>120){ fb='불일치(양옆 반대)에서 평균 +'+interf+'ms 느려졌어요 — 방해자극 억제에 부하가 걸린 신호. 시선을 가운데 한 점에 고정하면 좁혀집니다.'; }
-  else if(interf!==null && interf>40){ fb='간섭 효과 +'+interf+'ms로 안정적 — 옆 화살표를 잘 걸러내고 있어요.'; }
-  else { fb='간섭이 거의 없어요'+(interf!==null?' (+'+interf+'ms)':'')+' — 선택적 주의가 탄탄해요. 속도를 더 올려보세요.'; }
-  fb+=trend;
+  if(acc<70){ fb='옆 화살표가 자꾸 눈길을 끌었지? 괜찮아 — 딱 가운데 하나만 보는 거야. 다시 하면 늘어! 💪'; }
+  else if(interf!==null && interf>140){ fb='헷갈리게 하는 게 옆에 있으면 살짝 흔들렸어 — "가운데만 보자" 한 번 더 마음먹으면 집중이 더 단단해져!'; }
+  else { fb='옆에 방해가 있어도 안 흔들렸어! 집중을 딱 붙잡는 힘이 좋아지고 있어 🎯'; }
+  if(prevA!==null && acc>prevA) fb+=' 지난번보다 더 잘했어! 📈';
   var r=document.getElementById('result'); r.style.display='flex'; if(window.FX)FX.confetti();
   r.innerHTML=
     '<div style="display:flex;flex-direction:column;align-items:center;gap:8px;margin:22px 0 16px">'

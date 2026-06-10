@@ -62,7 +62,7 @@
 <script>
 var COLORS=[{n:'빨강',h:'#E5634D'},{n:'파랑',h:'#4C82E8'},{n:'초록',h:'#4FB477'},{n:'노랑',h:'#E8A11E'}];
 var DIRS=[{n:'왼쪽',g:'←',v:'L'},{n:'오른쪽',g:'→',v:'R'},{n:'위',g:'↑',v:'U'},{n:'아래',g:'↓',v:'D'}];
-var TOTAL=30, trial=0, correct=0, rtSum=0, tStart=0, curCorrect=null, curCong=false, congRT=[], incongRT=[];
+var TOTAL=30, trial=0, correct=0, rtSum=0, tStart=0, curCorrect=null, curCong=false, congRT=[], incongRT=[], locked=false;
 var stage=document.getElementById('stage'), wordEl=document.getElementById('word'), askEl=document.getElementById('ask'),
     sw=document.getElementById('swatches'), prog=document.getElementById('prog'), pn=document.getElementById('pn');
 function rnd(a){ return a[Math.floor(Math.random()*a.length)]; }
@@ -78,7 +78,7 @@ function nextTrial(){
   if(trial>=TOTAL){ endGame(); return; }
   trial++; pn.textContent=trial+'/'+TOTAL; prog.style.width=Math.round((trial-1)/TOTAL*100)+'%';
   wordEl.style.fontSize=''; wordEl.style.color=''; wordEl.innerHTML='';
-  var v=rnd(['color','count','direction','size']);
+  locked=false; var v=rnd(['color','count','direction','size']);
   if(v==='color'){
     askEl.innerHTML='글자의 <b>색</b>을 고르세요';
     var w=rnd(COLORS), ink=w; if(Math.random()<0.65){ do{ink=rnd(COLORS);}while(ink===w); }
@@ -103,6 +103,7 @@ function nextTrial(){
   tStart=performance.now();
 }
 function answer(val){
+  if(locked) return; locked=true;
   var ok=(val===curCorrect);
   if(ok){ correct++; var rt=performance.now()-tStart; rtSum+=rt; (curCong?congRT:incongRT).push(rt); stage.className='stage good'; if(window.SFX)SFX.play('correct'); }
   else { stage.className='stage bad'; if(window.SFX)SFX.play('wrong'); }
@@ -118,7 +119,7 @@ function startGame(){
 }
 function endGame(){
   prog.style.width='100%';
-  var acc=Math.round(correct/TOTAL*100);
+  var acc=Math.min(100,Math.round(correct/TOTAL*100));
   var avgRt=correct?Math.round(rtSum/correct):0;
   ESCT.log('session_completed',{mode:'focus',game:'stroop',overallAccuracy:acc/100,avgRt:avgRt,correct:correct,completed:true});
   var rw=null; try{ rw=ESCProgress.recordSession('focus'); }catch(e){}
@@ -128,13 +129,11 @@ function endGame(){
   function mean(a){ return a.length? a.reduce(function(s,x){return s+x;},0)/a.length : 0; }
   var interf = (congRT.length&&incongRT.length) ? Math.round(mean(incongRT)-mean(congRT)) : null;
   var prevA=null; try{ var ps=ESCT.dump().filter(function(e){return e.event==='session_completed'&&e.game==='stroop';}); if(ps.length>=2) prevA=Math.round(ps[ps.length-2].overallAccuracy*100); }catch(e){}
-  var trend = prevA!==null ? (acc>prevA?' · 지난판 +'+(acc-prevA)+'%p↑':acc<prevA?' · 지난판 '+(acc-prevA)+'%p':'') : '';
   var fb;
-  if(acc<65){ fb='정확도 우선 — 답하기 전 0.5초 멈추고 글자 뜻 말고 "진짜 속성"만 확인해봐요.'; }
-  else if(interf!==null && interf>180){ fb='함정(불일치) 시행에서 평균 +'+interf+'ms 느려졌어요 — 자동반응을 누르는 억제 부하가 큰 신호. 반복할수록 좁혀집니다.'; }
-  else if(interf!==null && interf>70){ fb='간섭 효과 +'+interf+'ms로 양호 — 글자의 함정을 꽤 잘 누르고 있어요.'; }
-  else { fb='간섭이 거의 없어요'+(interf!==null?' (+'+interf+'ms)':'')+' — 억제력이 안정적입니다. 속도를 더 올려보세요.'; }
-  fb+=trend;
+  if(acc<65){ fb='글자한테 속기 쉬웠지? 천천히 "진짜만 보자" 하면 돼 — 하다 보면 안 속아! 💪'; }
+  else if(interf!==null && interf>200){ fb='함정 글자가 나오면 살짝 헷갈렸어 — 답하기 전 "진짜가 뭐지?" 딱 한 번 생각하면 더 잘 참아!'; }
+  else { fb='글자가 헷갈리게 했는데 안 속았어! 꾹 참는 집중력이 좋아지고 있어 🎯'; }
+  if(prevA!==null && acc>prevA) fb+=' 지난번보다 더 잘했어! 📈';
   var r=document.getElementById('result'); r.style.display='flex'; if(window.FX)FX.confetti();
   r.innerHTML=
     '<div style="display:flex;flex-direction:column;align-items:center;gap:8px;margin:22px 0 16px">'
