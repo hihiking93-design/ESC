@@ -77,6 +77,9 @@
   <!-- 오늘의 훈련 -->
   <div class="daily pop d2" id="dailyCard" style="margin-bottom:12px"></div>
 
+  <!-- 내 능력 6영역 (자주 보고 동기부여) -->
+  <a class="abilitystrip pop d2" id="abilityStrip" href="profile.html" style="margin-bottom:12px"></a>
+
   <!-- 징검다리 여정 -->
   <div class="path" id="path"></div>
 
@@ -233,6 +236,22 @@ function showHome(){
   } catch(e){}
   var jw=document.getElementById('journeyWarn'); if(jw){ if(warnMsg){ jw.innerHTML=warnMsg; jw.style.display='block'; } else jw.style.display='none'; }
   renderDaily();
+  renderAbility();
+}
+// 내 능력 6영역 — 텔레메트리 집계(게임→기둥), 홈에서 매번 노출
+function renderAbility(){
+  var el=document.getElementById('abilityStrip'); if(!el) return;
+  var ev=[]; try{ ev=ESCT.dump()||[]; }catch(e){}
+  var comp=ev.filter(function(e){return e.event==='session_completed';});
+  var GP={cheonggi:'focus',nback:'focus',schulte:'speed',flanker:'speed',stroop:'challenge',brave:'challenge',persist:'grit'};
+  var ps={};
+  comp.forEach(function(e){ var id=(e.game&&GP[e.game])?GP[e.game]:e.mode; if(!id)return; if(!ps[id])ps[id]={n:0,acc:0,acn:0};
+    ps[id].n++; if(typeof e.overallAccuracy==='number'){ ps[id].acc+=e.overallAccuracy; ps[id].acn++; } });
+  function score(id){ var s=ps[id]; if(!s||!s.n)return 0; var avg=s.acn?s.acc/s.acn*100:55; return Math.min(100,Math.round(avg*0.7+Math.min(s.n,10)/10*30)); }
+  var AR=[['listening','🎧','--m-listen'],['focus','🦉','--m-focus'],['speed','🐰','--m-speed'],['challenge','🦔','--m-challenge'],['grit','🐢','--m-grit'],['calm','🫧','--m-calm']];
+  var rows=AR.map(function(a){ var sc=score(a[0]);
+    return '<div class="as-item" style="--mc:var('+a[2]+')"><div class="as-em">'+a[1]+'</div><div class="as-bar"><div class="as-fill" style="width:'+sc+'%"></div></div><div class="as-p">'+sc+'</div></div>'; }).join('');
+  el.innerHTML='<div class="as-top"><div class="as-t">내 능력 6영역</div><div class="as-go">자세히 →</div></div><div class="as-row">'+rows+'</div>';
 }
 function renderDaily(){
   var el=document.getElementById('dailyCard'); if(!el||!window.ESCDaily) return;

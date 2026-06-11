@@ -29,6 +29,8 @@
   .commander .eco{width:84px}
   .cmd{font-family:var(--f-display);font-size:clamp(30px,9vw,42px);min-height:52px;transition:transform .06s}
   .cmd.go{transform:scale(1.08)} .cmd.bad{animation:csh .3s}
+  .cmd.listen{color:var(--m-listen);animation:lpulse .9s ease-in-out infinite}
+  @keyframes lpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.16)}}
   @keyframes csh{0%,100%{transform:translateX(0)}30%{transform:translateX(-7px)}70%{transform:translateX(7px)}}
   .charstage{flex:1;display:flex;align-items:center;justify-content:center;min-height:0}
   .charstage img{max-height:100%;max-width:86%;object-fit:contain;filter:drop-shadow(0 8px 14px rgba(35,43,54,.16))}
@@ -47,6 +49,11 @@
 <div class="ob" id="intro" style="z-index:80;gap:16px">
   <div class="eco bob" style="width:138px"><img src="assets/mascot/web/quokka_greet.png" alt="에코"></div>
   <div class="bubble" style="max-width:330px;font-size:16px"><b id="introNick" style="color:var(--m-listen)">학생</b>, 청기백기! 잘 듣고 빠르게 <img class="ico" src="assets/icons/flag.png" alt=""></div>
+  <div class="howto">
+    <div class="ht-row"><span>👂</span><span class="ht-tx">글자 없이 <b>소리만</b> 잘 들어요</span></div>
+    <div class="ht-row"><span>🏳️</span><span class="ht-tx">들리는 대로 깃발 <b>올려·내려</b></span></div>
+    <div class="ht-row"><span>✋</span><span class="ht-tx">"…하지마"는 함정, <b>가만히!</b></span></div>
+  </div>
   <div class="tipcard" id="introTip" style="border-left-color:var(--m-listen)"></div>
   <button class="btn3d" id="introStart">시작하기 →</button>
 </div>
@@ -100,7 +107,8 @@ function next(){
   cmdN++;
   if(cmdN>TOTAL){ endGame(); return; }
   pn.textContent=cmdN+'/'+TOTAL; prog.style.width=Math.round((cmdN-1)/TOTAL*100)+'%';
-  curCmd=gen(); cmdEl.textContent=curCmd.text; cmdEl.className='cmd'; active=true; speak(curCmd);
+  curCmd=gen(); var muted=(window.SFX&&SFX.muted());          // 소리만 듣고! 글자는 소리 꺼졌을 때만 폴백
+  cmdEl.textContent=muted?curCmd.text:'🔊'; cmdEl.className=muted?'cmd':'cmd listen'; active=true; speak(curCmd);
   var win=Math.max(820, 1750-(cmdN*32)-LV*14);
   winTimer=setTimeout(function(){
     if(!active) return; active=false;

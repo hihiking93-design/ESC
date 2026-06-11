@@ -43,7 +43,8 @@
 
 <div class="ob" id="intro" style="z-index:80;gap:16px">
   <div class="eco bob" style="width:138px"><img src="assets/mascot/web/friend_owl.png" alt="부엉이"></div>
-  <div class="bubble" style="max-width:330px;font-size:16px"><b id="introNick" style="color:var(--m-focus)">학생</b>, 2칸 전을 기억해! <img class="ico" src="assets/icons/brain.png" alt=""></div>
+  <div class="bubble" style="max-width:330px;font-size:16px"><b id="introNick" style="color:var(--m-focus)">학생</b>, <span id="nbN">2</span>칸 전을 기억해! <img class="ico" src="assets/icons/brain.png" alt=""></div>
+  <div class="howto" id="howto"></div>
   <div class="tipcard" id="introTip" style="border-left-color:var(--m-focus)"></div>
   <button class="btn3d" id="introStart" style="--btn:var(--m-focus);--btnd:var(--m-focus-d)">시작하기 →</button>
 </div>
@@ -150,6 +151,11 @@ function endGame(){
 
 (function(){
   document.getElementById('introNick').textContent=(localStorage.getItem('esc_nick')||'학생');
+  document.getElementById('nbN').textContent=N;
+  document.getElementById('howto').innerHTML=
+    '<div class="ht-row"><span>👀</span><span class="ht-tx">칸이 하나씩 <b>차례로</b> 반짝여요</span></div>'+
+    '<div class="ht-row"><span>🧠</span><span class="ht-tx"><b>'+N+'칸 전</b>과 같으면 → <b>같음!</b></span></div>'+
+    '<div class="ht-row"><span>✋</span><span class="ht-tx">다르면 <b>가만히</b> 두면 돼요</span></div>';
   try{ var tip=ESCTips.pickAny();
     document.getElementById('introTip').innerHTML='<div class="tag" style="color:var(--m-focus)">'+ESCTips.icon[tip.t]+' '+ESCTips.tag[tip.t]+'</div><div class="h">'+tip.h+'</div><div class="s">'+tip.s+'</div>';
   }catch(e){}

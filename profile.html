@@ -101,15 +101,49 @@ var srow=document.getElementById('srow');
 [['<img class="ico" src="assets/icons/flame.png" alt="">','연속',(p.streak||0)+'일'],['<img class="ico" src="assets/icons/star.png" alt="">','총 별',(p.stars||0)],['<img class="ico" src="assets/icons/target.png" alt="">','학습 횟수',(p.totalSessions||0)],['<img class="ico" src="assets/icons/calendar.png" alt="">','이번 주',wk.done+'/'+wk.quota]]
 .forEach(function(s){var d=document.createElement('div');d.className='scard';d.innerHTML='<div class="ic">'+s[0]+'</div><div><div class="k">'+s[1]+'</div><div class="v">'+s[2]+'</div></div>';srow.appendChild(d);});
 
-// 상위 N% (Supabase 집계 RPC — 개인행 비노출)
+// 상위 N% — 정규분포 곡선 위에 내 위치 표시 (오른쪽 꼬리 면적 = 상위 N%, 통계적으로 정확)
 var rb=document.createElement('div');
-rb.style.cssText='background:linear-gradient(135deg,#FFF6D8,#FFE7B0);border-radius:18px;padding:15px;text-align:center;margin-bottom:18px;box-shadow:0 4px 12px rgba(35,43,54,.08)';
+rb.style.cssText='background:linear-gradient(135deg,#FFF6D8,#FFE7B0);border-radius:18px;padding:15px 14px 12px;text-align:center;margin-bottom:18px;box-shadow:0 4px 12px rgba(35,43,54,.08)';
 rb.innerHTML='<div style="font-size:12px;color:#8A6A1E">내 순위 불러오는 중…</div>';
 srow.parentNode.insertBefore(rb, srow.nextSibling);
+// 역정규누적분포(probit) — Acklam 근사
+function probit(p){
+  var a=[-3.969683028665376e+1,2.209460984245205e+2,-2.759285104469687e+2,1.38357751867269e+2,-3.066479806614716e+1,2.506628277459239],
+      b=[-5.447609879822406e+1,1.615858368580409e+2,-1.556989798598866e+2,6.680131188771972e+1,-1.328068155288572e+1],
+      c=[-7.784894002430293e-3,-3.223964580411365e-1,-2.400758277161838,-2.549732539343734,4.374664141464968,2.938163982698783],
+      d=[7.784695709041462e-3,3.224671290700398e-1,2.445134137142996,3.754408661907416],
+      pl=0.02425,ph=1-pl,q,r;
+  if(p<pl){ q=Math.sqrt(-2*Math.log(p)); return (((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1); }
+  if(p<=ph){ q=p-0.5; r=q*q; return (((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5])*q/(((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1); }
+  q=Math.sqrt(-2*Math.log(1-p)); return -(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);
+}
+function drawBell(topPct){
+  var W=320,H=152,base=120,peak=92,zMax=3.2,i,z;
+  function X(z){ return 14+(zMax-z)/(2*zMax)*(W-28); }  // 왼쪽=상위(앞섬), 오른쪽=하위
+  function Y(z){ return base-peak*Math.exp(-z*z/2); }
+  var cz=Math.max(-zMax,Math.min(zMax,probit(Math.max(0.004,Math.min(0.996,1-topPct/100)))));
+  var cv=[]; for(i=0;i<=80;i++){ z=-zMax+2*zMax*i/80; cv.push(X(z).toFixed(1)+','+Y(z).toFixed(1)); }
+  var sh=[]; for(i=0;i<=44;i++){ z=cz+(zMax-cz)*i/44; sh.push(X(z).toFixed(1)+','+Y(z).toFixed(1)); }
+  var mx=X(cz), my=Y(cz), lx=Math.max(46,Math.min(W-46,mx));
+  var s='<svg viewBox="0 0 '+W+' '+H+'" width="100%" style="display:block;margin:2px 0">';
+  s+='<defs><linearGradient id="bellShade" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F4B63E" stop-opacity=".82"/><stop offset="100%" stop-color="#FFE38A" stop-opacity=".32"/></linearGradient></defs>';
+  s+='<line x1="14" y1="'+base+'" x2="'+(W-14)+'" y2="'+base+'" stroke="#E5C98C" stroke-width="1.5"/>';
+  s+='<path d="M '+X(cz).toFixed(1)+','+base+' L '+sh.join(' L ')+' L '+X(zMax).toFixed(1)+','+base+' Z" fill="url(#bellShade)"/>';
+  s+='<path d="M '+cv.join(' L ')+'" fill="none" stroke="#C9A24A" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>';
+  s+='<line x1="'+mx.toFixed(1)+'" y1="'+(my-2).toFixed(1)+'" x2="'+mx.toFixed(1)+'" y2="'+base+'" stroke="#B8791E" stroke-width="2.5" stroke-dasharray="4 3"/>';
+  s+='<circle cx="'+mx.toFixed(1)+'" cy="'+my.toFixed(1)+'" r="6" fill="#fff" stroke="#B8791E" stroke-width="3"/>';
+  s+='<text x="'+lx.toFixed(1)+'" y="'+(my-12).toFixed(1)+'" font-size="12.5" font-family="Jua,sans-serif" fill="#B8791E" text-anchor="middle">나 · 상위 '+topPct+'%</text>';
+  s+='<text x="22" y="'+(base+18)+'" font-size="10.5" fill="#A98B4E">상위</text>';
+  s+='<text x="'+(W/2)+'" y="'+(base+18)+'" font-size="10.5" fill="#A98B4E" text-anchor="middle">평균</text>';
+  s+='<text x="'+(W-22)+'" y="'+(base+18)+'" font-size="10.5" fill="#A98B4E" text-anchor="end">하위</text>';
+  return s+'</svg>';
+}
 (function(){ try{ var c=ESCT.cfg; if(!c){rb.style.display='none';return;}
   fetch(c.url+'/rest/v1/rpc/esc_top_percent',{method:'POST',headers:{'apikey':c.anon,'Authorization':'Bearer '+c.anon,'Content-Type':'application/json'},body:JSON.stringify({p_anon:ESCT.anonId(),p_game:null})})
    .then(function(r){return r.json();}).then(function(v){
-     rb.innerHTML=(v!=null)?'<div style="font-family:Jua,sans-serif;font-size:27px;color:#B8791E">상위 '+v+'%</div><div style="font-size:12px;color:#8A6A1E;margin-top:2px">전체 친구들 중 · 정확도 기준</div>':'<div style="font-size:13px;color:#8A6A1E">친구들이 더 모이면 순위가 나와요 ⭐</div>';
+     rb.innerHTML=(v!=null)
+       ? '<div style="font-family:Jua,sans-serif;font-size:22px;color:#B8791E">상위 '+v+'%</div><div style="font-size:11.5px;color:#8A6A1E;margin-top:1px">전체 친구들 중 내 위치</div>'+drawBell(v)+'<div style="font-size:11px;color:#8A6A1E;margin-top:2px;word-break:keep-all">정확도 기준 · 왼쪽일수록 상위권이에요</div>'
+       : '<div style="font-size:13px;color:#8A6A1E">친구들이 더 모이면 순위가 나와요 ⭐</div>';
    }).catch(function(){ rb.style.display='none'; });
 }catch(e){ rb.style.display='none'; } })();
 
@@ -121,28 +155,31 @@ for(var i=0;i<7;i++){var dd=new Date(mon);dd.setDate(mon.getDate()+i);var ds=ymd
   var el=document.createElement('div');el.className='day'+(on?' on':'')+(today?' today':'');
   el.innerHTML='<div class="dot">'+(on?'✓':'')+'</div>'+days[i];w7.appendChild(el);}
 
-// 능력별 진행 (듣기는 텔레메트리에서 도달레벨·평균정답률)
+// 능력별 진행 — 6영역 모두 텔레메트리로 집계 (게임→기둥 매핑, 폴백=mode)
 var ev=[]; try{ev=ESCT.dump();}catch(e){}
 var comp=ev.filter(function(e){return e.event==='session_completed';});
-var lvOrder={'초보':1,'중수':2,'고수':3}, lvName={1:'초보',2:'중수',3:'고수'};
-var listen={n:(p.byMode&&p.byMode.listening)||0,bestLv:0,avgAcc:null};
-if(comp.length){var accs=[];comp.forEach(function(e){if(e.finalLevel&&lvOrder[e.finalLevel]>listen.bestLv)listen.bestLv=lvOrder[e.finalLevel];if(typeof e.overallAccuracy==='number')accs.push(e.overallAccuracy);});
-  if(accs.length)listen.avgAcc=Math.round(accs.reduce(function(a,b){return a+b;},0)/accs.length*100);}
+var GP={cheonggi:'focus',nback:'focus',schulte:'speed',flanker:'speed',stroop:'challenge',brave:'challenge',persist:'grit'};
+function pillarOf(e){ return (e.game&&GP[e.game])?GP[e.game]:e.mode; }
+var pstat={};
+comp.forEach(function(e){ var id=pillarOf(e); if(!id)return; if(!pstat[id])pstat[id]={n:0,acc:0,acn:0};
+  pstat[id].n++; if(typeof e.overallAccuracy==='number'){ pstat[id].acc+=e.overallAccuracy; pstat[id].acn++; } });
+function pInfo(id){ var s=pstat[id]; if(!s||!s.n) return {n:0,avg:null,score:0};
+  var avg=s.acn?Math.round(s.acc/s.acn*100):null;
+  var score=Math.min(100, Math.round((avg!=null?avg:55)*0.7 + Math.min(s.n,10)/10*30)); // 정확도 70% + 경험 30%
+  return {n:s.n,avg:avg,score:score}; }
 var PILLARS=[
-  {nm:'듣기',face:'quokka_listen',c:'--m-listen',ready:true},
-  {nm:'집중',face:'friend_owl',c:'--m-focus'},
-  {nm:'속도',face:'friend_rabbit',c:'--m-speed'},
-  {nm:'도전',face:'friend_hedgehog',c:'--m-challenge'},
-  {nm:'끈기',face:'friend_turtle',c:'--m-grit'},
-  {nm:'진정',face:'quokka_calm',c:'--m-calm'}
+  {id:'listening',nm:'듣기',face:'quokka_listen',c:'--m-listen'},
+  {id:'focus',nm:'집중',face:'friend_owl',c:'--m-focus'},
+  {id:'speed',nm:'속도',face:'friend_rabbit',c:'--m-speed'},
+  {id:'challenge',nm:'도전',face:'friend_hedgehog',c:'--m-challenge'},
+  {id:'grit',nm:'끈기',face:'friend_turtle',c:'--m-grit'},
+  {id:'calm',nm:'진정',face:'quokka_calm',c:'--m-calm'}
 ];
 var pc=document.getElementById('pillars');
-PILLARS.forEach(function(pl){
-  var el=document.createElement('div');el.className='pill'+(pl.ready?'':' lock');el.style.setProperty('--mc','var('+pl.c+')');
-  var fill,st;
-  if(pl.ready){fill=listen.bestLv?Math.round(listen.bestLv/3*100):10;st=listen.n+'회 · 도달 '+(listen.bestLv?lvName[listen.bestLv]:'-')+(listen.avgAcc!=null?' · 평균 '+listen.avgAcc+'%':'');}
-  else{fill=0;st='준비중';}
-  el.innerHTML='<div class="face"><img src="assets/mascot/web/'+pl.face+'.png" alt=""></div><div class="body"><div class="nm">'+pl.nm+'</div><div class="bar"><div class="fill" style="width:'+fill+'%"></div></div><div class="st">'+st+'</div></div>';
+PILLARS.forEach(function(pl){ var info=pInfo(pl.id);
+  var el=document.createElement('div');el.className='pill'+(info.n?'':' lock');el.style.setProperty('--mc','var('+pl.c+')');
+  var st=info.n?(info.n+'회'+(info.avg!=null?' · 평균 '+info.avg+'%':'')):'아직 안 했어요';
+  el.innerHTML='<div class="face"><img src="assets/mascot/web/'+pl.face+'.png" alt=""></div><div class="body"><div class="nm">'+pl.nm+'</div><div class="bar"><div class="fill" style="width:'+info.score+'%"></div></div><div class="st">'+st+'</div></div>';
   pc.appendChild(el);
 });
 
@@ -168,8 +205,7 @@ function drawRadar(values,labels){
   for(i=0;i<n;i++){ a=Math.PI*2*i/n-Math.PI/2; r=R*Math.max(0,Math.min(100,values[i]))/100; s+='<circle cx="'+(cx+r*Math.cos(a)).toFixed(1)+'" cy="'+(cy+r*Math.sin(a)).toFixed(1)+'" r="3.5" fill="#4C82E8"/>'; }
   return s+'</svg>';
 }
-var listenScore=listen.bestLv?Math.round((listen.bestLv/3)*70+(listen.avgAcc||0)/100*30):(listen.n?12:0);
-document.getElementById('radar').innerHTML=drawRadar([listenScore,0,0,0,0,0],['듣기','집중','속도','도전','끈기','진정']);
+document.getElementById('radar').innerHTML=drawRadar(PILLARS.map(function(pl){return pInfo(pl.id).score;}),['듣기','집중','속도','도전','끈기','진정']);
 
 // ── 정답률 추이 (세션/주간/월간) ──
 function drawLine(series){
