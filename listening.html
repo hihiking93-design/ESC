@@ -1237,7 +1237,7 @@ function _injectShellActions(info) {
   bar.id = 'escShellActions';
   bar.style.cssText = 'display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:16px 0 6px';
   const calm = document.createElement('a');
-  calm.className = 'btn3d'; calm.textContent = '<img class="ico" src="assets/icons/bubble.png" alt=""> 숨 고르고 홈으로'; calm.style.cursor = 'pointer';
+  calm.className = 'btn3d'; calm.innerHTML = '<img class="ico" src="assets/icons/bubble.png" alt=""> 숨 고르고 홈으로'; calm.style.cursor = 'pointer';
   calm.onclick = () => Interlude.run(() => location.href = 'index.html');
   const home = document.createElement('a');
   home.className = 'btn3d ghost'; home.textContent = '홈으로'; home.style.cursor = 'pointer';

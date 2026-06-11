@@ -134,7 +134,7 @@ body{
 /* ── 한글 줄바꿈 미관 — 한두 글자 고아줄 방지(윗줄/아랫줄 길이 균형) ── */
 .bubble,.ghint,.howto .ht-tx,.tipcard .h,.tipcard .s,.start-bubble,.jwarn,
 .guide>div,.daily .dt-n,.daily .dall,.daily .dq,.weekbar .ql,
-.unit-banner .ub-n,.unit-banner .ub-t,.gs-q,.scard .k,.pill .st,.pill .nm,
+.gs-q,.scard .k,.pill .st,.pill .nm,
 .muted,.sec,.nick,.nb-ask,.clue,.encourage,.prac-bar{
   text-wrap:balance;word-break:keep-all}
 

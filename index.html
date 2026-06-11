@@ -17,8 +17,8 @@
   .unit-banner{position:absolute;left:0;width:100%;height:54px;border-radius:16px;background:var(--mc);
     box-shadow:0 4px 0 var(--mcd);display:flex;align-items:center;justify-content:space-between;
     padding:0 16px;color:#fff;z-index:2}
-  .unit-banner .ub-n{font-family:var(--f-display);font-size:15px;line-height:1.1}
-  .unit-banner .ub-t{font-size:11px;opacity:.93;margin-top:3px}
+  .unit-banner .ub-n{font-family:var(--f-display);font-size:15px;line-height:1.1;white-space:nowrap}
+  .unit-banner .ub-t{font-size:11px;opacity:.93;margin-top:3px;white-space:nowrap}
   .unit-banner .ub-ic{font-size:20px;background:rgba(255,255,255,.22);width:40px;height:40px;border-radius:11px;display:grid;place-items:center;flex:none}
   .atmo{position:absolute;z-index:-1;pointer-events:none;border-radius:50%}
   .cband{position:absolute;left:0;width:100%;z-index:-3;pointer-events:none;transition:background .4s}
@@ -230,8 +230,8 @@ function showHome(){
     for(var j=0;j<w.over;j++){ dots+='<i class="over"></i>'; }
     document.getElementById('qdots').innerHTML=dots;
     var ql=document.getElementById('qlabel');
-    if(w.over>0){ ql.textContent='할당량 +'+w.over+' 초과! <img class="ico" src="assets/icons/flame.png" alt="">'; ql.className='ql met'; }
-    else if(w.met){ ql.textContent='이번 주 달성! <img class="ico" src="assets/icons/check.png" alt="">'; ql.className='ql met'; }
+    if(w.over>0){ ql.innerHTML='할당량 +'+w.over+' 초과! <img class="ico" src="assets/icons/flame.png" alt="">'; ql.className='ql met'; }
+    else if(w.met){ ql.innerHTML='이번 주 달성! <img class="ico" src="assets/icons/check.png" alt="">'; ql.className='ql met'; }
     else { ql.textContent='이번 주 '+w.done+'/'+w.quota+' · '+(w.quota-w.done)+'번 더'; ql.className='ql'; }
   } catch(e){}
   var jw=document.getElementById('journeyWarn'); if(jw){ if(warnMsg){ jw.innerHTML=warnMsg; jw.style.display='block'; } else jw.style.display='none'; }
