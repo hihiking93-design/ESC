@@ -131,6 +131,13 @@ body{
 .abilitystrip .as-fill{height:100%;border-radius:5px;background:var(--mc);transition:width .5s}
 .abilitystrip .as-p{font-family:var(--f-num);font-weight:700;font-size:10.5px;color:var(--ink-soft)}
 
+/* ── 한글 줄바꿈 미관 — 한두 글자 고아줄 방지(윗줄/아랫줄 길이 균형) ── */
+.bubble,.ghint,.howto .ht-tx,.tipcard .h,.tipcard .s,.start-bubble,.jwarn,
+.guide>div,.daily .dt-n,.daily .dall,.daily .dq,.weekbar .ql,
+.unit-banner .ub-n,.unit-banner .ub-t,.gs-q,.scard .k,.pill .st,.pill .nm,
+.muted,.sec,.nick,.nb-ask,.clue,.encourage,.prac-bar{
+  text-wrap:balance;word-break:keep-all}
+
 /* ── 결과 스탯 타일 (듀오링고 수업완료식) ───────────── */
 .statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:2px 0 14px;width:100%}
 .stat-tile{background:#fff;border-radius:14px;padding:11px 6px;text-align:center;border:2px solid var(--line);box-shadow:0 4px 0 var(--line)}
